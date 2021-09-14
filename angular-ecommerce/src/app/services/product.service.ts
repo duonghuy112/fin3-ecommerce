@@ -16,17 +16,25 @@ export class ProductService {
   constructor(private httpClient: HttpClient) { }
 
   getProductList(categoryId: number): Observable<Product[]> {
-
     // build URL based on categoryId
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
-
-    return this.httpClient.get<GetResponseProducts>(searchUrl)
-                          .pipe (map(response => response._embedded.products));
+    return this.getProducts(searchUrl);
   }
+  
+  searchProducts(keyword: string): Observable<Product[]> {
+    // build URL based on keyword
+    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
+    return this.getProducts(searchUrl);
+    }
 
   getCategories(): Observable<Category[]> {
     return this.httpClient.get<GetResponseCategory>(this.categoryUrl)
                           .pipe (map(response => response._embedded.category));
+  }
+
+  private getProducts(searchUrl: string): Observable<Product[]> {
+    return this.httpClient.get<GetResponseProducts>(searchUrl)
+                          .pipe(map(response => response._embedded.products));
   }
 }
 

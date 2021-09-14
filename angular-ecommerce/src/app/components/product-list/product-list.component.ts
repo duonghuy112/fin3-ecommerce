@@ -26,8 +26,16 @@ export class ProductListComponent implements OnInit {
   }
 
   listProduct() {
+    if (Boolean(this.route.snapshot.paramMap.has('keyword'))) {
+      this.handleSearchProduct();
+    } else {
+      this.handleListProduct();
+    }
+  }
+
+  handleListProduct() {
     // check id parameter is avaiable
-    if (this.route.snapshot.paramMap.has('id')) {
+    if (Boolean(this.route.snapshot.paramMap.has('id'))) {
       // get Id param string. Convert string to number
       this.categoryId = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -37,6 +45,15 @@ export class ProductListComponent implements OnInit {
 
     // get product for categoryId
     this.productService.getProductList(this.categoryId).subscribe(
+      data => { 
+        this.products = data; 
+      })
+  }
+
+  handleSearchProduct() {
+    const keyword = String(this.route.snapshot.paramMap.get('keyword'));
+
+    this.productService.searchProducts(keyword).subscribe(
       data => { 
         this.products = data; 
       })

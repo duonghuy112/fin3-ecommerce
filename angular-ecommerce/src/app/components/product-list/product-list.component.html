@@ -5,6 +5,7 @@
         <div class="container-fluid">
             <div class="row">
 
+                <!-- Loop over the Products -->
                 <div class="col-md-3" *ngFor="let product of products">
                     <div class="product-box">
                         <img src="{{ product.imageUrl }}" class="img-responsive">
@@ -13,6 +14,12 @@
                         <div class="price">{{ product.unitPrice }} $</div>
                         <a href="#" class="primary-btn">Add to cart</a>
                     </div>
+                </div>
+
+                <!-- If Products is empty, then display message -->
+
+                <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12">
+                    No product found.
                 </div>
 
             </div>
