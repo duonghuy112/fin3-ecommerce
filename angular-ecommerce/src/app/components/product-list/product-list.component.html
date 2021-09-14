@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Units in stock</th>
+            <th>Create Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <th>{{ product.name }}</th>
+            <th>{{ product.unitPrice | currency:'USD' }}</th>
+            <th>{{ product.unitsInStock }}</th>
+            <th>{{ product.dateCreated }}</th>
+        </tr>
+    </tbody>
+</table>
