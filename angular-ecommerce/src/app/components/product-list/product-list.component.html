@@ -1,18 +1,46 @@
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Units in stock</th>
-            <th>Create Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let product of products">
-            <th>{{ product.name }}</th>
-            <th>{{ product.unitPrice | currency:'USD' }}</th>
-            <th>{{ product.unitsInStock }}</th>
-            <th>{{ product.dateCreated }}</th>
-        </tr>
-    </tbody>
-</table>
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <h4>{{ categoryName }}</h4>
+        <hr>
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3" *ngFor="let product of products">
+                    <div class="product-box">
+                        <img src="{{ product.imageUrl }}" class="img-responsive">
+                        <h1>{{ product.name }}</h1>
+                        <!-- <h2>{{ product.description }}</h2> -->
+                        <div class="price">{{ product.unitPrice }} $</div>
+                        <a href="#" class="primary-btn">Add to cart</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-3">
+                        <div class="items">
+                            <label>Item per page</label> <select>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                <option>40</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="number">1 - 10 of 100</div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="arrows">
+                            <a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
