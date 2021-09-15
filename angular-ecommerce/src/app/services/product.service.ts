@@ -25,7 +25,12 @@ export class ProductService {
     // build URL based on keyword
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}`;
     return this.getProducts(searchUrl);
-    }
+  }
+
+  getProduct(productId: number): Observable<Product> {
+    const productUrl = `${this.baseUrl}/${productId}`;
+    return this.httpClient.get<Product>(productUrl);
+  }
 
   getCategories(): Observable<Category[]> {
     return this.httpClient.get<GetResponseCategory>(this.categoryUrl)

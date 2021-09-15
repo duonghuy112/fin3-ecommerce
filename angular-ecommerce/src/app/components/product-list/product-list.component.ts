@@ -13,7 +13,8 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
 
   categoryId: number = 1;
-  categoryName: string = 'Books';
+  categoryName: string = '';
+  keyword: string = '';
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute) { }
@@ -51,9 +52,9 @@ export class ProductListComponent implements OnInit {
   }
 
   handleSearchProduct() {
-    const keyword = String(this.route.snapshot.paramMap.get('keyword'));
+    this.keyword = String(this.route.snapshot.paramMap.get('keyword'));
 
-    this.productService.searchProducts(keyword).subscribe(
+    this.productService.searchProducts(this.keyword).subscribe(
       data => { 
         this.products = data; 
       })
