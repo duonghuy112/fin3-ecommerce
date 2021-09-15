@@ -18,7 +18,7 @@
                         </h1>
                         <!-- <h2>{{ product.description }}</h2> -->
                         <div class="price">{{ product.unitPrice }} $</div>
-                        <a href="#" class="primary-btn">Add to cart</a>
+                        <button (click)="addToCart(product)" class="btn btn-primary btn-md">Add to cart</button>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-9">
-                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="5" [boundaryLinks]="true" (pageChange)="listProduct()">
+                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listProduct()">
                                 </ngb-pagination>
                             </div>
 
