@@ -775,6 +775,10 @@ table.table.table-bordered th {
     margin-left: 5px
 }
 
+table .items>.no-gutters {
+    width: 200px;
+}
+
 
 /* 
  * ----------------------------

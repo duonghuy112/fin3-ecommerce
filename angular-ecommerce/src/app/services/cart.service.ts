@@ -30,12 +30,10 @@ export class CartService {
     }
 
     if (alreadyExistsInCart) {
-
       // increment the quantity
       existingCartItem.quantity++;
     }
     else {
-
       // just add the item to the cart array
       this.cartItems.push(cartItem);
     }
@@ -44,8 +42,17 @@ export class CartService {
     this.computeCartTotals();
   }
 
-  computeCartTotals() {
+  decrementQuantity(cartItem: CartItem) {
+    cartItem.quantity--;
 
+    if (cartItem.quantity == 0) {
+      this.remove(cartItem);
+    } else {
+      this.computeCartTotals();
+    }
+  }
+
+  computeCartTotals() {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
 
@@ -60,6 +67,17 @@ export class CartService {
 
     // log cart data just for debugging purposes
     this.logCartData(totalPriceValue, totalQuantityValue);
+  }
+
+  remove(cartItem: CartItem) {
+    // get index of item from cart array
+    const itemIndex = Number(this.cartItems.find(tmpCartItem => tmpCartItem.id == cartItem.id));
+
+    // then remove it
+    this.cartItems.splice(itemIndex, 1);
+
+    this.computeCartTotals();
+    
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
