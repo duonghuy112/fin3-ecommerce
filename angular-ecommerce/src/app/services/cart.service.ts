@@ -77,7 +77,6 @@ export class CartService {
     this.cartItems.splice(itemIndex, 1);
 
     this.computeCartTotals();
-    
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {

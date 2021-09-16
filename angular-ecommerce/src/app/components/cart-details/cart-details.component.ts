@@ -13,6 +13,10 @@ export class CartDetailsComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity: number = 0;
 
+  // delete cartItem
+  deleteCartItem: CartItem = null!;
+  deleteMode: boolean = false;
+
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
@@ -48,4 +52,10 @@ export class CartDetailsComponent implements OnInit {
   remove(cartItem: CartItem) {
     this.cartService.remove(cartItem);
   }
+
+  openRemoveModal(cartItem: CartItem) {
+    this.deleteMode = true;
+    this.deleteCartItem = cartItem;
+  }
+
 }
