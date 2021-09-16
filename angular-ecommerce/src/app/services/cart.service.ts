@@ -71,11 +71,12 @@ export class CartService {
 
   remove(cartItem: CartItem) {
     // get index of item from cart array
-    const itemIndex = Number(this.cartItems.find(tmpCartItem => tmpCartItem.id == cartItem.id));
-
     // then remove it
-    this.cartItems.splice(itemIndex, 1);
-
+    this.cartItems.forEach((tmpCartItem, index) => {
+      if (tmpCartItem.id === cartItem.id) {
+        this.cartItems.splice(index, 1);
+      }
+    })
     this.computeCartTotals();
   }
 
