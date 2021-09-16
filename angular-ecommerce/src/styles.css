@@ -120,7 +120,6 @@ a:hover {
     overflow: hidden;
     background: #e5e5e5;
     padding-bottom: 8vh;
-    background-color: white;
 }
 
 .page-container {
@@ -131,7 +130,7 @@ a:hover {
 .main-content {
     padding-top: 116px;
     min-height: 100vh;
-    background-color: white;
+    background-color: #e5e5e5;
 }
 
 aside.menu-sidebar.d-none.d-lg-block.clr {
@@ -371,7 +370,6 @@ input.au-input.au-input-xl {
 }
 
 .menu-sidebar-content {
-    background-color: #e5e5e5;
     position: relative;
     height: -webkit-calc(100vh - 75px);
     height: -moz-calc(100vh - 75px);
@@ -581,7 +579,7 @@ input.au-input.au-input-xl {
 
 .product-box {
     margin-bottom: 60px;
-    background-color: #e5e5e5;
+    background-color: white;
     text-align: center;
     border-radius: 5px;
 }
