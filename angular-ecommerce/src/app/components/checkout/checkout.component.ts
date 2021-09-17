@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { City } from './../../common/city';
 import { Country } from './../../common/country';
@@ -27,7 +28,8 @@ export class CheckoutComponent implements OnInit {
   creditCardYears: number[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private formService: FormServiceService) { }
+              private formService: FormServiceService,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -66,13 +68,16 @@ export class CheckoutComponent implements OnInit {
       })
     });
 
+    // cart details
+    this.reviewCartDetails();
+
     // populate countries on shipping address
     this.formService.getCountry().subscribe(
       data => {
         console.log("Retrieved countries: " + JSON.stringify(data));
         this.countries = data;
       }
-    )
+    );
 
     // populate credit card month
     const startMonth: number = new Date().getMonth() + 1;
@@ -134,6 +139,18 @@ export class CheckoutComponent implements OnInit {
         this.cities = data;
         formGroup?.get('city')?.setValue(data[0]);
       }
+    );
+  }
+
+  reviewCartDetails() {
+    // subscribe to totalQuanity
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
+
+    // subscribe to totalPrice
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
     );
   }
 }
