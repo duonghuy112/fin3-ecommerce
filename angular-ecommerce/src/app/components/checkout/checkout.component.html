@@ -10,17 +10,52 @@
                         <div class="col-md-6">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text" placeholder="First Name">
+
+                                <div *ngIf="checkoutFormGroup.get('customer')?.get('firstName')?.invalid && 
+                                            (checkoutFormGroup.get('customer')?.get('firstName')?.dirty ||
+                                            checkoutFormGroup.get('customer')?.get('firstName')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('firstName')?.hasError('required') ||
+                                                checkoutFormGroup.get('customer')?.get('firstName')?.hasError('notOnlyWhitespace')">
+                                        First name is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('firstName')?.hasError('minlength')">
+                                        First name must be at least 2 character long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-space">
                                 <input formControlName="lastName" type="text" placeholder="Last Name">
+
+                                <div *ngIf="checkoutFormGroup.get('customer')?.get('lastName')?.invalid && 
+                                            (checkoutFormGroup.get('customer')?.get('lastName')?.dirty ||
+                                            checkoutFormGroup.get('customer')?.get('lastName')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('lastName')?.hasError('required') ||
+                                            checkoutFormGroup.get('customer')?.get('lastName')?.hasError('notOnlyWhitespace')">
+                                        Last name is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('lastName')?.hasError('minlength')">
+                                        Last name must be at least 2 character long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-12">
                             <div class="input-space">
                                 <input formControlName="email" type="text" placeholder="Email Address">
+
+                                <div *ngIf="checkoutFormGroup.get('customer')?.get('email')?.invalid && 
+                                            (checkoutFormGroup.get('customer')?.get('email')?.dirty ||
+                                            checkoutFormGroup.get('customer')?.get('email')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('email')?.hasError('required')">
+                                        Email is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('customer')?.get('email')?.hasError('pattern')">
+                                        Email must be a valid email address format
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
