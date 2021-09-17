@@ -42,16 +42,25 @@ export class CheckoutComponent implements OnInit {
                                     Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
-        country: [''],
-        city: [''],
-        district: [''],
-        zipCode: [''],
+        country: new FormControl('', [Validators.required]),
+        city: new FormControl('', [Validators.required]),
+        district: new FormControl('', [Validators.required, 
+                                      Validators.minLength(2), 
+                                      MyCustomValidators.notOnlyWhitespace]),
+        street: new FormControl('', [Validators.required, 
+                                    Validators.minLength(2), 
+                                    MyCustomValidators.notOnlyWhitespace]),
+        zipCode: new FormControl('', [Validators.required, 
+                                      Validators.minLength(2), 
+                                      MyCustomValidators.notOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
-        cardType: [''],
-        cardName: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        cardType: new FormControl('', [Validators.required]),
+        cardName: new FormControl('', [Validators.required, 
+                                      Validators.minLength(2), 
+                                      MyCustomValidators.notOnlyWhitespace]),
+        cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
+        securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{4}')]),
         expirationMonth: [''],
         expirationYear: ['']
       })

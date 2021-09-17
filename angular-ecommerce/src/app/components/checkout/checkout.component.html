@@ -67,12 +67,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select formControlName="country" (change)="getCity()">
+                                <select name="countryInput" formControlName="country" (change)="getCity()">
                                     <option value="" disabled selected hidden>Country</option>
                                     <option *ngFor="let country of countries" [ngValue]=(country)>
                                         {{ country.name }}
                                     </option>
                                 </select>
+
+                                <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('country')?.invalid && 
+                                                (checkoutFormGroup.get('shippingAddress')?.get('country')?.dirty ||
+                                                checkoutFormGroup.get('shippingAddress')?.get('country')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('country')?.hasError('required')">
+                                        Country is required
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -83,16 +91,64 @@
                                         {{ city.name }}
                                     </option>
                                 </select>
+                                <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('city')?.invalid && 
+                                                (checkoutFormGroup.get('shippingAddress')?.get('city')?.dirty ||
+                                                checkoutFormGroup.get('shippingAddress')?.get('city')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('city')?.hasError('required')">
+                                        City is required
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
                                 <input formControlName="district" type="text" placeholder="District / Provine">
+
+                                <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('district')?.invalid && 
+                                            (checkoutFormGroup.get('shippingAddress')?.get('district')?.dirty ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('district')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('district')?.hasError('required') ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('district')?.hasError('notOnlyWhitespace')">
+                                        District / Provine is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('district')?.hasError('minlength')">
+                                        District / Provine must be at least 2 character long
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-space">
+                                <input formControlName="street" type="text" placeholder="Street">
+
+                                <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('street')?.invalid && 
+                                            (checkoutFormGroup.get('shippingAddress')?.get('street')?.dirty ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('street')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('street')?.hasError('required') ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('street')?.hasError('notOnlyWhitespace')">
+                                        Street is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('street')?.hasError('minlength')">
+                                        Street must be at least 2 character long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text" placeholder="Zip Code / Postal Code">
+
+                                <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.invalid && 
+                                            (checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.dirty ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.hasError('required') ||
+                                            checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.hasError('notOnlyWhitespace')">
+                                        Zip code is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('shippingAddress')?.get('zipCode')?.hasError('minlength')">
+                                        Zip code must be at least 2 character long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,27 +161,64 @@
                             <div class="input-space">
                                 <select formControlName="cardType">
                                     <option>Visa</option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
                                 </select>
+                                <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardType')?.invalid && 
+                                                (checkoutFormGroup.get('creditCard')?.get('cardType')?.dirty ||
+                                                checkoutFormGroup.get('creditCard')?.get('cardType')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardType')?.hasError('required')">
+                                        Card type is required
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
                                 <input formControlName="cardName" type="text" placeholder="Name on card">
+
+                                <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardName')?.invalid && 
+                                            (checkoutFormGroup.get('creditCard')?.get('cardName')?.dirty ||
+                                            checkoutFormGroup.get('creditCard')?.get('cardName')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardName')?.hasError('required') ||
+                                            checkoutFormGroup.get('creditCard')?.get('cardName')?.hasError('notOnlyWhitespace')">
+                                        Name on card is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardName')?.hasError('minlength')">
+                                        Name on card must be at least 2 character long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-8">
                             <div class="input-space">
                                 <input formControlName="cardNumber" type="text" placeholder="Card number">
+
+                                <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardNumber')?.invalid && 
+                                            (checkoutFormGroup.get('creditCard')?.get('cardNumber')?.dirty ||
+                                            checkoutFormGroup.get('creditCard')?.get('cardNumber')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardNumber')?.hasError('required')">
+                                        Card number is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('cardNumber')?.hasError('pattern')">
+                                        Card number must be 16 digits long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-space">
                                 <input formControlName="securityCode" type="text" placeholder="Security Code">
+
+                                <div *ngIf="checkoutFormGroup.get('creditCard')?.get('securityCode')?.invalid && 
+                                            (checkoutFormGroup.get('creditCard')?.get('securityCode')?.dirty ||
+                                            checkoutFormGroup.get('creditCard')?.get('securityCode')?.touched)" class="alert alert-danger">
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('securityCode')?.hasError('required')">
+                                        Security number is required
+                                    </div>
+                                    <div *ngIf="checkoutFormGroup.get('creditCard')?.get('securityCode')?.hasError('pattern')">
+                                        Security number must be 4 digits long
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
