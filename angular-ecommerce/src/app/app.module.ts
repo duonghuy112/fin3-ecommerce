@@ -54,15 +54,15 @@ const routes: Routes = [
     CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
-    LoginStatusComponent, 
-    OktaAuthModule
+    LoginStatusComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OktaAuthModule
   ],
   providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig }],
   bootstrap: [AppComponent]
