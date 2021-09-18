@@ -1,4 +1,4 @@
-package com.nguyenduonghuy.springecommerce.entity;
+package com.nguyenduonghuy.springecommerce.persistence;
 
 import java.math.BigDecimal;
 

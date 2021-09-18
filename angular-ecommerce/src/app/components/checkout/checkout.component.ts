@@ -1,3 +1,8 @@
+import { Purchase } from './../../common/purchase';
+import { OrderItem } from './../../common/order-item';
+import { Order } from './../../common/order';
+import { Router } from '@angular/router';
+import { CheckoutService } from './../../services/checkout.service';
 import { CartService } from './../../services/cart.service';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { City } from './../../common/city';
@@ -29,7 +34,9 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private formService: FormServiceService,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private checkoutService: CheckoutService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -97,12 +104,106 @@ export class CheckoutComponent implements OnInit {
     );
   }
 
+  // getter for custommer
+  get firstName() {
+    return this.checkoutFormGroup.get('customer.firstName');
+  }
+
+  get lastName() {
+    return this.checkoutFormGroup.get('customer.lastName');
+  }
+
+  get email() {
+    return this.checkoutFormGroup.get('customer.email');
+  }
+
+  // getter for shippingAddress
+  get country() {
+    return this.checkoutFormGroup.get('shippingAddress.country');
+  }
+
+  get city() {
+    return this.checkoutFormGroup.get('shippingAddress.city');
+  }
+
+  get district() {
+    return this.checkoutFormGroup.get('shippingAddress.district');
+  }
+
+  get street() {
+    return this.checkoutFormGroup.get('shippingAddress.street');
+  }
+
+  get zipCode() {
+    return this.checkoutFormGroup.get('shippingAddress.zipCode');
+  }
+
+  // getter for credit card
+  get cardType() {
+    return this.checkoutFormGroup.get('creditCard.cardType');
+  }
+
+  get cardName() {
+    return this.checkoutFormGroup.get('creditCard.cardName');
+  }
+
+  get cardNumber() {
+    return this.checkoutFormGroup.get('creditCard.cardNumber');
+  }
+
+  get securityCode() {
+    return this.checkoutFormGroup.get('creditCard.securityCode');
+  }
+
+  // on submit method
   onSubmit() {
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
+      return;
     }
     console.log(this.checkoutFormGroup.get('customer')?.value);
     console.log(this.checkoutFormGroup.get('shippingAddress')?.value);
+
+    // set up order 
+    let order = new Order();
+    order.totalQuantity = this.totalQuantity;
+    order.totalPrice = this.totalPrice;
+
+    // get cart items
+    const cartItems = this.cartService.cartItems;
+
+    // create order items from cart items
+    let orderItems: OrderItem[] = cartItems.map(cartItem => new OrderItem(cartItem));
+
+    // set up purchase
+    let purchase = new Purchase();
+
+    // populate purchase - customer
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+
+    // populate purchase - shipping address
+    purchase.address = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shippingCountry: Country = JSON.parse(JSON.stringify(purchase.address.country));
+    const shippingCity: City = JSON.parse(JSON.stringify(purchase.address.city));
+    purchase.address.country = shippingCountry.name;
+    purchase.address.city = shippingCity.name;
+
+    // populate purchase - order & order items
+    purchase.order = order;
+    purchase.orderItems = orderItems;
+
+    // call Checkout Service
+    this.checkoutService.placeOrder(purchase).subscribe({
+      next: response => {
+        alert(`Success! \n ${response.orderTrackingNumber}`);
+        
+        // reset cart
+        this.resetCart();
+      },
+      error: err => {
+        alert(`Error: ${err.message}`)
+      }
+    })
   }
 
   // handle month by year
@@ -152,5 +253,18 @@ export class CheckoutComponent implements OnInit {
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
     );
+  }
+
+  resetCart() {
+    // reset cart data
+    this.cartService.cartItems = [];
+    this.cartService.totalPrice.next(0);
+    this.cartService.totalQuantity.next(0);
+
+    // reset form
+    this.checkoutFormGroup.reset();
+
+    // back to products list
+    this.router.navigateByUrl('/products');
   }
 }

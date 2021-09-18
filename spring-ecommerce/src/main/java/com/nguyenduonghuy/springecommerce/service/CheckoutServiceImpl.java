@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.nguyenduonghuy.springecommerce.dao.CustomerRepository;
 import com.nguyenduonghuy.springecommerce.dto.Purchase;
 import com.nguyenduonghuy.springecommerce.dto.PurchaseResponse;
-import com.nguyenduonghuy.springecommerce.entity.Customer;
-import com.nguyenduonghuy.springecommerce.entity.Order;
+import com.nguyenduonghuy.springecommerce.persistence.Customer;
+import com.nguyenduonghuy.springecommerce.persistence.Order;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
