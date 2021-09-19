@@ -11,6 +11,8 @@ export class LoginStatusComponent implements OnInit {
   isAuthenticated: boolean = false;
   userFullName: string | undefined;
 
+  storage: Storage = sessionStorage;
+
   constructor(private oktaAuthService: OktaAuthService) { }
 
   ngOnInit(): void {
@@ -32,6 +34,13 @@ export class LoginStatusComponent implements OnInit {
       this.oktaAuthService.getUser().then(
         (result) => {
           this.userFullName = result.name;
+
+          // retrieve the user's email
+          const email = result.email;
+
+          // store email to local storage
+          this.storage.setItem('userEmail', JSON.stringify(email));
+          console.log(email);
         }
       );
     }

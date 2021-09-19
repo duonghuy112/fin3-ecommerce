@@ -1,7 +1,8 @@
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { ProductService } from './services/product.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
@@ -20,6 +21,7 @@ import { LoginStatusComponent } from './components/login-status/login-status.com
 import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 import myAppConfig from './config/my-app-config';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -31,6 +33,7 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ] },
   { path: 'admin', component: AdminPageComponent, canActivate: [ OktaAuthGuard ] },
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
@@ -57,7 +60,8 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    OrderHistoryComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -67,7 +71,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig }],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig },
+                              { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
