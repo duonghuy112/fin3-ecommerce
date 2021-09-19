@@ -7,11 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nguyenduonghuy.springecommerce.dao.CustomerRepository;
 import com.nguyenduonghuy.springecommerce.dto.Purchase;
 import com.nguyenduonghuy.springecommerce.dto.PurchaseResponse;
 import com.nguyenduonghuy.springecommerce.persistence.Customer;
 import com.nguyenduonghuy.springecommerce.persistence.Order;
+import com.nguyenduonghuy.springecommerce.repository.CustomerRepository;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
@@ -37,6 +37,13 @@ public class CheckoutServiceImpl implements CheckoutService{
 		
 		// populate customer with order
 		Customer customer = purchase.getCustomer();
+		
+		// check if existed customer
+		if (customerRepository.findByEmail(customer.getEmail()) != null) {
+			customer = customerRepository.findByEmail(customer.getEmail()); // assign customer to customer from database
+		}
+		
+		// add order to customer
 		customer.add(order);
 		
 		// save to database

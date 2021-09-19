@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -25,6 +26,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 	@Autowired
 	private EntityManager entityManager;
 	
+	@Value("${allowed.origins}")
+	private String[] origins;
+	
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 		HttpMethod[] unsupportedActions = { HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH };
@@ -37,6 +41,9 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		
 		// call an helper method
 		exposeIds(config);
+		
+		// configure cors mapping
+		cors.addMapping(config.getBasePath() + "/**").allowedOrigins(origins);
 	}
 
 	private void disableHttpMethods(Class<?> entityClass, RepositoryRestConfiguration config, HttpMethod...unsupportedActions) {
