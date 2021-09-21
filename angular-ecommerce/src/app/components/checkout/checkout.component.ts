@@ -10,6 +10,7 @@ import { Country } from './../../common/country';
 import { FormServiceService } from '../../services/form-service.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ErrMessage } from 'src/app/common/validator/err-message';
 
 @Component({
   selector: 'app-checkout',
@@ -34,6 +35,9 @@ export class CheckoutComponent implements OnInit {
 
   // store session
   store: Storage = sessionStorage;
+
+  // validation message
+  errMessage = ErrMessage;
 
   constructor(private formBuilder: FormBuilder,
               private formService: FormServiceService,

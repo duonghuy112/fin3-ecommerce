@@ -13,10 +13,10 @@
 
                                 <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
                                     <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
-                                        First name is required
+                                        First name {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="firstName?.errors?.minlength">
-                                        First name must be at least 2 and largest 255 characters long
+                                        First name {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -27,10 +27,10 @@
 
                                 <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
                                     <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
-                                        Last name is required
+                                        Last name {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="lastName?.errors?.minlength">
-                                        Last name must be at least 2 and largest 255 characters long
+                                        Last name {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -42,10 +42,10 @@
 
                                 <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
                                     <div *ngIf="email?.errors?.required">
-                                        Email is required
+                                        Email {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="email?.errors?.pattern">
-                                        Email must be a valid email address format
+                                        Email {{ errMessage.validEmail }}
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
 
                                 <div *ngIf="country?.invalid && (country?.dirty || country?.touched)" class="alert alert-danger">
                                     <div *ngIf="country?.errors?.required">
-                                        Country is required
+                                        Country {{ errMessage.isRequired }}
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                 </select>
                                 <div *ngIf="city?.invalid && (city?.dirty || city?.touched)" class="alert alert-danger">
                                     <div *ngIf="city?.errors?.required">
-                                        City is required
+                                        City {{ errMessage.isRequired }}
                                     </div>
                                 </div>
                             </div>
@@ -94,10 +94,10 @@
 
                                 <div *ngIf="district?.invalid && (district?.dirty || district?.touched)" class="alert alert-danger">
                                     <div *ngIf="district?.errors?.required || district?.errors?.notOnlyWhitespace">
-                                        District / Provine is required
+                                        District / Provine {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="district?.errors?.minlength">
-                                        District / Provine must be at least 2 and largest 255 characters long
+                                        District / Provine {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -108,10 +108,10 @@
 
                                 <div *ngIf="street?.invalid && (street?.dirty || street?.touched)" class="alert alert-danger">
                                     <div *ngIf="street?.errors?.required || street?.errors?.notOnlyWhitespace">
-                                        Street is required
+                                        Street {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="street?.errors?.minlength">
-                                        Street must be at least 2 and largest 255 characters long
+                                        Street {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -122,10 +122,10 @@
 
                                 <div *ngIf="zipCode?.invalid && (zipCode?.dirty || zipCode?.touched)" class="alert alert-danger">
                                     <div *ngIf="zipCode?.errors?.required || zipCode?.errors?.notOnlyWhitespace">
-                                        Zip code is required
+                                        Zip code {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="zipCode?.errors?.minlength">
-                                        Zip code must be at least 2 and largest 255 characters long
+                                        Zip code {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
                                 </select>
                                 <div *ngIf="cardType?.invalid && (cardType?.dirty || cardType?.touched)" class="alert alert-danger">
                                     <div *ngIf="cardType?.errors?.required">
-                                        Card type is required
+                                        Card type {{ errMessage.isRequired }}
                                     </div>
                                 </div>
                             </div>
@@ -156,10 +156,10 @@
 
                                 <div *ngIf="cardName?.invalid && (cardName?.dirty || cardName?.touched)" class="alert alert-danger">
                                     <div *ngIf="cardName?.errors?.required ||cardName?.errors?.notOnlyWhitespace">
-                                        Name on card is required
+                                        Name on card {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="cardName?.errors?.minlength">
-                                        Name on card must be at least 2 and largest 255 characters long
+                                        Name on card {{ errMessage.validLength }}
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
 
                                 <div *ngIf="cardNumber?.invalid && (cardNumber?.dirty || cardNumber?.touched)" class="alert alert-danger">
                                     <div *ngIf="cardNumber?.errors?.required">
-                                        Card number is required
+                                        Card number {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="cardNumber?.errors?.pattern">
                                         Card number must be 16 digits long
@@ -184,7 +184,7 @@
 
                                 <div *ngIf="securityCode?.invalid && (securityCode?.dirty || securityCode?.touched)" class="alert alert-danger">
                                     <div *ngIf="securityCode?.errors?.required">
-                                        Security number is required
+                                        Security number {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="securityCode?.errors?.pattern">
                                         Security number must be 4 digits long

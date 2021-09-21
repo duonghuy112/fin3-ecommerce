@@ -21,6 +21,7 @@ body {
 }
 
 .card .header {
+    background-color: beige;
     color: #444;
     padding: 20px;
     position: relative;
@@ -213,7 +214,8 @@ body {
 }
 
 .comment-reply li {
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    background-color: #E5E5D8;
 }
 
 .comment-reply li:last-child {
