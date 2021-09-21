@@ -6,14 +6,15 @@ import { Country } from './../common/country';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormServiceService {
 
-  private countriesUrl = "http://localhost:8999/api/countries";
-  private citiesUrl = "http://localhost:8999/api/cities";
+  private countriesUrl = environment.baseUrl + '/countries';
+  private citiesUrl = environment.baseUrl + '/cities';
 
   constructor(private httpClient: HttpClient) { }
 

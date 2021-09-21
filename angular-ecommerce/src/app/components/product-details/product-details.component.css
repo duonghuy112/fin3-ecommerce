@@ -1,0 +1,19 @@
+/* 
+ * ----------------------------
+ * Product Details
+ * ----------------------------
+ */
+
+.price {
+    margin: 15px 0 0;
+    font-weight: 800;
+    color: black
+}
+
+.detail-section {
+    margin-top: 60px
+}
+
+.product-details div {
+    text-align: center;
+}

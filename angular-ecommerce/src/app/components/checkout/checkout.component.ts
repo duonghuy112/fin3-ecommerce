@@ -215,6 +215,7 @@ export class CheckoutComponent implements OnInit {
         this.resetCart();
       },
       error: err => {
+        console.log(err);
         alert(`Error: ${err.message}`)
       }
     })

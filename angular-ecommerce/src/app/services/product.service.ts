@@ -6,14 +6,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  baseUrl = "http://localhost:8999/api/products";
-  categoryUrl = "http://localhost:8999/api/category";
+  baseUrl = environment.baseUrl + '/products';
+  categoryUrl = environment.baseUrl + '/category';
 
   constructor(private httpClient: HttpClient) { }
 

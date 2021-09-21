@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit {
 
   handleListProduct() {
     this.productService.getProductListPaginate(this.pageNumber -1,
-                                              this.pageSize).subscribe(this.processResult());
+                                               this.pageSize).subscribe(this.processResult());
   }
 
   handleListProductByCategory() {

@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
@@ -8,6 +9,8 @@ import { from, Observable } from 'rxjs';
 })
 export class AuthInterceptorService implements HttpInterceptor {
 
+  private orderUrl = environment.baseUrl + '/orders';
+
   constructor(private oktaAuth: OktaAuthService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -16,14 +19,14 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
     // Only add an access token for secured endpoints
-    const securedEndpoints = ['http://localhost:8999/api/orders'];
+    const securedEndpoints = [this.orderUrl];
     
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
     
       // get access token
       const accessToken = await this.oktaAuth.getAccessToken();
       
-      // clone the request and add new header with access token
+      // clone the request an + '/orders'd add new header with access token
       request = request.clone({
         setHeaders: {
           Authorization: 'Bearer ' + accessToken

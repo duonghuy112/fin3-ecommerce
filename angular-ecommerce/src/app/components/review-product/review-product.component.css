@@ -215,7 +215,6 @@ body {
 
 .comment-reply li {
     margin-bottom: 15px;
-    background-color: #E5E5D8;
 }
 
 .comment-reply li:last-child {
@@ -240,6 +239,10 @@ body {
 
 .comment-reply .list-inline li a {
     font-size: 13px
+}
+
+.list-unstyled>li {
+    border-bottom: 1px solid black;
 }
 
 @media (max-width: 640px) {

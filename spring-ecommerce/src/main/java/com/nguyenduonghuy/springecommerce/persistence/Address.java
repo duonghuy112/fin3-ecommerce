@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,12 +32,18 @@ public class Address {
 	private String city;
 	
 	@Column(name = "district")
+	@NotBlank
+	@Size(min = 2, max = 255)
 	private String district;
 	
 	@Column(name = "street")
+	@NotBlank
+	@Size(min = 2, max = 255)
 	private String street;
 	
 	@Column(name = "zip_code")
+	@NotBlank
+	@Size(min = 2, max = 255)
 	private String zipCode;
 	
 	@OneToOne

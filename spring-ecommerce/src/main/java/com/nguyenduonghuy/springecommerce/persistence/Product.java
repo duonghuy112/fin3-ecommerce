@@ -2,6 +2,7 @@ package com.nguyenduonghuy.springecommerce.persistence;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -59,4 +61,7 @@ public class Product {
 	@Column(name = "last_updated")
 	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Review> reviews;
 }
