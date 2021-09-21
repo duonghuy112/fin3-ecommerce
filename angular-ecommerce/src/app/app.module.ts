@@ -22,6 +22,7 @@ import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } fro
 import myAppConfig from './config/my-app-config';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { ReviewProductComponent } from './components/review-product/review-product.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -33,12 +34,12 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ] },
-  { path: 'admin', component: AdminPageComponent, canActivate: [ OktaAuthGuard ] },
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]},  
+  { path: 'admin', component: AdminPageComponent, canActivate: [ OktaAuthGuard ]},  
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ] },
-  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ] },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ]},  
+  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ]},  
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'category/:id/:name', component: ProductListComponent },
@@ -61,7 +62,8 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     AdminPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    ReviewProductComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -72,7 +74,7 @@ const routes: Routes = [
     OktaAuthModule
   ],
   providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig },
-                              { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
+                              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -32,6 +32,9 @@ export class CheckoutComponent implements OnInit {
   creditCardMonths: number[] = [];
   creditCardYears: number[] = [];
 
+  // store session
+  store: Storage = sessionStorage;
+
   constructor(private formBuilder: FormBuilder,
               private formService: FormServiceService,
               private cartService: CartService,
@@ -42,31 +45,38 @@ export class CheckoutComponent implements OnInit {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [Validators.required, 
-                                        Validators.minLength(2), 
+                                        Validators.minLength(2),
+                                        Validators.maxLength(255), 
                                         MyCustomValidators.notOnlyWhitespace]),
         lastName: new FormControl('', [Validators.required, 
                                       Validators.minLength(2),
+                                      Validators.maxLength(255),
                                       MyCustomValidators.notOnlyWhitespace]),
-        email: new FormControl('', [Validators.required, 
+        email: new FormControl(JSON.parse(this.store.getItem('userEmail') as string), [Validators.required,
+                                    Validators.maxLength(255), 
                                     Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
         country: new FormControl('', [Validators.required]),
         city: new FormControl('', [Validators.required]),
         district: new FormControl('', [Validators.required, 
-                                      Validators.minLength(2), 
+                                      Validators.minLength(2),
+                                      Validators.maxLength(255), 
                                       MyCustomValidators.notOnlyWhitespace]),
         street: new FormControl('', [Validators.required, 
-                                    Validators.minLength(2), 
+                                    Validators.minLength(2),
+                                    Validators.maxLength(255), 
                                     MyCustomValidators.notOnlyWhitespace]),
         zipCode: new FormControl('', [Validators.required, 
-                                      Validators.minLength(2), 
+                                      Validators.minLength(2),
+                                      Validators.maxLength(255),
                                       MyCustomValidators.notOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
         cardType: new FormControl('', [Validators.required]),
         cardName: new FormControl('', [Validators.required, 
-                                      Validators.minLength(2), 
+                                      Validators.minLength(2),
+                                      Validators.maxLength(255), 
                                       MyCustomValidators.notOnlyWhitespace]),
         cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
         securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{4}')]),

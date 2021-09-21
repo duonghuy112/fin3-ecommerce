@@ -16,19 +16,19 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
     // Only add an access token for secured endpoints
-    const securedEndpoints = ['http://localhost:8080/api/orders'];
+    const securedEndpoints = ['http://localhost:8999/api/orders'];
     
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
     
-    // get access token
-    const accessToken = await this.oktaAuth.getAccessToken();
-    
-    // clone the request and add new header with access token
-    request = request.clone({
-      setHeaders: {
-        Authorization: 'Bearer ' + accessToken
-      }
-    });
+      // get access token
+      const accessToken = await this.oktaAuth.getAccessToken();
+      
+      // clone the request and add new header with access token
+      request = request.clone({
+        setHeaders: {
+          Authorization: 'Bearer ' + accessToken
+        }
+      });
     }
     return next.handle(request).toPromise();
   }

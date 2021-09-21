@@ -1,3 +1,5 @@
+import { ResponseCities } from './../response/response-cities';
+import { ResponseCountries } from './../response/response-countries';
 import { City } from './../common/city';
 import { map } from 'rxjs/operators';
 import { Country } from './../common/country';
@@ -17,7 +19,7 @@ export class FormServiceService {
 
   // Countries for Shipping Address
   getCountry(): Observable<Country[]> {
-    return this.httpClient.get<GetResponseCountries>(this.countriesUrl).pipe (
+    return this.httpClient.get<ResponseCountries>(this.countriesUrl).pipe (
       map (response => response._embedded.countries)
     );
   }
@@ -25,7 +27,7 @@ export class FormServiceService {
   // Cities for Shipping Address
   getCity(countryCode: string): Observable<City[]> {
     const searchCitiesUrl = `${this.citiesUrl}/search/findByCountryCode?code=${countryCode}`;
-    return this.httpClient.get<GetResponseCities>(searchCitiesUrl).pipe (
+    return this.httpClient.get<ResponseCities>(searchCitiesUrl).pipe (
       map (response => response._embedded.cities)
     );
   }
@@ -53,17 +55,5 @@ export class FormServiceService {
       data.push(year);
     }
     return of(data);
-  }
-}
-
-interface GetResponseCountries {
-  _embedded: {
-    countries: Country[];
-  }
-}
-
-interface GetResponseCities {
-  _embedded: {
-    cities: City[];
   }
 }
