@@ -13,7 +13,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface BadwordConstraint {
 	// define default value
-	public String value() default "fuck, bitch, shit, dick, asshole, damn";
+	public String value() default "fuck, bitch, shit, dick, asshole, damn, ";
 
 	// define default message
 	public String message() default "must not contain any badword!";

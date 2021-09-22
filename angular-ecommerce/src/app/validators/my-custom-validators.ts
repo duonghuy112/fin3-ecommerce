@@ -14,4 +14,22 @@ export class MyCustomValidators {
             return null as any;
         }
     }
+
+    // badword constraint validators
+    static badwordConstraint(control: FormControl): ValidationErrors {
+        // define badword
+        let badword = ['fuck', 'bitch', 'shit', 'dick', 'asshole', 'damn'];
+
+        // check if string contains badword
+        for (let bw of badword) {
+            if (control.value.includes(bw)) {
+                // invalid, return error object
+                return {
+                    'badwordConstraint': true
+                }
+            }               
+        }
+        // valid, return null
+        return null as any;
+    }
 }

@@ -1,5 +1,7 @@
 package com.nguyenduonghuy.springecommerce.validator;
 
+import java.util.regex.Pattern;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -16,10 +18,9 @@ public class BadwordConstraintValidator implements ConstraintValidator<BadwordCo
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		boolean isValid = false;
 		if (value != null) {
-			isValid = !badword.contains(value);
+			isValid = Pattern.compile(", ").splitAsStream(badword)
+								.anyMatch(bw -> value.contains(bw));
 		}
 		return isValid;
 	}
-	
-	
 }

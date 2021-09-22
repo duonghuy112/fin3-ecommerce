@@ -28,6 +28,8 @@ export class ProductListComponent implements OnInit {
   pageNumber: number = 1;
   pageSize: number = 8;
   totalElements: number = 0;
+  startElement: number = 0;
+  endElement: number = 0;
 
   constructor(private productService: ProductService,
               private cartService: CartService,
@@ -111,6 +113,12 @@ export class ProductListComponent implements OnInit {
       this.pageNumber = data.page.number + 1;
       this.pageSize = data.page.size;
       this.totalElements = data.page.totalElements;
+      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+      this.endElement = this.startElement + this.pageSize - 1;
+      if (this.endElement > this.totalElements) {
+        this.endElement = this.totalElements
+      }
+      console.log(`${this.startElement} and ${this.endElement}`);
     };
   }
 

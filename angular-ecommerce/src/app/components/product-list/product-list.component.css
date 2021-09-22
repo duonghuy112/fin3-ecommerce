@@ -1,0 +1,9 @@
+.count-element {
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+}
+
+.count-element>p {
+    line-height: 40px;
+}

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import com.nguyenduonghuy.springecommerce.persistence.Category;
 import com.nguyenduonghuy.springecommerce.persistence.City;
 import com.nguyenduonghuy.springecommerce.persistence.Country;
+import com.nguyenduonghuy.springecommerce.persistence.Customer;
 import com.nguyenduonghuy.springecommerce.persistence.Order;
 import com.nguyenduonghuy.springecommerce.persistence.Product;
 
@@ -40,6 +41,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		disableHttpMethods(Country.class, config, unsupportedActions);
 		disableHttpMethods(City.class, config, unsupportedActions);
 		disableHttpMethods(Order.class, config, unsupportedActions);
+		disableHttpMethods(Customer.class, config, unsupportedActions);
 		
 		// call an helper method
 		exposeIds(config);

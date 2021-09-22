@@ -1,3 +1,9 @@
+import { Customer } from './../../common/customer';
+import { Product } from './../../common/product';
+import { CustomerServiceService } from './../../services/customer-service.service';
+import { ProductService } from './../../services/product.service';
+import { MyCustomValidators } from './../../validators/my-custom-validators';
+import { ErrMessage } from 'src/app/common/validator/err-message';
 import { ReviewProductService } from './../../services/review-product.service';
 import { Review } from './../../common/review';
 import { ActivatedRoute } from '@angular/router';
@@ -16,44 +22,53 @@ export class ReviewProductComponent implements OnInit {
   // review list by product
   reviews: Review[] =[];
 
-  productId!: number;
+  // message error
+  errMessage = ErrMessage;
+
+  // storage
+  storage: Storage = sessionStorage;
 
   constructor(private formBuilder: FormBuilder,
               private reviewService: ReviewProductService,
+              private productService: ProductService,
+              private customerService: CustomerServiceService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.reviewFormGroup = this.formBuilder.group({
       review: this.formBuilder.group({
-        fullName: new FormControl('', [Validators.required]),
-        content: new FormControl('', Validators.required)
+        content: new FormControl('', [Validators.required, Validators.minLength(2), 
+                                      Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
+                                      MyCustomValidators.badwordConstraint])
       })
     });
-    
-    this.getProductId();
+  
     this.listReviews();
   }
 
-  get fullName() {
-    return this.reviewFormGroup.get('review.fullName')
+  get content() {
+    return this.reviewFormGroup.get('review.content');
   }
 
-  get Content() {
-    return this.reviewFormGroup.get('review.content')
-  }
-
-  getProductId() {
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(this.productId);
+  getProductId(): number {
+    let productId = Number(this.route.snapshot.paramMap.get('id'));;
+    console.log(productId);
+    return productId;
   }
 
   listReviews() {
-    this.reviewService.getReviews(this.productId).subscribe(
+    this.reviewService.getReviews(this.getProductId()).subscribe(
       data => {
-        this.reviews = data;
+        this.reviews = data._embedded.reviews;
       }
     )
-    console.log(this.reviews);
+  }
+
+  onReviewSubmit() {
+    if (this.reviewFormGroup.invalid) {
+      this.reviewFormGroup.markAllAsTouched();
+    }
+    
   }
 
 }

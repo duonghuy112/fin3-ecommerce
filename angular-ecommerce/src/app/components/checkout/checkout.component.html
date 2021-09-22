@@ -16,7 +16,10 @@
                                         First name {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="firstName?.errors?.minlength">
-                                        First name {{ errMessage.validLength }}
+                                        First name {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="firstName?.errors?.maxlength">
+                                        First name {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +33,10 @@
                                         Last name {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="lastName?.errors?.minlength">
-                                        Last name {{ errMessage.validLength }}
+                                        Last name {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="lastName?.errors?.maxlength">
+                                        Last name {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +103,10 @@
                                         District / Provine {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="district?.errors?.minlength">
-                                        District / Provine {{ errMessage.validLength }}
+                                        District / Provine {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="district?.errors?.maxlength">
+                                        District / Provine {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +120,10 @@
                                         Street {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="street?.errors?.minlength">
-                                        Street {{ errMessage.validLength }}
+                                        Street {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="street?.errors?.maxlength">
+                                        Street {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +137,10 @@
                                         Zip code {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="zipCode?.errors?.minlength">
-                                        Zip code {{ errMessage.validLength }}
+                                        Zip code {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="zipCode?.errors?.maxlength">
+                                        Zip code {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +174,10 @@
                                         Name on card {{ errMessage.isRequired }}
                                     </div>
                                     <div *ngIf="cardName?.errors?.minlength">
-                                        Name on card {{ errMessage.validLength }}
+                                        Name on card {{ errMessage.validMinLength }}
+                                    </div>
+                                    <div *ngIf="cardName?.errors?.maxlength">
+                                        Name on card {{ errMessage.validMaxLength }}
                                     </div>
                                 </div>
                             </div>

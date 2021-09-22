@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nguyenduonghuy.springecommerce.validator.BadwordConstraint;
 
 @Entity
@@ -28,10 +29,12 @@ public class Review {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@JsonIgnore
 	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
+	@JsonIgnore
 	private Customer customer;
 	
 	@Column(name = "content")
