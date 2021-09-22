@@ -38,7 +38,8 @@ export class LoginStatusComponent implements OnInit {
           // retrieve the user's email
           const email = result.email;
 
-          // store email to local storage
+          // store user name & email to local storage
+          this.storage.setItem('userName', JSON.stringify(this.userFullName));
           this.storage.setItem('userEmail', JSON.stringify(email));
           console.log(email);
         }

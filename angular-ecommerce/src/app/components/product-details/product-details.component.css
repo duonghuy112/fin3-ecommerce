@@ -17,3 +17,24 @@
 .product-details div {
     text-align: center;
 }
+
+.product-details-box {
+    max-width: 55vw;
+    position: relative;
+}
+
+.product-details-box>div>h3 {
+    font-weight: bold;
+}
+
+.price-box {
+    position: absolute;
+    top: 45px;
+    right: 225px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-box>button {
+    margin-top: 30px;
+}

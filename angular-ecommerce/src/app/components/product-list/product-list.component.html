@@ -17,7 +17,7 @@
                             <a routerLink="/products/{{ product.id }}">{{ product.name }}</a>
                         </h1>
                         <div class="price">{{ product.unitPrice }} $</div>
-                        <button (click)="addToCart(product)" class="btn btn-primary btn-md">Add to cart</button>
+                        <button (click)="addToCart(product)" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addToCartModal">Add to cart</button>
                     </div>
                 </div>
 
@@ -53,6 +53,26 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cart has been updated</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                {{ cartProduct?.name }} has been successfully added to your cart!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>

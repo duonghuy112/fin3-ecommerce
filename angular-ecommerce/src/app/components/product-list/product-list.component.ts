@@ -11,8 +11,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  
+  // product list  
   products: Product[] = [];
+  cartProduct: Product = null!;
 
   // category
   curCategoryId: number = 1;
@@ -118,6 +119,7 @@ export class ProductListComponent implements OnInit {
 
     const cartItem: CartItem = new CartItem(product);
 
+    this.cartProduct = product;
     this.cartService.addToCart(cartItem);
   }
 

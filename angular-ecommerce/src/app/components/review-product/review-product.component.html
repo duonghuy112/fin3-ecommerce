@@ -6,9 +6,9 @@
             <div class="col-lg-8 col-md-12 left-box">
                 <div class="card">
                     <div class="header">
-                        <h2>Comments 3</h2>
+                        <h2>Comments {{ reviews?.length }}</h2>
                     </div>
-                    <div class="body">
+                    <div *ngIf="reviews?.length != 0" class="body">
                         <ul class="comment-reply list-unstyled">
                             <li class="row clearfix">
                                 <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail p-0" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Awesome Image"></div>
@@ -21,41 +21,25 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="row clearfix">
-                                <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail p-0" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Awesome Image"></div>
-                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Christian Louboutin</h5>
-                                    <p>Great tutorial but few issues with it? If i try open post i get following errors. Please can you help me?</p>
-                                    <ul class="list-inline">
-                                        <li><a href="javascript:void(0);">Mar 12 2018</a></li>
-                                        <li><a href="javascript:void(0);">Reply</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="row clearfix">
-                                <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail p-0" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Awesome Image"></div>
-                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Kendall Jenner</h5>
-                                    <p>Very nice and informative article. In all the years I've done small and side-projects as a freelancer, I've ran into a few problems here and there.</p>
-                                    <ul class="list-inline">
-                                        <li><a href="javascript:void(0);">Mar 20 2018</a></li>
-                                        <li><a href="javascript:void(0);">Reply</a></li>
-                                    </ul>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="card">
                     <div class="header">
-                        <h2>Leave a reply <small>Your email address will not be published. Required fields are marked*</small></h2>
+                        <h2>Leave your review about the product</h2>
+                        <small>Your email address will not be published. Required fields are marked*</small>
                     </div>
                     <div class="body">
                         <div class="comment-form">
                             <form class="row clearfix">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Your Name">
+                                        <input type="text" class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -77,3 +61,49 @@
         </div>
     </div>
 </div>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body input').val(recipient)
+    })
+</script>

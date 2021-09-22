@@ -17,8 +17,6 @@ public class BadwordConstraintValidator implements ConstraintValidator<BadwordCo
 		boolean isValid = false;
 		if (value != null) {
 			isValid = !badword.contains(value);
-		} else {
-			isValid = true;
 		}
 		return isValid;
 	}
