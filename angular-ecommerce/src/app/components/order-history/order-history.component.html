@@ -8,22 +8,18 @@
                     <thead>
                         <tr>
                             <th>Order Tracking Number</th>
-                            <th>Customer</th>
                             <th>Address</th>
                             <th>Total Price</th>
                             <th>Total Quantity</th>
-                            <th>Date</th>
                             <th>Status</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody class="order-history">
                         <tr *ngFor="let tempOrderHistory of orderHistoryList">
                             <td>
                                 {{ tempOrderHistory.orderTrackingNumber }}
-                            </td>
-                            <td>
-                                {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
                             </td>
                             <td>
                                 {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
@@ -35,10 +31,13 @@
                                 {{ tempOrderHistory.totalQuantity }}
                             </td>
                             <td>
+                                Status
+                            </td>
+                            <td>
                                 {{ tempOrderHistory.dateCreated | date: 'short' }}
                             </td>
                             <td>
-                                Status
+                                ok
                             </td>
                         </tr>
                     </tbody>

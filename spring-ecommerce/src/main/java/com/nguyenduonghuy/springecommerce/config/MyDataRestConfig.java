@@ -43,7 +43,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		disableHttpMethods(Order.class, config, unsupportedActions);
 		disableHttpMethods(Customer.class, config, unsupportedActions);
 		
-		// call an helper method
+		// expose id for entity
 		exposeIds(config);
 		
 		// configure cors mapping

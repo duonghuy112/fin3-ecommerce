@@ -22,7 +22,7 @@ export class MyCustomValidators {
 
         // check if string contains badword
         for (let bw of badword) {
-            if (control.value.includes(bw)) {
+            if (control.value?.includes(bw)) {
                 // invalid, return error object
                 return {
                     'badwordConstraint': true

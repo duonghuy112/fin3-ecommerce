@@ -19,7 +19,7 @@ public class BadwordConstraintValidator implements ConstraintValidator<BadwordCo
 		boolean isValid = false;
 		if (value != null) {
 			isValid = Pattern.compile(", ").splitAsStream(badword)
-								.anyMatch(bw -> value.contains(bw));
+								.allMatch(bw -> !value.contains(bw));
 		}
 		return isValid;
 	}

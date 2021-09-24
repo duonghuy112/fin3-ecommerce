@@ -12,11 +12,14 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let cartItem of cartItems ">
-                            <td><img src="{{ cartItem.imageUrl }}" class="img-responsive" width="150px"></td>
+                            <td class="product-img"><img src="{{ cartItem.imageUrl }}" class="img-responsive" width="150px"></td>
                             <td>
-                                <h3>{{ cartItem.name }}</h3>
-                                <p>{{ cartItem.description }}</p>
-                                <h6>${{ cartItem.unitPrice }}</h6>
+                                <h4 class="product-name" routerLink="/products/{{ cartItem.id }}" matTooltip="{{ cartItem.description }}">{{ cartItem.name }}</h4>
+                                <div class="product-info">
+                                    <h6>Category: <strong>{{ cartItem.sku }}</strong></h6>
+                                    <h6>Status: <strong>In stock</strong></h6>
+                                    <h6>Unit price: <strong>${{ cartItem.unitPrice }}</strong></h6>
+                                </div>
                             </td>
                             <td>
                                 <div class="items">

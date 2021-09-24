@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +31,5 @@ public class Country {
 	private String name;
 	
 	@OneToMany(mappedBy = "country")
-	@JsonIgnore
 	private List<City> cities;
 }

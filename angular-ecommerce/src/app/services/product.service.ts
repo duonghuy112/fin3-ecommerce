@@ -13,32 +13,32 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductService {
 
-  baseUrl = environment.baseUrl + '/products';
+  productUrl = environment.baseUrl + '/products';
   categoryUrl = environment.baseUrl + '/category';
 
   constructor(private httpClient: HttpClient) { }
 
   getProductListPaginate(page: number, pageSize: number): Observable<ResponseProducts> {
       // build URL paging
-      const searchUrl = `${this.baseUrl}?page=${page}&size=${pageSize}`;
+      const searchUrl = `${this.productUrl}?page=${page}&size=${pageSize}`;
       return this.httpClient.get<ResponseProducts>(searchUrl);
   }
 
   getProductListByCategoryPaginate(page: number, pageSize: number, categoryId: number): Observable<ResponseProducts> {
     // build URL based on categoryId
-    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}`;
+    const searchUrl = `${this.productUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
     
   searchProductsPaginate(page: number, pageSize: number, keyword: string): Observable<ResponseProducts> {
     // build URL based on keyword
-    const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}`;
+    const searchUrl = `${this.productUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
   
   getProduct(productId: number): Observable<Product> {
-    const productUrl = `${this.baseUrl}/${productId}`;
-    return this.httpClient.get<Product>(productUrl);
+    const productIdUrl = `${this.productUrl}/${productId}`;
+    return this.httpClient.get<Product>(productIdUrl);
   }
 
   getCategories(): Observable<Category[]> {

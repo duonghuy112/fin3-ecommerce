@@ -20,5 +20,8 @@ export class ReviewProductService {
     return this.httpClient.get<ResponseReview>(reviewByProductIdUrl);
   }
 
+  addReview(review: Review): Observable<any> {
+    return this.httpClient.post<Review>(this.reviewUrl, review);
+  }
   
 }

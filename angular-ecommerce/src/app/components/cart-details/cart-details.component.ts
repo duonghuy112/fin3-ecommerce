@@ -1,11 +1,12 @@
 import { CartService } from './../../services/cart.service';
 import { CartItem } from './../../common/cart-item';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-cart-details',
   templateUrl: './cart-details.component.html',
-  styleUrls: ['./cart-details.component.css']
+  styleUrls: ['./cart-details.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CartDetailsComponent implements OnInit {
 
@@ -38,7 +39,9 @@ export class CartDetailsComponent implements OnInit {
     );
 
     // compute cart total price and quantity
-     this.cartService.computeCartTotals();
+    this.cartService.computeCartTotals();
+
+    console.log(this.cartItems);
   }
 
   incrementQuantity(cartItem: CartItem) {

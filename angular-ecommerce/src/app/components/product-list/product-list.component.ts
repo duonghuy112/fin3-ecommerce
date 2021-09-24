@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../services/cart.service';
 import { CartItem } from './../../common/cart-item';
 import { ProductService } from './../../services/product.service';
@@ -13,7 +14,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit {
   // product list  
   products: Product[] = [];
-  cartProduct: Product = null!;
 
   // category
   curCategoryId: number = 1;
@@ -33,6 +33,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(private productService: ProductService,
               private cartService: CartService,
+              private toastr: ToastrService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -118,7 +119,7 @@ export class ProductListComponent implements OnInit {
       if (this.endElement > this.totalElements) {
         this.endElement = this.totalElements
       }
-      console.log(`${this.startElement} and ${this.endElement}`);
+      console.log(`${this.startElement} to ${this.endElement}`);
     };
   }
 
@@ -127,7 +128,9 @@ export class ProductListComponent implements OnInit {
 
     const cartItem: CartItem = new CartItem(product);
 
-    this.cartProduct = product;
+    // add toastr
+    this.toastr.success(`Cart has been updated!`, "Add to cart successfully");
+
     this.cartService.addToCart(cartItem);
   }
 

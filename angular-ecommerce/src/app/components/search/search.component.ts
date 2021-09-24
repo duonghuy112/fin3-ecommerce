@@ -1,3 +1,5 @@
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,14 +10,27 @@ import { Router } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
 
+  search = new FormControl();
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  doSearch(value: string) {
-    console.log(`value=${value}`);
-    this.router.navigateByUrl(`/search/${value}`);
+  doSearch() {
+    this.search.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.router.navigateByUrl(`/search/${value}`);
+        console.log(value);
+      }
+    )
+  }
+
+  reset() {
+    this.search.setValue('');
   }
 
 }

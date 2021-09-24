@@ -10,16 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nguyenduonghuy.springecommerce.validator.BadwordConstraint;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "review")
+@Getter
+@Setter
 public class Review {
 	
 	@Id
@@ -29,18 +30,14 @@ public class Review {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	@JsonIgnore
 	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
-	@JsonIgnore
 	private Customer customer;
 	
 	@Column(name = "content")
-	@NotBlank
 	@Size(min = 2, max = 255)
-	@BadwordConstraint
 	private String content;
 	
 	@Column(name = "date_created")

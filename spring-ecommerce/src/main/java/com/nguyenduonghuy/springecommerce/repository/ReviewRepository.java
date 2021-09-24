@@ -12,4 +12,5 @@ import com.nguyenduonghuy.springecommerce.persistence.Review;
 public interface ReviewRepository extends JpaRepository<Review, Long>{
 	
 	List<Review> findByProductId(@Param("productId") Long productId);
+	
 }

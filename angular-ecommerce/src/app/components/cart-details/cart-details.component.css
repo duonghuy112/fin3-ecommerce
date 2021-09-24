@@ -5,7 +5,8 @@
  */
 
 .table {
-    margin: 0
+    margin: 0;
+    max-width: 70vw;
 }
 
 table.table.table-bordered {
@@ -41,4 +42,21 @@ table.table.table-bordered th {
 
 table .items>.no-gutters {
     width: 200px;
+}
+
+.product-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-name:hover {
+    cursor: pointer;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 110px;
 }

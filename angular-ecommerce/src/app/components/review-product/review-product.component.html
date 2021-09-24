@@ -33,7 +33,7 @@
                         <div class="comment-form">
                             <form [formGroup]="reviewFormGroup" (ngSubmit)="onReviewSubmit()" class="row clearfix">
                                 <div class="col-sm-12">
-                                    <div formGroupName="review" class="form-group">
+                                    <div class="form-group">
                                         <textarea formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                                         <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
                                             <div *ngIf="content?.errors?.required || content?.errors?.notOnlyWhitespace">

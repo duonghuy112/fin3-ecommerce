@@ -5,7 +5,8 @@
  */
 
 .table {
-    margin: 0
+    margin: 0;
+    max-width: 70vw;
 }
 
 table.table.table-bordered {
@@ -41,4 +42,8 @@ table.table.table-bordered th {
 
 table .items>.no-gutters {
     width: 200px;
+}
+
+.order-history td:hover {
+    cursor: pointer;
 }

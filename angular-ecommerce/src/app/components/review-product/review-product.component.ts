@@ -1,6 +1,6 @@
 import { Customer } from './../../common/customer';
 import { Product } from './../../common/product';
-import { CustomerServiceService } from './../../services/customer-service.service';
+import { CustomerService } from './../../services/customer.service';
 import { ProductService } from './../../services/product.service';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { ErrMessage } from 'src/app/common/validator/err-message';
@@ -21,6 +21,8 @@ export class ReviewProductComponent implements OnInit {
 
   // review list by product
   reviews: Review[] =[];
+  product!: Product;
+  customer!: Customer;
 
   // message error
   errMessage = ErrMessage;
@@ -31,28 +33,37 @@ export class ReviewProductComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private reviewService: ReviewProductService,
               private productService: ProductService,
-              private customerService: CustomerServiceService,
+              private customerService: CustomerService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.reviewFormGroup = this.formBuilder.group({
-      review: this.formBuilder.group({
         content: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
-      })
     });
   
+    this.productService.getProduct(this.getProductId()).subscribe(
+      data => {
+        this.product = data;
+      }
+    );
+
+    this.customerService.getCustomer('huy@mail.com').subscribe(
+      data => {
+        this.customer = data;
+      }
+    );
+
     this.listReviews();
   }
 
   get content() {
-    return this.reviewFormGroup.get('review.content');
+    return this.reviewFormGroup.get('content');
   }
 
   getProductId(): number {
     let productId = Number(this.route.snapshot.paramMap.get('id'));;
-    console.log(productId);
     return productId;
   }
 
@@ -67,8 +78,30 @@ export class ReviewProductComponent implements OnInit {
   onReviewSubmit() {
     if (this.reviewFormGroup.invalid) {
       this.reviewFormGroup.markAllAsTouched();
-    }
+      return;
+    } 
+  
+    let review = new Review();
+    review.product = this.product;
+    review.customer = this.customer;
+    review.content = this.reviewFormGroup.get('content')?.value;
+
+    console.log(review);
     
+    this.reviewService.addReview(review).subscribe({
+      next: response => {
+        alert(response);
+        this.resetForm();
+      },
+      error: err => {
+        console.log(err);
+        alert(`Error: ${err}`);
+      }
+    });
+  }
+
+  resetForm() {
+    this.reviewFormGroup.reset();
   }
 
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from './../../services/product.service';
 import { Product } from './../../common/product';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-details',
@@ -16,6 +17,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private productService: ProductService,
               private cartService: CartService,
+              private toastr: ToastrService,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -37,6 +39,9 @@ export class ProductDetailsComponent implements OnInit {
   addToCart() {
     const cartItem: CartItem = new CartItem(this.product);
     this.cartService.addToCart(cartItem);
+
+    // add toastr
+    this.toastr.success(`Cart has been updated!`, "Add to cart successfully");
     
     console.log(`Adding to cart: ${this.product.name}, ${this.product.unitPrice}`)
   }
