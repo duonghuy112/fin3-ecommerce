@@ -26,7 +26,9 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { ReviewProductComponent } from './components/review-product/review-product.component';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSortModule} from '@angular/material/sort';
 import { ToastrModule } from 'ngx-toastr';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -49,6 +51,7 @@ const routes: Routes = [
   { path: 'category/:id/:name', component: ProductListComponent },
   { path: 'category', component: ProductListComponent },
   { path: 'products', component: ProductListComponent },
+  { path: 'error', component: ErrorPageComponent },
   { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: '**', redirectTo: '/products', pathMatch: 'full' }
 ]
@@ -67,7 +70,8 @@ const routes: Routes = [
     LoginStatusComponent,
     AdminPageComponent,
     OrderHistoryComponent,
-    ReviewProductComponent
+    ReviewProductComponent,
+    ErrorPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -77,6 +81,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule,
     MatTooltipModule,
+    MatSortModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 800,

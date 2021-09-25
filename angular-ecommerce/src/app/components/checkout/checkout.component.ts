@@ -178,6 +178,7 @@ export class CheckoutComponent implements OnInit {
     let order = new Order();
     order.totalQuantity = this.totalQuantity;
     order.totalPrice = this.totalPrice;
+    order.status = Number(1);
 
     // get cart items
     const cartItems = this.cartService.cartItems;
@@ -212,7 +213,7 @@ export class CheckoutComponent implements OnInit {
       },
       error: err => {
         console.log(err);
-        alert(`Error: ${err.message}`)
+        this.router.navigateByUrl('error');
       }
     })
   }

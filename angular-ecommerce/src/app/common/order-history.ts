@@ -4,6 +4,7 @@ import { Address } from './address';
 export class OrderHistory {
     id!: number;
     orderTrackingNumber!: string;
+    status!: number;
     totalPrice!: number;
     totalQuantity!: number;
     dateCreated!: Date;

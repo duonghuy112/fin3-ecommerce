@@ -32,7 +32,6 @@ public class Address {
 	private String city;
 	
 	@Column(name = "district")
-	@NotBlank
 	@Size(min = 2, max = 255)
 	private String district;
 	
@@ -42,7 +41,6 @@ public class Address {
 	private String street;
 	
 	@Column(name = "zip_code")
-	@NotBlank
 	@Size(min = 2, max = 255)
 	private String zipCode;
 	

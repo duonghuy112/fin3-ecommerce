@@ -25,6 +25,9 @@ public class OrderItem {
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name = "name")
+	private String name;
+	
 	@Column(name = "image_url")
 	private String imageUrl;
 	

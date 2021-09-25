@@ -44,7 +44,7 @@ public class Order {
 	private BigDecimal totalPrice;
 	
 	@Column(name = "status")
-	private String status;
+	private Integer status;
 	
 	@Column(name = "date_created")
 	@CreationTimestamp

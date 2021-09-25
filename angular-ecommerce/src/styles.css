@@ -119,7 +119,7 @@ a:hover {
 .page-wrapper {
     overflow: hidden;
     background: #e5e5e5;
-    padding-bottom: 8vh;
+    padding-bottom: 1vh;
 }
 
 .page-container {
@@ -128,8 +128,8 @@ a:hover {
 }
 
 .main-content {
-    padding-top: 116px;
-    min-height: 92vh;
+    padding-top: 96px;
+    min-height: 99vh;
     background-color: #e5e5e5;
 }
 
@@ -924,6 +924,6 @@ body {
     /* e.g. */
     color: white !important;
     font-size: medium;
-    min-width: 400px;
-    text-align: center;
+    max-width: 250px;
+    text-align: left;
 }

@@ -54,8 +54,7 @@ export class ProductListComponent implements OnInit {
   }
 
   handleListProduct() {
-    this.productService.getProductListPaginate(this.pageNumber -1,
-                                               this.pageSize).subscribe(this.processResult());
+    this.productService.getProductListPaginate(this.pageNumber -1, this.pageSize).subscribe(this.processResult());
   }
 
   handleListProductByCategory() {
@@ -109,17 +108,17 @@ export class ProductListComponent implements OnInit {
   }
 
   processResult() {
-    return (data: { _embedded: { products: Product[]; }; page: { number: number; size: number; totalElements: number; }; }) => {
-      this.products = data._embedded.products;
-      this.pageNumber = data.page.number + 1;
-      this.pageSize = data.page.size;
-      this.totalElements = data.page.totalElements;
-      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-      this.endElement = this.startElement + this.pageSize - 1;
-      if (this.endElement > this.totalElements) {
-        this.endElement = this.totalElements
-      }
-      console.log(`${this.startElement} to ${this.endElement}`);
+    return data => {
+        this.products = data._embedded.products;
+        this.pageNumber = data.page.number + 1;
+        this.pageSize = data.page.size;
+        this.totalElements = data.page.totalElements;
+        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+        this.endElement = this.startElement + this.pageSize - 1;
+        if (this.endElement > this.totalElements) {
+          this.endElement = this.totalElements
+        }
+        console.log(`${this.startElement} to ${this.endElement}`);
     };
   }
 
