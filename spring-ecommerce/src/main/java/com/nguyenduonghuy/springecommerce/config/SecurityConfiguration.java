@@ -15,6 +15,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 				.antMatchers("/api/orders/**")
 				.authenticated()
+				.antMatchers("api/orderItems/**")
+				.authenticated()
 				.and()
 				.oauth2ResourceServer()
 				.jwt();

@@ -1,4 +1,4 @@
-package com.nguyenduonghuy.springecommerce.persistence;
+package com.nguyenduonghuy.springecommerce.entity;
 
 import java.util.Set;
 

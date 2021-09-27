@@ -1,4 +1,4 @@
-package com.nguyenduonghuy.springecommerce.persistence;
+package com.nguyenduonghuy.springecommerce.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

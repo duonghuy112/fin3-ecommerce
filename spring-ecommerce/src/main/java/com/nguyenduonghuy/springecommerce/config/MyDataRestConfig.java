@@ -15,12 +15,12 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import com.nguyenduonghuy.springecommerce.persistence.Category;
-import com.nguyenduonghuy.springecommerce.persistence.City;
-import com.nguyenduonghuy.springecommerce.persistence.Country;
-import com.nguyenduonghuy.springecommerce.persistence.Customer;
-import com.nguyenduonghuy.springecommerce.persistence.OrderItem;
-import com.nguyenduonghuy.springecommerce.persistence.Product;
+import com.nguyenduonghuy.springecommerce.entity.Category;
+import com.nguyenduonghuy.springecommerce.entity.City;
+import com.nguyenduonghuy.springecommerce.entity.Country;
+import com.nguyenduonghuy.springecommerce.entity.Customer;
+import com.nguyenduonghuy.springecommerce.entity.OrderItem;
+import com.nguyenduonghuy.springecommerce.entity.Product;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {

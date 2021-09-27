@@ -7,10 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nguyenduonghuy.springecommerce.dto.Purchase;
+import com.nguyenduonghuy.springecommerce.dto.PurchaseDto;
 import com.nguyenduonghuy.springecommerce.dto.PurchaseResponse;
-import com.nguyenduonghuy.springecommerce.persistence.Customer;
-import com.nguyenduonghuy.springecommerce.persistence.Order;
+import com.nguyenduonghuy.springecommerce.entity.Customer;
+import com.nguyenduonghuy.springecommerce.entity.Order;
 import com.nguyenduonghuy.springecommerce.repository.CustomerRepository;
 import com.nguyenduonghuy.springecommerce.service.CheckoutService;
 
@@ -22,7 +22,7 @@ public class CheckoutServiceImpl implements CheckoutService{
 	
 	@Override
 	@Transactional
-	public PurchaseResponse placeOrder(Purchase purchase) {
+	public PurchaseResponse placeOrder(PurchaseDto purchase) {
 		// retrieve the order's info from dto
 		Order order = purchase.getOrder();
 		

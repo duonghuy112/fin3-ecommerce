@@ -1,35 +1,30 @@
-package com.nguyenduonghuy.springecommerce.persistence;
-
-import java.util.List;
+package com.nguyenduonghuy.springecommerce.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Table(name = "country")
-@Setter
-@Getter
-public class Country {
+@Table(name = "city")
+@Data
+public class City {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "code")
-	private String code;
-	
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "country")
-	private List<City> cities;
+	@ManyToOne
+	@JoinColumn(name = "country_id")
+	private Country country;
 }

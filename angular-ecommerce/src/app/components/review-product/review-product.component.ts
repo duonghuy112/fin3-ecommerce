@@ -1,3 +1,4 @@
+import { OktaAuthService } from '@okta/okta-angular';
 import { Customer } from './../../common/customer';
 import { CustomerService } from './../../services/customer.service';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
@@ -21,7 +22,11 @@ export class ReviewProductComponent implements OnInit {
   // review list by product
   reviews: Review[] = [];
   editReview!: Review;
+  deleteReview!: Review;
   customer!: Customer;
+
+  // check login 
+  isAuthenticated!: string;
 
   // message error
   errMessage = ErrMessage;
@@ -33,10 +38,23 @@ export class ReviewProductComponent implements OnInit {
               private reviewService: ReviewProductService,
               private customerService: CustomerService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
+    this.isAuthenticated = this.storage.getItem('isLogin') as string;
+    
+    console.log(this.isAuthenticated);
+
     this.reviewFormGroup = this.formBuilder.group({
+      //  firstName: new FormControl('', [Validators.required, 
+      //                                 Validators.minLength(2),
+      //                                 Validators.maxLength(255), 
+      //                                 MyCustomValidators.notOnlyWhitespace]),
+      //   lastName: new FormControl('', [Validators.required, 
+      //                                 Validators.minLength(2),
+      //                                 Validators.maxLength(255),
+      //                                 MyCustomValidators.notOnlyWhitespace]),
         content: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
@@ -55,6 +73,14 @@ export class ReviewProductComponent implements OnInit {
     );
 
     this.listReviews();
+  }
+
+  get firstName() {
+    return this.reviewFormGroup.get('firstName');
+  }
+
+  get lastName() {
+    return this.reviewFormGroup.get('lastName');
   }
 
   get content() {
@@ -83,8 +109,7 @@ export class ReviewProductComponent implements OnInit {
     if (this.reviewFormGroup.invalid) {
       this.reviewFormGroup.markAllAsTouched();
       return;
-    } 
-  
+    }
     // set up review
     let review = new Review();
     review.content = this.reviewFormGroup.get('content')?.value;
@@ -128,18 +153,42 @@ export class ReviewProductComponent implements OnInit {
         alert(`Error: ${err}`);
         this.router.navigateByUrl('/error');
       }
-    });
-    
+    }); 
   }
 
   resetForm() {
     this.reviewFormGroup.reset();
+    this.editReviewFromGroup.reset();
   }
 
   openEditContent(review: Review) {
-    console.log(review);
+    console.log("edit " +review);
     this.editReviewFromGroup.get('editContent')?.setValue(review.content);
     this.editReview = review;
   }
 
+  openDeleteModal(review: Review) {
+    console.log(`ok ${review}`);
+    this.deleteReview = review;
+    console.log(`delete ${this.deleteReview}`);
+  }
+
+  deleteReviewConfirm() {
+    this.deleteReview.isDeleted = 1;
+    console.log(this.deleteReview);
+    
+    this.reviewService.updateReview(this.deleteReview).subscribe({
+      next: response => {
+        alert(response);
+        this.resetForm();
+        this.listReviews();
+      // this.router.navigateByUrl(`products/${this.getProductId()}`);
+      },
+      error: err => {
+        console.log(err);
+        alert(`Error: ${err}`);
+        this.router.navigateByUrl('/error');
+      }
+    });
+  }
 }

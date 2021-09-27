@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nguyenduonghuy.springecommerce.dto.Purchase;
+import com.nguyenduonghuy.springecommerce.dto.PurchaseDto;
 import com.nguyenduonghuy.springecommerce.dto.PurchaseResponse;
 import com.nguyenduonghuy.springecommerce.service.CheckoutService;
 
@@ -18,7 +18,7 @@ public class CheckoutController {
 	private CheckoutService checkoutService;
 	
 	@PostMapping("/purchase")
-	public PurchaseResponse placeOrder(@RequestBody Purchase purchase) {
+	public PurchaseResponse placeOrder(@RequestBody PurchaseDto purchase) {
 		PurchaseResponse purchaseResponse = checkoutService.placeOrder(purchase);
 		return purchaseResponse;
 	}

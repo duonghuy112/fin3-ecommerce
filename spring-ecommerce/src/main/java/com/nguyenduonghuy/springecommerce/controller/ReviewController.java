@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nguyenduonghuy.springecommerce.dto.ReviewResponse;
+import com.nguyenduonghuy.springecommerce.dto.ReviewDto;
 import com.nguyenduonghuy.springecommerce.service.ReviewService;
 
 @RestController
@@ -22,22 +22,22 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@GetMapping
-	public List<ReviewResponse> getAll() {
+	public List<ReviewDto> getAll() {
 		return reviewService.finAll();
 	}
 	
 	@GetMapping("/search/findByProductId")
-	public List<ReviewResponse> get(@RequestParam("productId") Long productId) {
+	public List<ReviewDto> get(@RequestParam("productId") Long productId) {
 		return reviewService.findByProductId(productId);
 	}
 	
 	@PostMapping
-	public ReviewResponse add(@RequestBody ReviewResponse reviewResponse) {
+	public ReviewDto add(@RequestBody ReviewDto reviewResponse) {
 		return reviewService.save(reviewResponse);
 	}
 	
 	@PutMapping
-	public ReviewResponse update(@RequestBody ReviewResponse reviewResponse) {
+	public ReviewDto update(@RequestBody ReviewDto reviewResponse) {
 		return reviewService.save(reviewResponse);
 	}
 }

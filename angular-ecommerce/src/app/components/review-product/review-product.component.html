@@ -16,9 +16,10 @@
                                     <h5 class="m-b-0">{{ review.customer.firstName}} {{ review.customer.lastName}}</h5>
                                     <p>{{ review.content }}</p>
                                     <ul class="list-inline">
-                                        <li><a href="javascript:void(0);">{{ review.dateCreated | date: 'short' }}</a></li>
-                                        <li><a href="javascript:void(0);" (click)="openEditContent(review)" style="color: blue;" data-toggle="modal" data-target="#editContentModal">Edit</a></li>
-                                        <li><a href="javascript:void(0);" style="color: red;">Delete</a></li>
+                                        <li *ngIf="review.lastUpdated === null"><a href="javascript:void(0);">{{ review.dateCreated | date: 'short' }}</a></li>
+                                        <li *ngIf="review.lastUpdated !== null"><a href="javascript:void(0);">{{ review.lastUpdated | date: 'short' }}</a></li>
+                                        <li *ngIf="isAuthenticated && customer.email === review.customer.email"><a href="javascript:void(0);" (click)="openEditContent(review)" style="color: blue;" data-toggle="modal" data-target="#editContentModal">Edit</a></li>
+                                        <li *ngIf="isAuthenticated && customer.email === review.customer.email"><a href="javascript:void(0);" (click)="openDeleteModal(review)" style="color: red;" data-toggle="modal" data-target="#deleteModal">Delete</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -26,34 +27,78 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="header">
-                        <h2>Leave your review about the product</h2>
-                        <small>Your email address will not be published. Required fields are marked*</small>
+                    <div *ngIf="!isAuthenticated">
+                        <div class="header">
+                            <h2>Please login to review product</h2>
+                            <small><a routerLink="/login">Login here</a></small>
+                        </div>
                     </div>
-                    <div class="body">
-                        <div class="comment-form">
-                            <form [formGroup]="reviewFormGroup" (ngSubmit)="onReviewSubmit()" class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <textarea formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
-                                        <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
-                                            <div *ngIf="content?.errors?.required || content?.errors?.notOnlyWhitespace">
-                                                Content {{ errMessage.isRequired }}
+                    <div *ngIf="isAuthenticated">
+                        <div class="header">
+                            <h2>Leave your review about the product</h2>
+                            <small>Your email address will not be published</small>
+                        </div>
+                        <div class="body">
+                            <div class="comment-form">
+                                <form [formGroup]="reviewFormGroup" (ngSubmit)="onReviewSubmit()" class="row clearfix">
+                                    <div class="row">
+                                        <!-- <div *ngiF="!!customer">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input formControlName="firstName" type="text" class="form-control" placeholder="First name">
+                                                    <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
+                                                        <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
+                                                            First name {{ errMessage.isRequired }}
+                                                        </div>
+                                                        <div *ngIf="firstName?.errors?.minlength">
+                                                            First name {{ errMessage.validMinLength }}
+                                                        </div>
+                                                        <div *ngIf="firstName?.errors?.maxlength">
+                                                            First name {{ errMessage.validMaxLength }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div *ngIf="content?.errors?.minlength">
-                                                Content {{ errMessage.validMinLength }}
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input formControlName="lastName" type="text" class="form-control" placeholder="Last Name">
+                                                    <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
+                                                        <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
+                                                            Last name {{ errMessage.isRequired }}
+                                                        </div>
+                                                        <div *ngIf="lastName?.errors?.minlength">
+                                                            Last name {{ errMessage.validMinLength }}
+                                                        </div>
+                                                        <div *ngIf="lastName?.errors?.maxlength">
+                                                            Last name {{ errMessage.validMaxLength }}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div *ngIf="content?.errors?.maxlength">
-                                                Content {{ errMessage.validMaxLength }}
+                                        </div> -->
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <textarea formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                                <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
+                                                    <div *ngIf="content?.errors?.required || content?.errors?.notOnlyWhitespace">
+                                                        Content {{ errMessage.isRequired }}
+                                                    </div>
+                                                    <div *ngIf="content?.errors?.minlength">
+                                                        Content {{ errMessage.validMinLength }}
+                                                    </div>
+                                                    <div *ngIf="content?.errors?.maxlength">
+                                                        Content {{ errMessage.validMaxLength }}
+                                                    </div>
+                                                    <div *ngIf="content?.errors?.badwordConstraint">
+                                                        Content {{ errMessage.badwordConstraint }}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div *ngIf="content?.errors?.badwordConstraint">
-                                                Content {{ errMessage.badwordConstraint }}
-                                            </div>
+                                            <button type="submit" class="btn btn-block btn-primary">SUBMIT REVIEW</button>
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-block btn-primary">SUBMIT</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +111,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -93,10 +138,30 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Edit review</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this review?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="deleteReviewConfirm()" type="button" class="btn btn-danger" data-dismiss="modal">Yes, I'm sure</button>
+            </div>
         </div>
     </div>
 </div>

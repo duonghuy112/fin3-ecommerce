@@ -5,4 +5,6 @@ export class Review {
     productId!: number;
     customer!: Customer;
     dateCreated!: Date;
+    lastUpdated!: Date;
+    isDeleted!: number;
 }

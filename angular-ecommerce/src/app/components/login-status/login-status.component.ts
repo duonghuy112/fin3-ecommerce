@@ -16,7 +16,6 @@ export class LoginStatusComponent implements OnInit {
   constructor(private oktaAuthService: OktaAuthService) { }
 
   ngOnInit(): void {
-
     // Subscribe to authentication state changes
     this.oktaAuthService.$authenticationState.subscribe(
       (result) => {
@@ -42,6 +41,7 @@ export class LoginStatusComponent implements OnInit {
           // store user name & email to local storage
           this.storage.setItem('userName', JSON.stringify(this.userFullName));
           this.storage.setItem('userEmail', JSON.stringify(email));
+          this.storage.setItem('isLogin', JSON.stringify(this.isAuthenticated));
           console.log(email);
         }
       );
@@ -50,6 +50,7 @@ export class LoginStatusComponent implements OnInit {
 
   logout() {
     // Terminates the session with Okta and removes current tokens.
+    this.storage.removeItem('isLogin');
     this.oktaAuthService.signOut();
   }
 }

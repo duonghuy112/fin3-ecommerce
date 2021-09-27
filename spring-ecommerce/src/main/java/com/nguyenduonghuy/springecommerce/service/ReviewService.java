@@ -2,15 +2,15 @@ package com.nguyenduonghuy.springecommerce.service;
 
 import java.util.List;
 
-import com.nguyenduonghuy.springecommerce.dto.ReviewResponse;
+import com.nguyenduonghuy.springecommerce.dto.ReviewDto;
 
 public interface ReviewService {
 	
-	List<ReviewResponse> finAll();
+	List<ReviewDto> finAll();
 	
-	List<ReviewResponse> findByProductId(Long productId);
+	List<ReviewDto> findByProductId(Long productId);
 	
-	ReviewResponse get(Long id);
+	ReviewDto get(Long id);
 	
-	ReviewResponse save(ReviewResponse reviewResponse);
+	ReviewDto save(ReviewDto reviewResponse);
 }
