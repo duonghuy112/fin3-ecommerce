@@ -36,3 +36,45 @@
     border-radius: 43px;
     background: #205b8d
 }
+
+.account {
+    font-size: 28px;
+    margin-top: 7px;
+    color: #fff;
+    margin-left: 12px;
+}
+
+.fa-user-circle::before {
+    content: "\f2bd";
+    margin-right: 4px;
+}
+
+.dropdown-menu {
+    min-width: 8rem;
+    padding: 0;
+    font-size: 20px;
+    margin-top: 12px;
+}
+
+.dropdown-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 3px 0;
+    border-bottom: 1px solid rgb(168, 168, 168);
+}
+
+.dropdown-item:hover {
+    background-color: #378cd6;
+}
+
+.dropdown-item>span {
+    font-weight: 550;
+    color: #212529;
+}
+
+.welcome {
+    font-size: 18px;
+    font-weight: 600;
+}

@@ -48,13 +48,13 @@
                                 {{ tempOrderHistory.dateCreated | date: 'short' }}
                             </td>
                             <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
-                                <i data-toggle="modal" data-target="#reOrderModal" (click)="openOrderModal(tempOrderHistory)" class="order-icon reOrder-icon fas fa-cart-arrow-down"></i>
+                                <i data-toggle="modal" data-target="#reOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Re-Order" class="order-icon reOrder-icon fas fa-cart-arrow-down"></i>
                             </td>
                             <td class="td-icon" *ngIf="tempOrderHistory.status === 1">
-                                <i data-toggle="modal" data-target="#cancelOrderModal" (click)="openOrderModal(tempOrderHistory)" class="order-icon cancel-icon fas fa-backspace"></i>
+                                <i data-toggle="modal" data-target="#cancelOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Cancel Order" class="order-icon cancel-icon fas fa-backspace"></i>
                             </td>
                             <td class="td-icon" *ngIf="tempOrderHistory.status === 2">
-                                <i data-toggle="modal" data-target="#completeOrderModal" (click)="openOrderModal(tempOrderHistory)" class="order-icon complete-icon fas fa-check-square"></i>
+                                <i data-toggle="modal" data-target="#completeOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Complete Order" class="order-icon complete-icon fas fa-check-square"></i>
                             </td>
                             <td class="td-icon" *ngIf="tempOrderHistory.status === 3">
                                 <i class="order-icon heart-icon fas fa-grin-hearts"></i>

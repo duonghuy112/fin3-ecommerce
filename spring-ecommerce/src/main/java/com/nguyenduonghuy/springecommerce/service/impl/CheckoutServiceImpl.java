@@ -1,4 +1,4 @@
-package com.nguyenduonghuy.springecommerce.service;
+package com.nguyenduonghuy.springecommerce.service.impl;
 
 import java.util.UUID;
 
@@ -12,6 +12,7 @@ import com.nguyenduonghuy.springecommerce.dto.PurchaseResponse;
 import com.nguyenduonghuy.springecommerce.persistence.Customer;
 import com.nguyenduonghuy.springecommerce.persistence.Order;
 import com.nguyenduonghuy.springecommerce.repository.CustomerRepository;
+import com.nguyenduonghuy.springecommerce.service.CheckoutService;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService{

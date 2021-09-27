@@ -78,9 +78,7 @@ export class ProductListComponent implements OnInit {
     console.log(`curCategoryId=${this.curCategoryId}, pageNumber=${this.pageNumber}`);
 
     // get product for curCategoryId
-    this.productService.getProductListByCategoryPaginate(this.pageNumber -1,
-                                                this.pageSize,
-                                                this.curCategoryId).subscribe(this.processResult());
+    this.productService.getProductListByCategoryPaginate(this.curCategoryId, this.pageNumber -1, this.pageSize).subscribe(this.processResult());
   }
 
   handleSearchProduct() {
@@ -96,9 +94,7 @@ export class ProductListComponent implements OnInit {
 
     console.log(`keyword=${this.keyword}, pageNumber=${this.pageNumber}`);
 
-    this.productService.searchProductsPaginate(this.pageNumber -1,
-                                              this.pageSize,
-                                              this.keyword).subscribe(this.processResult());
+    this.productService.searchProductsPaginate(this.keyword, this.pageNumber -1, this.pageSize).subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: number) {

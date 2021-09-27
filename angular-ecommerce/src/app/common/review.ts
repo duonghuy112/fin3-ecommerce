@@ -1,8 +1,8 @@
 import { Customer } from './customer';
-import { Product } from './product';
 export class Review {
-    product!: Product;
-    customer!: Customer;
+    id!: string;
     content!: string;
+    productId!: number;
+    customer!: Customer;
     dateCreated!: Date;
 }

@@ -10,14 +10,15 @@
                     </div>
                     <div *ngIf="reviews?.length != 0" class="body">
                         <ul class="comment-reply list-unstyled">
-                            <li class="row clearfix">
+                            <li *ngFor="let review of reviews" class="row clearfix">
                                 <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail p-0" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Awesome Image"></div>
                                 <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Gigi Hadid </h5>
-                                    <p>Why are there so many tutorials on how to decouple WordPress? how fast and easy it is to get it running (and keep it running!) and its massive ecosystem. </p>
+                                    <h5 class="m-b-0">{{ review.customer.firstName}} {{ review.customer.lastName}}</h5>
+                                    <p>{{ review.content }}</p>
                                     <ul class="list-inline">
-                                        <li><a href="javascript:void(0);">Mar 09 2018</a></li>
-                                        <li><a href="javascript:void(0);">Reply</a></li>
+                                        <li><a href="javascript:void(0);">{{ review.dateCreated | date: 'short' }}</a></li>
+                                        <li><a href="javascript:void(0);" (click)="openEditContent(review)" style="color: blue;" data-toggle="modal" data-target="#editContentModal">Edit</a></li>
+                                        <li><a href="javascript:void(0);" style="color: red;">Delete</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -61,12 +62,7 @@
     </div>
 </div>
 
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editContentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,22 +71,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form [formGroup]="editReviewFromGroup" (ngSubmit)="onEditReviewSubmit()">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <label for="message-text" class="col-form-label">Review:</label>
+                        <textarea formControlName="editContent" class="form-control" id="message-text"></textarea>
+                        <div *ngIf="editContent?.invalid && (editContent?.dirty || editContent?.touched)" class="alert alert-danger mt-1">
+                            <div *ngIf="editContent?.errors?.required || editContent?.errors?.notOnlyWhitespace">
+                                Content {{ errMessage.isRequired }}
+                            </div>
+                            <div *ngIf="editContent?.errors?.minlength">
+                                Content {{ errMessage.validMinLength }}
+                            </div>
+                            <div *ngIf="editContent?.errors?.maxlength">
+                                Content {{ errMessage.validMaxLength }}
+                            </div>
+                            <div *ngIf="editContent?.errors?.badwordConstraint">
+                                Content {{ errMessage.badwordConstraint }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Edit review</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

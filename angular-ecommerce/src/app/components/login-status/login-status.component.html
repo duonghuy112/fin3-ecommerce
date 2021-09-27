@@ -1,15 +1,32 @@
 <div class="login-status-header">
 
-    <div *ngIf="isAuthenticated && userFullName" class="login-status-user-info">
-        Welcome {{ userFullName }}!
-    </div>
-
     <button *ngIf="!isAuthenticated" routerLink="/login" class="security-btn">Login</button>
 
-    <button *ngIf="isAuthenticated" (click)="logout()" class="security-btn">Logout</button>
+    <div *ngIf="isAuthenticated && userFullName" class="login-status-user-info">
+        <span class="welcome">Welcome {{ userFullName }}!</span>
+    </div>
 
-    <button *ngIf="isAuthenticated" routerLink="/order-history" class="security-btn ml-1">Order</button>
 
-    <button *ngIf="isAuthenticated" routerLink="/admin" class="security-btn ml-1">Admin</button>
+    <div *ngIf="isAuthenticated" class="dropdown">
+        <i class="fas fa-user-circle dropdown-toggle account" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <button routerLink="/admin" class="dropdown-item">
+                <i class="fas fa-cogs"></i>
+                <span>Admin</span>
+            </button>
+
+            <button routerLink="/order-history" class="dropdown-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Order</span>
+            </button>
+
+            <button (click)="logout()" class="dropdown-item">
+                <i class="fas fa-power-off"></i>
+                <span>Logout</span>
+            </button>
+
+        </div>
+    </div>
 
 </div>
