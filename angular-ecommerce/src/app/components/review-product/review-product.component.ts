@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Customer } from './../../common/customer';
 import { CustomerService } from './../../services/customer.service';
@@ -38,7 +39,8 @@ export class ReviewProductComponent implements OnInit {
               private reviewService: ReviewProductService,
               private customerService: CustomerService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -120,13 +122,13 @@ export class ReviewProductComponent implements OnInit {
     
     this.reviewService.addReview(review).subscribe({
       next: response => {
-        alert(response);
+        this.toastr.success('Your review has been public', 'Submit review successfully!');
         this.resetForm();
         this.listReviews();
       },
       error: err => {
         console.log(err);
-        alert(`Error: ${err}`);
+        this.toastr.error("Error response");
         this.router.navigateByUrl('/error');
       }
     });
@@ -137,20 +139,21 @@ export class ReviewProductComponent implements OnInit {
       this.editReviewFromGroup.markAllAsTouched();
       return;
     }
-
+    
     this.editReview.content = this.editReviewFromGroup.get('editContent')?.value;
 
     console.log(this.editReview);
 
+    document.getElementById('edit-close-form')?.click();
     this.reviewService.updateReview(this.editReview).subscribe({
       next: response => {
-        alert(response);
+        this.toastr.success('Your review has been public', 'Edit review successfully!');
         this.resetForm();
         this.listReviews();
       },
       error: err => {
         console.log(err);
-        alert(`Error: ${err}`);
+        this.toastr.error("Error response");
         this.router.navigateByUrl('/error');
       }
     }); 
@@ -179,14 +182,13 @@ export class ReviewProductComponent implements OnInit {
     
     this.reviewService.updateReview(this.deleteReview).subscribe({
       next: response => {
-        alert(response);
+        this.toastr.success('Your review has been deleted', 'Delete review successfully!');
         this.resetForm();
         this.listReviews();
-      // this.router.navigateByUrl(`products/${this.getProductId()}`);
       },
       error: err => {
         console.log(err);
-        alert(`Error: ${err}`);
+        this.toastr.error("Error response");
         this.router.navigateByUrl('/error');
       }
     });

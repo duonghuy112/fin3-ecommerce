@@ -18,21 +18,21 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getProductListPaginate(page: number, pageSize: number): Observable<ResponseProducts> {
+  getProductListPaginate(page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
       // build URL paging
-      const searchUrl = `${this.productUrl}?page=${page}&size=${pageSize}`;
+      const searchUrl = `${this.productUrl}?page=${page}&size=${pageSize}&sort=${sort}`;
       return this.httpClient.get<ResponseProducts>(searchUrl);
   }
 
-  getProductListByCategoryPaginate(categoryId: number, page: number, pageSize: number): Observable<ResponseProducts> {
+  getProductListByCategoryPaginate(categoryId: number, page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
     // build URL based on categoryId
-    const searchUrl = `${this.productUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}`;
+    const searchUrl = `${this.productUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}&sort=${sort}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
     
-  searchProductsPaginate(keyword: string, page: number, pageSize: number): Observable<ResponseProducts> {
+  searchProductsPaginate(keyword: string, page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
     // build URL based on keyword
-    const searchUrl = `${this.productUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}`;
+    const searchUrl = `${this.productUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}&sort=${sort}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
   

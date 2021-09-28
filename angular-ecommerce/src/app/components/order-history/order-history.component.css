@@ -6,7 +6,7 @@
 
 .table {
     margin: 0;
-    max-width: 72vw;
+    max-width: 76vw;
 }
 
 table.table.table-bordered {
@@ -46,16 +46,6 @@ table .items>.no-gutters {
 
 .order-history td:hover {
     cursor: pointer;
-}
-
-.count-element {
-    display: flex;
-    justify-content: flex-end;
-    align-self: center;
-}
-
-.count-element>p {
-    line-height: 40px;
 }
 
 .td-icon {
@@ -106,4 +96,39 @@ table .items>.no-gutters {
     color: #198754;
     font-size: medium;
     font-weight: bold;
+}
+
+.go-page {
+    max-height: 38px;
+    max-width: 36px;
+    border: 1px solid black;
+    border: 2px;
+    padding: 8px 8px;
+    margin-left: 16px;
+    border-radius: 4px;
+    margin-right: 32px;
+}
+
+.paging-row {
+    display: flex;
+    max-width: 78vw;
+}
+
+.paging-row:first-child {
+    justify-content: flex-start;
+}
+
+.paging-row:last-child {
+    justify-content: flex-end;
+}
+
+.count-element {
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+    margin-left: 32px;
+}
+
+.count-element>p {
+    line-height: 40px;
 }

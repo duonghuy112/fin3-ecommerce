@@ -1,3 +1,4 @@
+import { ResponseReview } from './../response/response-review';
 import { Review } from './../common/review';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +15,7 @@ export class ReviewProductService {
   constructor(private httpClient: HttpClient) { }
 
   getReviews(productId: number): Observable<Review[]> {
-    const reviewByProductIdUrl = `${this.reviewUrl}/search/findByProductId?productId=${productId}`;
+    const reviewByProductIdUrl = `${this.reviewUrl}/findByProductId?productId=${productId}&isDeleted=0`;
     return this.httpClient.get<Review[]>(reviewByProductIdUrl);
   }
 

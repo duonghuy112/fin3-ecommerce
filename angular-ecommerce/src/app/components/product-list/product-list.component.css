@@ -1,7 +1,90 @@
+/* 
+ * ----------------------------
+ * Products List
+ * ----------------------------
+ */
+
+.product-box img {
+    width: 115px;
+}
+
+.items select {
+    width: 66px;
+    height: 40px;
+    border-radius: 40px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    outline: 0;
+    margin-left: 5px;
+}
+
+.product-box {
+    margin-bottom: 30px;
+    background-color: white;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.product-box h1>a {
+    color: black;
+}
+
+.price {
+    margin: 15px 0 0;
+    font-weight: 800;
+    color: #0da8e4
+}
+
+.product-box h1 {
+    font-size: 18px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    font-weight: 600;
+    padding-top: 12px;
+    margin-bottom: 7px
+}
+
+.product-box h2 {
+    font-size: 15px;
+    padding-bottom: 0;
+    font-weight: 500;
+    color: #585858
+}
+
+.d-inline-block {
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 83px;
+}
+
+.go-page {
+    max-height: 38px;
+    max-width: 36px;
+    border: 1px solid black;
+    border: 2px;
+    padding: 8px 8px;
+    margin-left: 16px;
+    border-radius: 4px;
+    margin-right: 32px;
+}
+
+.paging-row {
+    display: flex;
+}
+
+.paging-row:first-child {
+    justify-content: flex-start;
+}
+
+.paging-row:last-child {
+    justify-content: flex-end;
+}
+
 .count-element {
     display: flex;
     justify-content: flex-end;
     align-self: center;
+    margin-left: 32px;
 }
 
 .count-element>p {

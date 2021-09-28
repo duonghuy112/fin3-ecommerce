@@ -1,9 +1,26 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
-        <h4 *ngIf="!categoryName && !keyword">All products</h4>
-        <h4 *ngIf="!!categoryName">{{ categoryName }}</h4>
-        <h4 *ngIf="!!keyword">Searching for: {{ keyword }}</h4>
+        <div class="row">
+            <div class="col">
+                <h3 *ngIf="!categoryName && !keyword">All products</h3>
+                <h3 *ngIf="!!categoryName">{{ categoryName }}</h3>
+                <h3 *ngIf="!!keyword">Searching for: {{ keyword }}</h3>
+            </div>
+            <div class="col text-right">
+                <div ngbDropdown class="d-inline-block">
+                    <button *ngIf="sortBy === 'id'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Default</button>
+                    <button *ngIf="sortBy === 'name'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Name</button>
+                    <button *ngIf="sortBy === 'dateCreated'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Create date</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                        <button ngbDropdownItem (click)="sortDefault()">Default</button>
+                        <button ngbDropdownItem (click)="sortName()">Name</button>
+                        <button ngbDropdownItem (click)="sortDate()">Create date</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr>
+
         <div class="container-fluid">
             <div class="row">
 
@@ -30,25 +47,27 @@
             </div>
 
             <div *ngIf="products?.length != 0" class="footer-pagination">
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
                         <div class="items">
                             <label>Page Size</label>
                             <select (change)="updatePageSize($any($event.target).value)">
                                 <option selected>8</option>
                                 <option>16</option>
-                                <option>24</option>
                                 <option>32</option>
+                                <option>64</option>
                                 <option>All</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="count-element">
-                            <p>Showing {{startElement}} to {{ endElement }} of {{ totalElements }} items</p>
+                            <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
                         <div class="row">
                             <div class="col-md-9">
                                 <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listProduct()">
@@ -57,7 +76,6 @@
 
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

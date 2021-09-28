@@ -1,3 +1,5 @@
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrderItem } from './../../common/order-item';
 import { OrderHistory } from './../../common/order-history';
@@ -32,6 +34,7 @@ export class OrderHistoryComponent implements OnInit {
   totalElements: number = 0;
   startElement: number = 0;
   endElement: number = 0;
+  inputPage = new FormControl();
 
   constructor(private orderHistoryService: OrderHistoryService,
               private router: Router) {
@@ -147,6 +150,24 @@ export class OrderHistoryComponent implements OnInit {
 
   compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
+      }
+    )
   }
 
 }

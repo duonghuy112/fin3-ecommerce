@@ -84,7 +84,7 @@ const routes: Routes = [
     MatSortModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 800,
+      timeOut: 1200,
       progressBar: true,
       progressAnimation: 'increasing'
     })

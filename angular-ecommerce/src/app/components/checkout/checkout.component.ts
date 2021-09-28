@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Purchase } from './../../common/purchase';
 import { OrderItem } from './../../common/order-item';
 import { Order } from './../../common/order';
@@ -43,7 +44,8 @@ export class CheckoutComponent implements OnInit {
               private formService: FormServiceService,
               private cartService: CartService,
               private checkoutService: CheckoutService,
-              private router: Router) { }
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
@@ -206,14 +208,14 @@ export class CheckoutComponent implements OnInit {
     // call Checkout Service
     this.checkoutService.placeOrder(purchase).subscribe({
       next: response => {
-        alert(`Success! \n ${response.orderTrackingNumber}`);
-        
+        this.toastr.success(`Order tracking number: ${response.orderTrackingNumber}`, 'Your purchase successfully!');
         // reset cart
         this.resetCart();
       },
       error: err => {
         console.log(err);
-        this.router.navigateByUrl('error');
+        this.toastr.error("Error response");
+        this.router.navigateByUrl('/error');
       }
     })
   }

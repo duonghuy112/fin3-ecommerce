@@ -1,6 +1,7 @@
 package com.nguyenduonghuy.springecommerce.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -29,38 +30,30 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Override
 	@Transactional
-	public List<ReviewDto> finAll() {
-		return reviewRepository.findAll().stream()
-										.map(ReviewDto::new)
-										.collect(Collectors.toList());
-	}
-	
-	@Override
-	@Transactional
-	public List<ReviewDto> findByProductId(Long productId) {
-		return reviewRepository.findByProductId(productId)
+	public List<ReviewDto> findByProductId(Long productId, Integer isDeleted) {
+		return reviewRepository.findByProductIdAndIsDeleted(productId, isDeleted)
 								.stream()
-								.map(ReviewDto::new)
-								.collect(Collectors.toList());
+								.map(ReviewDto::new).collect(Collectors.toList());
 	}
 	
-	@Override
-	public ReviewDto get(Long id) {
-		return new ReviewDto(reviewRepository.findById(id).get());
-	}
-
 	@Override
 	@Transactional
 	public ReviewDto save(ReviewDto reviewResponse) {
+		Optional<Review> optional = reviewRepository.findById(reviewResponse.getId());
 		Review review = new Review();
+		if (optional.isPresent()) {
+			review = optional.get();
+		}
+		convert(review, reviewResponse);
+		reviewRepository.save(review);
+		return reviewResponse;
+	}
+	
+	private void convert(Review review, ReviewDto reviewResponse) {
+		review.setId(reviewResponse.getId());
 		review.setContent(reviewResponse.getContent());
 		review.setProduct(productRepository.getById(reviewResponse.getProductId()));
 		review.setCustomer(customerRepository.findByEmail(reviewResponse.getCustomer().getEmail()));
 		review.setIsDeleted(reviewResponse.getIsDeleted());
-		reviewRepository.save(review);
-		return reviewResponse;
 	}
-
-	
-
 }

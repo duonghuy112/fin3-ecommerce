@@ -5,4 +5,5 @@ export const ErrMessage = {
     validEmail: 'must be a valid email address format (abc@xyz.com)!',
     badwordConstraint: 'must not contains badword :) !!!',
     notFound: 'not found!',
+    numberOnly: 'Number only!'
 }

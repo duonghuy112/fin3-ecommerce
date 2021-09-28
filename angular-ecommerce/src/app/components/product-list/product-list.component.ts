@@ -1,10 +1,13 @@
+import { ErrMessage } from 'src/app/common/validator/err-message';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../services/cart.service';
 import { CartItem } from './../../common/cart-item';
 import { ProductService } from './../../services/product.service';
 import { Product } from './../../common/product';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -24,12 +27,19 @@ export class ProductListComponent implements OnInit {
   preKeyword: string = '';
   keyword: string = '';
   
+  // sort
+  sortBy: string = 'id';
+
   // page
   pageNumber: number = 1;
   pageSize: number = 8;
   totalElements: number = 0;
   startElement: number = 0;
   endElement: number = 0;
+  inputPage = new FormControl();
+
+  // error message
+  errMessage = ErrMessage;
 
   constructor(private productService: ProductService,
               private cartService: CartService,
@@ -40,7 +50,7 @@ export class ProductListComponent implements OnInit {
     this.route.paramMap.subscribe(
       () => { 
         this.listProduct(); 
-      })
+      });
   }
 
   listProduct() {
@@ -54,7 +64,7 @@ export class ProductListComponent implements OnInit {
   }
 
   handleListProduct() {
-    this.productService.getProductListPaginate(this.pageNumber -1, this.pageSize).subscribe(this.processResult());
+    this.productService.getProductListPaginate(this.pageNumber -1, this.pageSize, this.sortBy).subscribe(this.processResult());
   }
 
   handleListProductByCategory() {
@@ -78,7 +88,7 @@ export class ProductListComponent implements OnInit {
     console.log(`curCategoryId=${this.curCategoryId}, pageNumber=${this.pageNumber}`);
 
     // get product for curCategoryId
-    this.productService.getProductListByCategoryPaginate(this.curCategoryId, this.pageNumber -1, this.pageSize).subscribe(this.processResult());
+    this.productService.getProductListByCategoryPaginate(this.curCategoryId, this.pageNumber -1, this.pageSize, this.sortBy).subscribe(this.processResult());
   }
 
   handleSearchProduct() {
@@ -94,7 +104,7 @@ export class ProductListComponent implements OnInit {
 
     console.log(`keyword=${this.keyword}, pageNumber=${this.pageNumber}`);
 
-    this.productService.searchProductsPaginate(this.keyword, this.pageNumber -1, this.pageSize).subscribe(this.processResult());
+    this.productService.searchProductsPaginate(this.keyword, this.pageNumber -1, this.pageSize, this.sortBy).subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: number) {
@@ -127,6 +137,39 @@ export class ProductListComponent implements OnInit {
     this.toastr.success(`Cart has been updated!`, "Add to cart successfully");
 
     this.cartService.addToCart(cartItem);
+  }
+
+  sortDefault() {
+    this.sortBy = 'id';
+    this.listProduct();
+  }
+
+  sortName() {
+    this.sortBy = 'name';
+    this.listProduct();
+  }
+
+  sortDate() {
+    this.sortBy = 'dateCreated';
+    this.listProduct();
+  }
+
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
+      }
+    )
   }
 
 }

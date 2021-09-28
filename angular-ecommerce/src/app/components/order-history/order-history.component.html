@@ -71,8 +71,8 @@
 
             <div *ngIf="orderHistoryList?.length != 0" class="footer-pagination">
                 <br>
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
                         <div class="items">
                             <label>Page Size</label>
                             <select (change)="updatePageSize($any($event.target).value)">
@@ -83,22 +83,22 @@
                                 <option>All</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-md-3">
                         <div class="count-element">
                             <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
                         <div class="row">
                             <div class="col-md-9">
                                 <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listOrderHistory()">
                                 </ngb-pagination>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

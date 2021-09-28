@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
 
   doSearch() {
     this.search.valueChanges.pipe(
-      debounceTime(200),
+      debounceTime(500),
       distinctUntilChanged()
     ).subscribe(
       value => {
