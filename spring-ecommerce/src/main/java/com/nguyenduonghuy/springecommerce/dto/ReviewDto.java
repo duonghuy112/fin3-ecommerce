@@ -24,7 +24,7 @@ public class ReviewDto {
 		this.id = review.getId();
 		this.content = review.getContent();
 		this.productId = review.getProduct().getId();
-		this.customer = new CustomerDto(review.getCustomer().getFirstName(), review.getCustomer().getLastName(), review.getCustomer().getEmail());
+		this.customer = new CustomerDto(review.getCustomer());
 		this.dateCreated = review.getDateCreated();
 		this.lastUpdated = review.getLastUpdated();
 		this.isDeleted = review.getIsDeleted();

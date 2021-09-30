@@ -1,5 +1,6 @@
 package com.nguyenduonghuy.springecommerce.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +49,17 @@ public class Customer {
 	@Size(min = 2, max = 255)
 	@Email
 	private String email;
+	
+	@Column(name = "avatar")
+	private String avatar;
+	
+	@Column(name = "date_created")
+	@CreationTimestamp
+	private LocalDateTime dateCreated;
+	
+	@Column(name = "last_updated")
+	@UpdateTimestamp
+	private LocalDateTime lastUpdated;
 	
 	@OneToMany(mappedBy = "customer")
 	private List<Review> reviews;

@@ -3,6 +3,8 @@ package com.nguyenduonghuy.springecommerce.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,19 +25,19 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@GetMapping("/findByProductId")
-	public List<ReviewDto> getByProductId(@RequestParam("productId") Long productId,
-										  @RequestParam("isDeleted") Integer isDeleted) {
-		return reviewService.findByProductId(productId, isDeleted);
+	public ResponseEntity<List<ReviewDto>> getByProductId(@RequestParam("productId") Long productId,
+										  				@RequestParam("isDeleted") Integer isDeleted) {
+		return new ResponseEntity<>(reviewService.findByProductId(productId, isDeleted), HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ReviewDto add(@RequestBody ReviewDto reviewResponse) {
+	public ResponseEntity<ReviewDto> add(@RequestBody ReviewDto reviewResponse) {
 		reviewResponse.setId(0L);
-		return reviewService.save(reviewResponse);
+		return new ResponseEntity<>(reviewService.save(reviewResponse), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{reviewId}")
-	public ReviewDto update(@RequestBody ReviewDto reviewResponse, @PathVariable("reviewId") Long id) {
-		return reviewService.save(reviewResponse);
+	public ResponseEntity<ReviewDto> update(@RequestBody ReviewDto reviewResponse, @PathVariable("reviewId") Long id) {
+		return new ResponseEntity<>(reviewService.save(reviewResponse), HttpStatus.OK);
 	}
 }

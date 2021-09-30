@@ -1,3 +1,5 @@
+import { CustomerService } from './../../services/customer.service';
+import { Customer } from './../../common/customer';
 import { Component, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 
@@ -13,7 +15,8 @@ export class LoginStatusComponent implements OnInit {
 
   storage: Storage = sessionStorage;
 
-  constructor(private oktaAuthService: OktaAuthService) { }
+  constructor(private oktaAuthService: OktaAuthService,
+              private customerService: CustomerService) { }
 
   ngOnInit(): void {
     // Subscribe to authentication state changes
@@ -39,13 +42,24 @@ export class LoginStatusComponent implements OnInit {
           const email = result.email;
 
           // store user name & email to local storage
-          this.storage.setItem('userName', JSON.stringify(this.userFullName));
-          this.storage.setItem('userEmail', JSON.stringify(email));
-          this.storage.setItem('isLogin', JSON.stringify(this.isAuthenticated));
-          console.log(email);
+          this.saveToSession(email);
         }
       );
     }
+  }
+
+  saveToSession(email: string | undefined) {
+    this.storage.setItem('userName', JSON.stringify(this.userFullName));
+    this.storage.setItem('userEmail', JSON.stringify(email));
+    this.storage.setItem('isLogin', JSON.stringify(this.isAuthenticated)); 
+
+    let customer = new Customer();
+    this.customerService.getCustomer(email as string).subscribe(
+      data => {
+        customer = data;
+        this.storage.setItem('customer', JSON.stringify(customer));
+      }
+    )
   }
 
   logout() {

@@ -34,7 +34,10 @@
                             "node_modules/@okta/okta-signin-widget/dist/css/okta-sign-in.min.css",
                             "node_modules/ngx-toastr/toastr.css"
                         ],
-                        "scripts": []
+                        "scripts": [],
+                        "allowedCommonJsDependencies": [
+                            "file-saver"
+                        ]
                     },
                     "configurations": {
                         "production": {

@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="firstName" type="text" placeholder="First Name">
+                                <input formControlName="firstName" class="form-control" type="text" placeholder="First Name">
 
                                 <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
                                     <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="lastName" type="text" placeholder="Last Name">
+                                <input formControlName="lastName" class="form-control" type="text" placeholder="Last Name">
 
                                 <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
                                     <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
@@ -44,7 +44,7 @@
                         <div class="clearfix"></div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="email" type="text" placeholder="Email Address" readonly>
+                                <input formControlName="email" type="text" class="form-control" placeholder="Email Address" readonly>
 
                                 <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
                                     <div *ngIf="email?.errors?.required">
@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select name="countryInput" formControlName="country" (change)="getCity()">
+                                <select name="countryInput" class="form-control" formControlName="country" (change)="getCity()">
                                     <option value="" disabled selected hidden>Country</option>
                                     <option *ngFor="let country of countries" [ngValue]=(country)>
                                         {{ country.name }}
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select formControlName="city">
+                                <select class="form-control" formControlName="city">
                                     <option value="" disabled selected hidden>City</option>
                                     <option *ngFor="let city of cities" [ngValue]=(city)>
                                         {{ city.name }}
@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="district" type="text" placeholder="District / Provine">
+                                <input formControlName="district" class="form-control" type="text" placeholder="District / Provine">
 
                                 <div *ngIf="district?.invalid && (district?.dirty || district?.touched)" class="alert alert-danger">
                                     <div *ngIf="district?.errors?.required || district?.errors?.notOnlyWhitespace">
@@ -113,7 +113,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="street" type="text" placeholder="Street">
+                                <input formControlName="street" class="form-control" type="text" placeholder="Street">
 
                                 <div *ngIf="street?.invalid && (street?.dirty || street?.touched)" class="alert alert-danger">
                                     <div *ngIf="street?.errors?.required || street?.errors?.notOnlyWhitespace">
@@ -130,7 +130,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="zipCode" type="text" placeholder="Zip Code / Postal Code">
+                                <input formControlName="zipCode" class="form-control" type="text" placeholder="Zip Code / Postal Code">
 
                                 <div *ngIf="zipCode?.invalid && (zipCode?.dirty || zipCode?.touched)" class="alert alert-danger">
                                     <div *ngIf="zipCode?.errors?.required || zipCode?.errors?.notOnlyWhitespace">
@@ -153,7 +153,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select formControlName="cardType">
+                                <select class="form-control" formControlName="cardType">
                                     <option value="" disabled selected hidden>Type of Card</option>
                                     <option>Visa</option>
                                     <option>Mastercard</option>
@@ -167,7 +167,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="cardName" type="text" placeholder="Name on card">
+                                <input formControlName="cardName" class="form-control" type="text" placeholder="Name on card">
 
                                 <div *ngIf="cardName?.invalid && (cardName?.dirty || cardName?.touched)" class="alert alert-danger">
                                     <div *ngIf="cardName?.errors?.required ||cardName?.errors?.notOnlyWhitespace">
@@ -184,7 +184,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="input-space">
-                                <input formControlName="cardNumber" type="text" placeholder="Card number">
+                                <input formControlName="cardNumber" class="form-control" type="text" placeholder="Card number">
 
                                 <div *ngIf="cardNumber?.invalid && (cardNumber?.dirty || cardNumber?.touched)" class="alert alert-danger">
                                     <div *ngIf="cardNumber?.errors?.required">
@@ -198,7 +198,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="input-space">
-                                <input formControlName="securityCode" type="text" placeholder="Security Code">
+                                <input formControlName="securityCode" class="form-control" type="text" placeholder="Security Code">
 
                                 <div *ngIf="securityCode?.invalid && (securityCode?.dirty || securityCode?.touched)" class="alert alert-danger">
                                     <div *ngIf="securityCode?.errors?.required">
@@ -213,14 +213,14 @@
                         <div class="col-md-4"> <label class="date">Expiration Date</label></div>
                         <div class="col-md-4">
                             <div class="input-space">
-                                <select formControlName="expirationMonth">
+                                <select class="form-control" formControlName="expirationMonth">
                                     <option *ngFor="let month of creditCardMonths">{{ month }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="input-space">
-                                <select formControlName="expirationYear" (change)="handleMonthsAnsYears()">
+                                <select class="form-control" formControlName="expirationYear" (change)="handleMonthsAnsYears()">
                                     <option *ngFor="let year of creditCardYears">{{ year }}</option>
                                 </select>
                             </div>

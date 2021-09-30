@@ -1,5 +1,5 @@
 import { ErrMessage } from 'src/app/common/validator/err-message';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, max } from 'rxjs/operators';
 import { FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../services/cart.service';
@@ -155,7 +155,12 @@ export class ProductListComponent implements OnInit {
   }
 
   goToPage() {
-    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+     let maxPageSize = this.totalElements / this.pageSize;
+     if ((this.totalElements % this.pageSize) !== 0) {
+       maxPageSize += 1;
+     }
+
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(maxPageSize)]);
     
     if(this.inputPage.invalid) {
       this.inputPage.setValue(1);

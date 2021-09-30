@@ -1,0 +1,135 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        <ul class="meta list list-unstyled">
+                            <li class="name"><strong>{{ customer.firstName }} {{ customer.lastName }}</strong>
+                                <br>
+                                <label class="label label-info">UX Designer</label>
+                            </li>
+                            <li class="email"><a href="#">{{ customer.email }}</a></li>
+                            <li class="activity">Join date: {{ customer.dateCreated | date: 'short' }}</li>
+                            <li class="activity">Last update: {{ customer.lastUpdated | date: 'short'}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-panel">
+                    <form [formGroup]="profileFormGroup" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <h2 class="title">My Profile</h2>
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">Personal Info</h3>
+                            <div class="form-group avatar">
+                                <figure class="figure col-md-2 col-sm-3 col-xs-12">
+                                    <img class="img-rounded img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                </figure>
+                                <div class="form-inline col-md-10 col-sm-9 col-xs-12">
+                                    <input type="file" (change)=onUploadFiles($any($event.target).files[0]) name="file" class="file-uploader pull-left">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">First Name</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input formControlName="firstName" type="text" class="form-control">
+                                    <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
+                                        <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
+                                            First name {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="firstName?.errors?.minlength">
+                                            First name {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="firstName?.errors?.maxlength">
+                                            First name {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Last Name</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input formControlName="lastName" type="text" class="form-control">
+                                    <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
+                                        <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
+                                            Last name {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="lastName?.errors?.minlength">
+                                            Last name {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="lastName?.errors?.maxlength">
+                                            Last name {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input formControlName="email" type="text" class="form-control" readonly>
+                                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
+                                        <div *ngIf="email?.errors?.required">
+                                            Email {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="email?.errors?.pattern">
+                                            Email {{ errMessage.validEmail }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-primary" type="submit" value="Update Profile">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Upload and Download Files</h4>
+        </div><br>
+        <div class="panel-body">
+            <strong>Select files from your computer</strong>
+            <div *ngIf="fileStatus.status==='progress'">
+                <div class="progress">
+                    <div [style.width.%]="fileStatus.percent" class="progress-bar progress-bar-animated bg-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                        {{ fileStatus.requestType }} {{ fileStatus.percent }}
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <form enctype="multipart/form-data">
+                <fieldset>
+                    <div class="form-group">
+                        <div>
+                            <input type="file" (change)="onUploadFiles($any($event.target).files)" name="files" multiple class="form-control" />
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+            <br>
+
+            <div *ngIf="filenames?.length !== 0" class="js-upload-finished">
+                <h3>Processed files</h3>
+                <div *ngFor="let filename of filenames" class="list-group">
+                    <a (click)="onDownloadFile(filename)" class="list-group-item list-group-item-success" style="cursor: pointer;">
+              {{ filename }}            
+              <a class="alert-success float-right">Download</a>
+                    </a><br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

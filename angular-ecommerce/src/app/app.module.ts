@@ -29,6 +29,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatSortModule} from '@angular/material/sort';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { AutoFocusDirective } from './common/focus/auto-focus.directive';
+import { FocusInvalidDirective } from './common/focus/focus-invalid.directive';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -40,12 +43,13 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ] },  
-  { path: 'admin', component: AdminPageComponent, canActivate: [ OktaAuthGuard ] },  
+  { path: 'my-profile', component: ProfileComponent},  // , canActivate: [ OktaAuthGuard ]  
+  { path: 'order-history', component: OrderHistoryComponent},  // , canActivate: [ OktaAuthGuard ]  
+  { path: 'admin', component: AdminPageComponent},  // , canActivate: [ OktaAuthGuard ]  
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ] },  
-  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ] },  
+  { path: 'checkout', component: CheckoutComponent},  // , canActivate: [ OktaAuthGuard ]  
+  { path: 'cart-details', component: CartDetailsComponent},  // , canActivate: [ OktaAuthGuard ]  
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'category/:id/:name', component: ProductListComponent },
@@ -71,7 +75,10 @@ const routes: Routes = [
     AdminPageComponent,
     OrderHistoryComponent,
     ReviewProductComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    AutoFocusDirective,
+    FocusInvalidDirective,
+    ProfileComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

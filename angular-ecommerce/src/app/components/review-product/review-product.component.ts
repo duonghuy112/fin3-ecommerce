@@ -1,6 +1,5 @@
-import { ToastrService } from 'ngx-toastr';
-import { OktaAuthService } from '@okta/okta-angular';
 import { Customer } from './../../common/customer';
+import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from './../../services/customer.service';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { ErrMessage } from 'src/app/common/validator/err-message';
@@ -24,6 +23,8 @@ export class ReviewProductComponent implements OnInit {
   reviews: Review[] = [];
   editReview!: Review;
   deleteReview!: Review;
+
+  // cusotmer
   customer!: Customer;
 
   // check login 
@@ -34,6 +35,9 @@ export class ReviewProductComponent implements OnInit {
 
   // storage
   storage: Storage = sessionStorage;
+
+  // email
+  email!: string;
 
   constructor(private formBuilder: FormBuilder,
               private reviewService: ReviewProductService,
@@ -49,14 +53,6 @@ export class ReviewProductComponent implements OnInit {
     console.log(this.isAuthenticated);
 
     this.reviewFormGroup = this.formBuilder.group({
-      //  firstName: new FormControl('', [Validators.required, 
-      //                                 Validators.minLength(2),
-      //                                 Validators.maxLength(255), 
-      //                                 MyCustomValidators.notOnlyWhitespace]),
-      //   lastName: new FormControl('', [Validators.required, 
-      //                                 Validators.minLength(2),
-      //                                 Validators.maxLength(255),
-      //                                 MyCustomValidators.notOnlyWhitespace]),
         content: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
@@ -68,13 +64,15 @@ export class ReviewProductComponent implements OnInit {
                                       MyCustomValidators.badwordConstraint])
     });
     
-    this.customerService.getCustomer(JSON.parse(this.storage.getItem('userEmail') as string)).subscribe(
+    this.email = JSON.parse(this.storage.getItem('userEmail') as string);
+
+    this.listReviews();
+
+    this.customerService.getCustomer(this.email).subscribe(
       data => {
         this.customer = data;
       }
     );
-
-    this.listReviews();
   }
 
   get firstName() {
@@ -112,14 +110,13 @@ export class ReviewProductComponent implements OnInit {
       this.reviewFormGroup.markAllAsTouched();
       return;
     }
+    
     // set up review
     let review = new Review();
     review.content = this.reviewFormGroup.get('content')?.value;
-    review.customer = this.customer;
     review.productId = this.getProductId();
+    review.customer = this.customer;
 
-    console.log(review);
-    
     this.reviewService.addReview(review).subscribe({
       next: response => {
         this.toastr.success('Your review has been public', 'Submit review successfully!');
