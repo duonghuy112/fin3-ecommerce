@@ -1,8 +1,8 @@
 package com.nguyenduonghuy.springecommerce.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +25,12 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@GetMapping("/findByProductId")
-	public ResponseEntity<List<ReviewDto>> getByProductId(@RequestParam("productId") Long productId,
-										  				@RequestParam("isDeleted") Integer isDeleted) {
-		return new ResponseEntity<>(reviewService.findByProductId(productId, isDeleted), HttpStatus.OK);
+	public ResponseEntity<Page<ReviewDto>> getByProductId(@RequestParam("productId") Long productId,
+										  				  @RequestParam("isDeleted") Integer isDeleted,
+										  				  @RequestParam("page") Integer page,
+										  				  @RequestParam("size") Integer size,
+										  				  Pageable pageable) {
+		return new ResponseEntity<>(reviewService.findByProductId(productId, isDeleted, page, size, pageable), HttpStatus.OK);
 	}
 	
 	@PostMapping

@@ -25,6 +25,40 @@
                             </li>
                         </ul>
                     </div>
+                    <div *ngIf="reviews?.length != 0" class="footer-pagination">
+                        <br>
+                        <div class="row paging-row">
+                            <div class="col-md-6 paging-row">
+                                <div class="items">
+                                    <label>Page Size</label>
+                                    <select (change)="updatePageSize($any($event.target).value)">
+                                        <option selected>3</option>
+                                        <option>5</option>
+                                        <option>10</option>
+                                        <option>20</option>
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="count-element">
+                                    <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 paging-row">
+                                <div class="goto-page" style="text-align: right;">
+                                    <span>Go to page:</span>
+                                    <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listReviews()">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
                     <div *ngIf="!isAuthenticated">

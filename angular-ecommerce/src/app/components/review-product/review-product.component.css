@@ -16,7 +16,7 @@ body {
 
 .card .body {
     color: #444;
-    padding: 20px;
+    padding: 20px 20px 0;
     font-weight: 400;
 }
 
@@ -269,4 +269,35 @@ body {
 
 textarea.form-control {
     height: 160px;
+}
+
+.items select {
+    width: 66px;
+    height: 40px;
+    border-radius: 40px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    outline: 0;
+    margin-left: 5px;
+}
+
+.go-page {
+    max-height: 38px;
+    max-width: 36px;
+    border: 1px solid #e5e5e5;
+    padding: 8px 8px;
+    margin-left: 16px;
+    border-radius: 4px;
+    margin-right: 32px;
+    text-align: right;
+}
+
+.paging-row:first-child {
+    position: relative;
+    left: 8px;
+}
+
+.paging-row:last-child .row {
+    display: flex;
+    justify-content: flex-end;
 }

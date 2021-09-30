@@ -1,3 +1,4 @@
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Customer } from './../../common/customer';
 import { ToastrService } from 'ngx-toastr';
 import { CustomerService } from './../../services/customer.service';
@@ -25,7 +26,7 @@ export class ReviewProductComponent implements OnInit {
   deleteReview!: Review;
 
   // cusotmer
-  customer!: Customer;
+  customer = new Customer();
 
   // check login 
   isAuthenticated!: string;
@@ -38,6 +39,14 @@ export class ReviewProductComponent implements OnInit {
 
   // email
   email!: string;
+
+  // page
+  pageNumber: number = 1;
+  pageSize: number = 3;
+  totalElements: number = 0;
+  startElement: number = 0;
+  endElement: number = 0;
+  inputPage = new FormControl();
 
   constructor(private formBuilder: FormBuilder,
               private reviewService: ReviewProductService,
@@ -68,11 +77,13 @@ export class ReviewProductComponent implements OnInit {
 
     this.listReviews();
 
-    this.customerService.getCustomer(this.email).subscribe(
-      data => {
-        this.customer = data;
-      }
-    );
+    if (this.isAuthenticated) {
+      this.customerService.getCustomer(this.email).subscribe(
+        data => {
+          this.customer = data;
+        }
+      );
+    }
   }
 
   get firstName() {
@@ -97,12 +108,7 @@ export class ReviewProductComponent implements OnInit {
   }
 
   listReviews() {
-    this.reviewService.getReviews(this.getProductId()).subscribe(
-      data => {
-        this.reviews = data;
-        console.log(this.reviews);
-      }
-    )
+    this.reviewService.getReviews(this.getProductId(), this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
   onReviewSubmit() {
@@ -156,23 +162,6 @@ export class ReviewProductComponent implements OnInit {
     }); 
   }
 
-  resetForm() {
-    this.reviewFormGroup.reset();
-    this.editReviewFromGroup.reset();
-  }
-
-  openEditContent(review: Review) {
-    console.log("edit " +review);
-    this.editReviewFromGroup.get('editContent')?.setValue(review.content);
-    this.editReview = review;
-  }
-
-  openDeleteModal(review: Review) {
-    console.log(`ok ${review}`);
-    this.deleteReview = review;
-    console.log(`delete ${this.deleteReview}`);
-  }
-
   deleteReviewConfirm() {
     this.deleteReview.isDeleted = 1;
     console.log(this.deleteReview);
@@ -189,5 +178,62 @@ export class ReviewProductComponent implements OnInit {
         this.router.navigateByUrl('/error');
       }
     });
+  }
+
+  processResult() {
+    return data => {
+        this.reviews = data.content;
+        this.pageNumber = data.number + 1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
+        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+        this.endElement = this.startElement + this.pageSize - 1;
+        if (this.endElement > this.totalElements) {
+          this.endElement = this.totalElements
+        }
+        console.log("page" + this.pageNumber + this.pageSize + this.totalElements)
+    };
+  }
+
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
+    this.listReviews();
+  }
+
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
+      }
+    )
+  }
+  
+  openEditContent(review: Review) {
+    console.log("edit " +review);
+    this.editReviewFromGroup.get('editContent')?.setValue(review.content);
+    this.editReview = review;
+  }
+  
+  openDeleteModal(review: Review) {
+    console.log(`ok ${review}`);
+    this.deleteReview = review;
+    console.log(`delete ${this.deleteReview}`);
+  }
+
+
+  resetForm() {
+    this.reviewFormGroup.reset();
+    this.editReviewFromGroup.reset();
   }
 }

@@ -1,12 +1,14 @@
 package com.nguyenduonghuy.springecommerce.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nguyenduonghuy.springecommerce.dto.ReviewDto;
@@ -30,10 +32,10 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Override
 	@Transactional
-	public List<ReviewDto> findByProductId(Long productId, Integer isDeleted) {
-		return reviewRepository.findByProductIdAndIsDeleted(productId, isDeleted)
-								.stream()
-								.map(ReviewDto::new).collect(Collectors.toList());
+	public Page<ReviewDto> findByProductId(Long productId, Integer isDeleted, Integer page, Integer size, Pageable pageable) {
+		pageable = PageRequest.of(page, size);
+		return reviewRepository.findByProductIdAndIsDeleted(productId, isDeleted, pageable)
+							   .map(ReviewDto::new);
 	}
 	
 	@Override

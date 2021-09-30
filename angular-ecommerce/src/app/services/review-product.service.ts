@@ -14,9 +14,9 @@ export class ReviewProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getReviews(productId: number): Observable<Review[]> {
-    const reviewByProductIdUrl = `${this.reviewUrl}/findByProductId?productId=${productId}&isDeleted=0`;
-    return this.httpClient.get<Review[]>(reviewByProductIdUrl);
+  getReviews(productId: number, page: number, pageSize: number): Observable<ResponseReview> {
+    const reviewByProductIdUrl = `${this.reviewUrl}/findByProductId?productId=${productId}&isDeleted=0&page=${page}&size=${pageSize}`;
+    return this.httpClient.get<ResponseReview>(reviewByProductIdUrl);
   }
 
   addReview(review: Review): Observable<Review> {
