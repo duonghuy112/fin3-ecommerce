@@ -6,8 +6,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -23,16 +21,13 @@ public class FileController {
 
 	private final String DIRECTORY = "E:\\fin3-ecommerce\\angular-ecommerce\\src\\assets\\images\\customer";
 
-	@PostMapping("/upload")
-	public ResponseEntity<List<String>> addAvatar(@RequestParam("files") List<MultipartFile> files) throws IOException {
-		List<String> filenames = new ArrayList<>();
-        for(MultipartFile file : files) {
-            String filename = StringUtils.cleanPath(file.getOriginalFilename());
-            Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
-            copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
-            filenames.add(filename);
-        }
-        return ResponseEntity.ok().body(filenames);
-	}
-	
+	// Define a method to upload files
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFiles(@RequestParam("file") MultipartFile file) throws IOException {
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        Path fileStorage = get(DIRECTORY, filename).toAbsolutePath().normalize();
+        copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
+        return ResponseEntity.ok().body(filename);
+    }
+
 }

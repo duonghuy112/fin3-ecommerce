@@ -92,15 +92,16 @@ export class OrderHistoryComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.orderHistoryList = data._embedded.orders;
-        this.pageNumber = data.page.number + 1;
-        this.pageSize = data.page.size;
-        this.totalElements = data.page.totalElements;
+        this.orderHistoryList = data.content;
+        this.pageNumber = data.number + 1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
         this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
         this.endElement = this.startElement + this.pageSize - 1;
         if (this.endElement > this.totalElements) {
           this.endElement = this.totalElements
         }
+        console.log(this.orderHistoryList);
     };
   }
 

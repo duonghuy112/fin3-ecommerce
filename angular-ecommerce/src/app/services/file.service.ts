@@ -8,25 +8,16 @@ import { Observable } from 'rxjs';
 })
 export class FileService {
 
-  baseUrl = environment.baseUrl;
+  fileUrl = `${environment.baseUrl}/file`;
 
   constructor(private http: HttpClient) {}
 
   // define function to upload files
-  upload(formData: FormData): Observable<HttpEvent<string[]>> {
-    return this.http.post<string[]>(`${this.baseUrl}/file/upload`, formData, {
-      reportProgress: true,
+  upload(formData: FormData): Observable<HttpEvent<String[]>> {
+    return this.http.post<string[]>(`${this.fileUrl}/upload`, formData, {
       observe: 'events'
     });
   }
 
-  // define function to download files
-  download(filename: string): Observable<HttpEvent<Blob>> {
-    return this.http.get(`${this.baseUrl}/file/download/${filename}/`, {
-      reportProgress: true,
-      observe: 'events',
-      responseType: 'blob'
-    });
-  }
 
 }

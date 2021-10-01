@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,5 +48,6 @@ public class Address {
 	
 	@OneToOne
 	@PrimaryKeyJoinColumn
+	@JsonIgnore
 	private Order order;
 }
