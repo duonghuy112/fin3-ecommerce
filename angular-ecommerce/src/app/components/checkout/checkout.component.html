@@ -1,7 +1,7 @@
 <!-- MAIN CONTENT-->
 <div class="main-content page-m">
     <div class="section-content section-content-p30 e-spc">
-        <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+        <form focusInvalid [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
             <div class="container-fluid">
                 <!-- Customer -->
                 <div formGroupName="customer" class="form-area">
@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="firstName" class="form-control" type="text" placeholder="First Name">
+                                <input formControlName="firstName" class="form-control" type="text" placeholder="First Name" readonly>
 
                                 <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
                                     <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="lastName" class="form-control" type="text" placeholder="Last Name">
+                                <input formControlName="lastName" class="form-control" type="text" placeholder="Last Name" readonly>
 
                                 <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
                                     <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select name="countryInput" class="form-control" formControlName="country" (change)="getCity()">
+                                <select autofocus name="countryInput" class="form-control" formControlName="country" (change)="getCity()">
                                     <option value="" disabled selected hidden>Country</option>
                                     <option *ngFor="let country of countries" [ngValue]=(country)>
                                         {{ country.name }}

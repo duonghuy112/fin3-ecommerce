@@ -4,21 +4,24 @@
         <section class="module">
             <div class="module-inner">
                 <div class="side-bar">
-                    <div class="user-info">
-                        <img class="img-profile img-circle img-responsive center-block" src="{{ customer.avatar }}" alt="">
+                    <div *ngIf="customer !== null" class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block" src="{{ customer?.avatar }}" alt="">
                         <div class="form-inline col-md-10 col-sm-9 col-xs-12">
                             <input id="selectFile" type="file" (change)=onUploadFiles($any($event.target).files[0]) name="file" class="file-uploader pull-left">
                             <!-- <button type="button" class="btn btn-sm btn-default-alt pull-left">Update Image</button> -->
                         </div>
                         <br>
                         <ul class="meta list list-unstyled">
-                            <li class="name"><strong>{{ customer.firstName }} {{ customer.lastName }}</strong>
+                            <li class="name"><strong>{{ customer?.firstName }} {{ customer?.lastName }}</strong>
                                 <br>
-                                <label class="label label-info">UX Designer</label>
+                                <label *ngIf="customer?.isAdmin === 1" class="label label-info">Admin</label>
+                                <label *ngIf="customer?.isAdmin !== 1" class="label label-info">Customer</label>
                             </li>
-                            <li class="email"><a href="#">{{ customer.email }}</a></li>
-                            <li class="activity">Join date: {{ customer.dateCreated | date: 'short' }}</li>
-                            <li class="activity">Last update: {{ customer.lastUpdated | date: 'short'}}</li>
+                            <li class="email">
+                                <h6>{{ customer?.email }}</h6>
+                            </li>
+                            <li class="activity">Join date: {{ customer?.dateCreated | date: 'short' }}</li>
+                            <li class="activity">Last update: {{ customer?.lastUpdated | date: 'short'}}</li>
                         </ul>
                     </div>
                 </div>

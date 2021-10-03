@@ -61,6 +61,12 @@ public class Customer {
 	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
 	
+	@Column(name = "is_admin")
+	private Integer isAdmin;
+	
+	@Column(name = "is_activate")
+	private Integer isActivate;
+	
 	@OneToMany(mappedBy = "customer")
 	private List<Review> reviews;
 

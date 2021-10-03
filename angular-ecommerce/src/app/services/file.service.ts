@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FileService {
-
   fileUrl = `${environment.baseUrl}/file`;
 
   constructor(private http: HttpClient) {}
@@ -18,6 +17,4 @@ export class FileService {
       observe: 'events'
     });
   }
-
-
 }

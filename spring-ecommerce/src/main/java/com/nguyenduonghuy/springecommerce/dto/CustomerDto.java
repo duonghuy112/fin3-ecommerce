@@ -17,6 +17,8 @@ public class CustomerDto {
 	private String avatar;
 	private LocalDateTime dateCreated;
 	private LocalDateTime lastUpdated;
+	private Integer isAdmin;
+	private Integer isActivate;
 	
 	public CustomerDto(Customer customer) {
 		this.id = customer.getId();
@@ -26,5 +28,7 @@ public class CustomerDto {
 		this.avatar = customer.getAvatar();
 		this.dateCreated = customer.getDateCreated();
 		this.lastUpdated = customer.getLastUpdated();
+		this.isAdmin = customer.getIsAdmin();
+		this.isActivate = customer.getIsActivate();
 	}
 }

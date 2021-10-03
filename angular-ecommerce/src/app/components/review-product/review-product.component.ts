@@ -191,7 +191,6 @@ export class ReviewProductComponent implements OnInit {
         if (this.endElement > this.totalElements) {
           this.endElement = this.totalElements
         }
-        console.log("page" + this.pageNumber + this.pageSize + this.totalElements)
     };
   }
 

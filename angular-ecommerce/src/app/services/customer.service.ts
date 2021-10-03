@@ -1,3 +1,4 @@
+import { ResponseCustomer } from './../response/response-customer';
 import { Observable } from 'rxjs';
 import { Customer } from './../common/customer';
 import { HttpClient } from '@angular/common/http';
@@ -15,8 +16,12 @@ export class CustomerService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getAll(): Observable<Customer[]> {
-    return this.httpClient.get<Customer[]>(this.customerUrl);
+  getAll(page: number, pageSize: number): Observable<ResponseCustomer> {
+    return this.httpClient.get<ResponseCustomer>(`${this.customerUrl}/?page=${page}&size=${pageSize}`);
+  }
+
+  getByAdmin(isAdmin: number, page: number, pageSize: number): Observable<ResponseCustomer> {
+    return this.httpClient.get<ResponseCustomer>(`${this.customerUrl}/findByAdmin?isAdmin=${isAdmin}&page=${page}&size=${pageSize}`);
   }
 
   getCustomer(email: String): Observable<Customer> {
@@ -24,7 +29,11 @@ export class CustomerService {
     return this.httpClient.get<Customer>(customerByEmailUrl);
   }
 
-  update(customer: Customer) {
+  add(customer: Customer): Observable<Customer> {
+    return this.httpClient.post<Customer>(this.customerUrl, customer);
+  }
+
+  update(customer: Customer): Observable<Customer> {
     return this.httpClient.put<Customer>(`${this.customerUrl}/${customer.id}`, customer);
   }
 

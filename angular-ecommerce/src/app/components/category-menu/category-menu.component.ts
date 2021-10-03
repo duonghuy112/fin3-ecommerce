@@ -11,9 +11,18 @@ export class CategoryMenuComponent implements OnInit {
 
   categories: Category[] = [];
 
-  constructor(private productService: ProductService) { }
+  storage: Storage = sessionStorage;
+
+  isAdmin: number = 0;
+
+  constructor(private productService: ProductService) {
+    if (JSON.parse(this.storage.getItem('admin') as string) !== null) {
+      this.isAdmin = JSON.parse(this.storage.getItem('admin') as string);
+    }
+  }
 
   ngOnInit(): void {
+
     this.listCategories();
   }
 

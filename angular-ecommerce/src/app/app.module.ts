@@ -1,3 +1,4 @@
+import { RoleAdminGuard } from './authorization/role-admin.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { ProductService } from './services/product.service';
@@ -21,7 +22,6 @@ import { LoginStatusComponent } from './components/login-status/login-status.com
 
 import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 import myAppConfig from './config/my-app-config';
-import { AdminPageComponent } from './components/admin-page/admin-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ReviewProductComponent } from './components/review-product/review-product.component';
 
@@ -32,6 +32,9 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { AutoFocusDirective } from './common/focus/auto-focus.directive';
 import { FocusInvalidDirective } from './common/focus/focus-invalid.directive';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { AdminProductComponent } from './components/admin-product/admin-product.component';
+import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -43,13 +46,15 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'my-profile', component: ProfileComponent},  // , canActivate: [ OktaAuthGuard ]  
-  { path: 'order-history', component: OrderHistoryComponent},  // , canActivate: [ OktaAuthGuard ]  
-  { path: 'admin', component: AdminPageComponent},  // , canActivate: [ OktaAuthGuard ]  
+  { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
+  { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
+  { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
+  { path: 'my-profile', component: ProfileComponent, canActivate: [ OktaAuthGuard ]},   
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]},   
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'checkout', component: CheckoutComponent},  // , canActivate: [ OktaAuthGuard ]  
-  { path: 'cart-details', component: CartDetailsComponent},  // , canActivate: [ OktaAuthGuard ]  
+  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ]},   
+  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ]},   
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'category/:id/:name', component: ProductListComponent },
@@ -72,13 +77,15 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
-    AdminPageComponent,
     OrderHistoryComponent,
     ReviewProductComponent,
     ErrorPageComponent,
     AutoFocusDirective,
     FocusInvalidDirective,
     ProfileComponent,
+    AdminUserComponent,
+    AdminProductComponent,
+    AdminOrderComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

@@ -1,3 +1,4 @@
+import { Customer } from './../../common/customer';
 import { ToastrService } from 'ngx-toastr';
 import { Purchase } from './../../common/purchase';
 import { OrderItem } from './../../common/order-item';
@@ -50,11 +51,11 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, 
+        firstName: new FormControl(JSON.parse(this.store.getItem('customer') as string).firstName, [Validators.required, 
                                         Validators.minLength(2),
                                         Validators.maxLength(255), 
                                         MyCustomValidators.notOnlyWhitespace]),
-        lastName: new FormControl('', [Validators.required, 
+        lastName: new FormControl(JSON.parse(this.store.getItem('customer') as string).lastName, [Validators.required, 
                                       Validators.minLength(2),
                                       Validators.maxLength(255),
                                       MyCustomValidators.notOnlyWhitespace]),

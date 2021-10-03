@@ -35,16 +35,24 @@ export class ProfileComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.getCustomer();
+    this.customer = JSON.parse(this.storage.getItem('customer') as string);
 
     console.log('customer' + JSON.parse(this.storage.getItem('customer') as string));
-    
+
+    let firstName: string = '';
+    let lastName: string = '';
+
+    if (this.customer !== null) {
+      firstName = (JSON.parse(this.storage.getItem('customer') as string) as Customer).firstName;
+      lastName = (JSON.parse(this.storage.getItem('customer') as string) as Customer).lastName;
+    }
+
     this.profileFormGroup = this.formBuilder.group({
-      firstName: new FormControl((JSON.parse(this.storage.getItem('customer') as string) as Customer).firstName, [Validators.required, 
+      firstName: new FormControl(firstName, [Validators.required, 
                                       Validators.minLength(2),
                                       Validators.maxLength(255), 
                                       MyCustomValidators.notOnlyWhitespace]),
-      lastName: new FormControl((JSON.parse(this.storage.getItem('customer') as string) as Customer).lastName, [Validators.required, 
+      lastName: new FormControl(lastName, [Validators.required, 
                                     Validators.minLength(2),
                                     Validators.maxLength(255),
                                     MyCustomValidators.notOnlyWhitespace]),
@@ -68,7 +76,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getCustomer() {
-    this.customerService.getCustomer(JSON.parse(this.storage.getItem('userEmail') as string)).subscribe(
+    this.customerService.getCustomer(JSON.parse(this.storage.getItem('customer') as string)).subscribe(
       data => {
         this.customer = data;
       }
@@ -81,13 +89,13 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    // set up customer
-    this.customer.firstName = this.profileFormGroup.get('firstName')?.value;
-    this.customer.lastName = this.profileFormGroup.get('lastName')?.value;
+    console.log('customer alo: ' + this.customer);
 
-    console.log(this.customer);
-
-    this.updateProfile();
+    if (this.customer === null) {
+      this.addCustomer();
+    } else {
+      this.updateProfile();
+    }
   }
 
   // define a function to upload files
@@ -107,7 +115,33 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  addCustomer() {
+    let newCustomer = new Customer();
+    newCustomer.id = 0;
+    newCustomer.firstName = this.profileFormGroup.get('firstName')?.value;
+    newCustomer.lastName = this.profileFormGroup.get('lastName')?.value;
+    newCustomer.email = JSON.parse(this.storage.getItem('userEmail') as string);
+    newCustomer.avatar = 'assets/images/customer/avatar6.png';
+    newCustomer.isAdmin = 0;
+    newCustomer.isActivate = 1;
+    console.log('new :' + newCustomer)
+    this.customerService.add(newCustomer).subscribe({
+      next: response => {
+        this.toastr.success('Your profile has been updated', 'Update profile successfully!');
+        this.getCustomer();
+      },
+      error: err => {
+        console.log(err);
+        this.toastr.error("Error response");
+        this.router.navigateByUrl('/error');
+      }
+    });
+  }
+
   updateProfile() {
+    // set up customer
+    this.customer.firstName = this.profileFormGroup.get('firstName')?.value;
+    this.customer.lastName = this.profileFormGroup.get('lastName')?.value;
     this.customerService.update(this.customer).subscribe({
       next: response => {
         this.toastr.success('Your profile has been updated', 'Update profile successfully!');

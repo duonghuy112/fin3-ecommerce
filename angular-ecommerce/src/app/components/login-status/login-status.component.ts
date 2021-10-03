@@ -54,10 +54,11 @@ export class LoginStatusComponent implements OnInit {
     this.storage.setItem('isLogin', JSON.stringify(this.isAuthenticated)); 
 
     let customer = new Customer();
-    this.customerService.getCustomer(email as string).subscribe(
+    this.customerService.getCustomer(email as string)?.subscribe(
       data => {
         customer = data;
         this.storage.setItem('customer', JSON.stringify(customer));
+        this.storage.setItem('admin', JSON.stringify(customer.isAdmin));
       }
     )
   }
@@ -65,6 +66,10 @@ export class LoginStatusComponent implements OnInit {
   logout() {
     // Terminates the session with Okta and removes current tokens.
     this.storage.removeItem('isLogin');
+    this.storage.removeItem('admin');
+    this.storage.removeItem('userName');
+    this.storage.removeItem('userEmail');
+    this.storage.removeItem('customer');
     this.oktaAuthService.signOut();
   }
 }

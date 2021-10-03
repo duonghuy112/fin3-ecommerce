@@ -1,0 +1,152 @@
+/* 
+ * ----------------------------
+ * Admin User
+ * ----------------------------
+ */
+
+.table {
+    margin: 0;
+    max-width: 76vw;
+}
+
+table.table.table-bordered {
+    border: 1px solid #ccc;
+    background: #fff
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #dee2e6
+}
+
+table.table.table-bordered th {
+    background-color: #0da8e4;
+    color: #fff;
+    font-size: 14px;
+    padding: 7px
+}
+
+.table-responsive {
+    padding-right: 1px
+}
+
+.items select {
+    width: 66px;
+    height: 40px;
+    border-radius: 40px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+    outline: 0;
+    margin-left: 5px
+}
+
+.d-inline-block {
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 83px;
+}
+
+table .items>.no-gutters {
+    width: 200px;
+}
+
+.mw-76 {
+    max-width: 76vw;
+}
+
+.order-history td:hover {
+    cursor: pointer;
+}
+
+tr td img {
+    max-width: 45px;
+}
+
+.td-icon {
+    display: flex;
+    justify-content: center;
+    height: 49.5px;
+}
+
+tr td {
+    padding: 8px;
+}
+
+.admin-icon {
+    font-size: larger;
+    color: #0d6efd;
+}
+
+.customer-icon {
+    font-size: larger;
+    color: #198754;
+}
+
+.activate-icon {
+    font-size: larger;
+    color: #0dcaf0;
+}
+
+.banned-icon {
+    font-size: larger;
+    color: red;
+}
+
+.go-page {
+    max-height: 38px;
+    max-width: 36px;
+    border: 1px solid black;
+    border: 2px;
+    padding: 8px 8px;
+    margin-left: 16px;
+    border-radius: 4px;
+    margin-right: 32px;
+}
+
+.paging-row {
+    display: flex;
+    max-width: 78vw;
+}
+
+.paging-row:first-child {
+    justify-content: flex-start;
+}
+
+.paging-row:last-child {
+    justify-content: flex-end;
+}
+
+.count-element {
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+    margin-left: 32px;
+}
+
+.count-element>p {
+    line-height: 40px;
+}
+
+.user-admin {
+    color: #0d6efd;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.user-customer {
+    color: #198754;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.user-activate {
+    color: #0dcaf0;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.user-banned {
+    color: #dc3545;
+    font-size: medium;
+    font-weight: bold;
+}

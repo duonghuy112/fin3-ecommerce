@@ -27,8 +27,8 @@ public class ReviewController {
 	@GetMapping("/findByProductId")
 	public ResponseEntity<Page<ReviewDto>> getByProductId(@RequestParam("productId") Long productId,
 										  				  @RequestParam("isDeleted") Integer isDeleted,
-										  				  @RequestParam("page") Integer page,
-										  				  @RequestParam("size") Integer size,
+										  				  @RequestParam("page") int page,
+										  				  @RequestParam("size") int size,
 										  				  Pageable pageable) {
 		return new ResponseEntity<>(reviewService.findByProductId(productId, isDeleted, page, size, pageable), HttpStatus.OK);
 	}
@@ -40,7 +40,8 @@ public class ReviewController {
 	}
 	
 	@PutMapping("/{reviewId}")
-	public ResponseEntity<ReviewDto> update(@RequestBody ReviewDto reviewResponse, @PathVariable("reviewId") Long id) {
+	public ResponseEntity<ReviewDto> update(@RequestBody ReviewDto reviewResponse, 
+											@PathVariable("reviewId") Long id) {
 		return new ResponseEntity<>(reviewService.save(reviewResponse), HttpStatus.OK);
 	}
 }

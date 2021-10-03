@@ -30,3 +30,11 @@
 .navbar-sidebar .navbar-list li a:hover {
     color: #0da8e4
 }
+
+#accordionCategory>ul {
+    list-style-position: inside;
+}
+
+#accordionCategory>ul a {
+    display: inline;
+}

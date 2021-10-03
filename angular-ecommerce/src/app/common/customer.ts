@@ -6,4 +6,6 @@ export class Customer {
     avatar!: string;
     dateCreated!: Date;
     lastUpdated!: Date;
+    isAdmin!: number;
+    isActivate!: number;
 }

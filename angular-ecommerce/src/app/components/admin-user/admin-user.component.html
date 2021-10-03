@@ -1,0 +1,176 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="row mw-76">
+            <div class="col">
+                <h3>Users</h3>
+            </div>
+            <div class="col text-right">
+                <div ngbDropdown class="d-inline-block">
+                    <button *ngIf="filter === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>
+                    <button *ngIf="filter === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Admin</button>
+                    <button *ngIf="filter === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Customer</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                        <button (click)="filterAll()" ngbDropdownItem>All</button>
+                        <button (click)="filterByAdmin()" ngbDropdownItem>Admin</button>
+                        <button (click)="filterByCustomer()" ngbDropdownItem>Customer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="container-fluid">
+            <div *ngIf="userList.length > 0">
+                <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Avatar</th>
+                            <th mat-sort-header="firstName">Full Name</th>
+                            <th mat-sort-header="email">Email</th>
+                            <th mat-sort-header="dateCreated">Join date</th>
+                            <th mat-sort-header="role">Role</th>
+                            <th mat-sort-header="status">Status</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="order-history">
+                        <tr *ngFor="let user of userList; let i = index" [attr.data-index]="i">
+                            <td>{{i+1}}</td>
+                            <td class="text-center"><img src="{{ user.avatar }}" alt="Avatar"></td>
+                            <td class="font-weight-bolder" matTooltip="{{ user.firstName }} {{ user.lastName }}">{{ user.firstName }} {{ user.lastName }}</td>
+                            <td matTooltip="{{ user.email }}">{{ user.email }}</td>
+                            <td matTooltip="{{ user.dateCreated | date: 'short'}}">{{ user.dateCreated | date: 'short'}}</td>
+                            <td matTooltip="Admin" *ngIf="user.isAdmin === 1" class="user-admin">Admin</td>
+                            <td matTooltip="Customer" *ngIf="user.isAdmin === 0" class="user-customer">Customer</td>
+                            <td matTooltip="Activate" *ngIf="user.isActivate === 1" class="user-activate">Activate</td>
+                            <td matTooltip="Banned" *ngIf="user.isActivate === 0" class="user-banned">Banned</td>
+                            <td *ngIf="user.isAdmin === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setAdminModal"><i class="fas fa-user-shield admin-icon"></i></td>
+                            <td *ngIf="user.isAdmin === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setCustomerModal"><i class="fas fa-user-tag customer-icon"></i></td>
+                            <td *ngIf="user.isActivate === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setActivateModal"><i class="far fa-paper-plane activate-icon"></i></td>
+                            <td *ngIf="user.isActivate === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setBannedModal"><i class="fas fa-ban banned-icon"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- if order history is empty then display a message -->
+            <div *ngIf="userList.length === 0" class="alert alert-warning col-md-12" role="alert">
+                No orders found.
+            </div>
+
+            <div *ngIf="userList?.length != 0" class="footer-pagination">
+                <br>
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
+                        <div class="items">
+                            <label>Page Size</label>
+                            <select (change)="updatePageSize($any($event.target).value)">
+                                <option selected>3</option>
+                                <option>5</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>All</option>
+                            </select>
+                        </div>
+                        <div class="count-element">
+                            <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listAllUser()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="changeCustomer" class="modal fade" id="setAdminModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Set Admin</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to change user {{changeCustomer.firstName}} {{changeCustomer.lastName}} to admin?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="setAdmin()" type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="changeCustomer" class="modal fade" id="setCustomerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Set Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to change user {{changeCustomer.firstName}} {{changeCustomer.lastName}} to customer?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="setCustomer()" type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="changeCustomer" class="modal fade" id="setActivateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Set Active User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to activate user {{changeCustomer.firstName}} {{changeCustomer.lastName}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="setActivate()" type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="changeCustomer" class="modal fade" id="setBannedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Set Ban User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to ban user {{changeCustomer.firstName}} {{changeCustomer.lastName}}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="setBan()" type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

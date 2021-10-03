@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	@Override
 	@Transactional
-	public Page<ReviewDto> findByProductId(Long productId, Integer isDeleted, Integer page, Integer size, Pageable pageable) {
+	public Page<ReviewDto> findByProductId(Long productId, Integer isDeleted, int page, int size, Pageable pageable) {
 		pageable = PageRequest.of(page, size);
 		return reviewRepository.findByProductIdAndIsDeleted(productId, isDeleted, pageable)
 							   .map(ReviewDto::new);

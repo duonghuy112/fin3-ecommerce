@@ -7,7 +7,7 @@ import com.nguyenduonghuy.springecommerce.dto.ReviewDto;
 
 public interface ReviewService {
 	
-	Page<ReviewDto> findByProductId(Long productId, Integer isDeleted,Integer page, Integer size, Pageable pageable);
+	Page<ReviewDto> findByProductId(Long productId, Integer isDeleted, int page, int size, Pageable pageable);
 	
 	ReviewDto save(ReviewDto reviewResponse);
 }

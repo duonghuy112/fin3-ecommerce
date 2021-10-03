@@ -8,4 +8,6 @@ import com.nguyenduonghuy.springecommerce.dto.OrderDto;
 public interface OrderService {
 
 	Page<OrderDto> findByCustomerEmail(String email, Integer page, Integer size, Pageable pageable);
+	
+	OrderDto save(OrderDto orderDto);
 }
