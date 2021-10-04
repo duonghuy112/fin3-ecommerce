@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -37,7 +38,8 @@ export class OrderHistoryComponent implements OnInit {
   inputPage = new FormControl();
 
   constructor(private orderHistoryService: OrderHistoryService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
     this.sortedOrder = this.orderHistoryList.slice();
   }
 
@@ -50,7 +52,7 @@ export class OrderHistoryComponent implements OnInit {
     const email = JSON.parse(this.storage.getItem('userEmail') as string);
 
     // retrieve data from service
-    this.orderHistoryService.getOrderHistory(email, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
+    this.orderHistoryService.getOrderHistoryByEmail(email, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
   sortData(sort: Sort) {
@@ -114,7 +116,8 @@ export class OrderHistoryComponent implements OnInit {
     order.status = 0;
     this.orderHistoryService.updateStatusOrder(order).subscribe({
       next: response => {
-        this.router.navigateByUrl('/order-history');
+        this.toastr.success('Update order status!');
+        this.listOrderHistory();
       },
       error: err => {
         console.log(err);
@@ -127,7 +130,8 @@ export class OrderHistoryComponent implements OnInit {
     order.status = 1;
     this.orderHistoryService.updateStatusOrder(order).subscribe({
       next: response => {
-        this.router.navigateByUrl('/order-history');
+        this.toastr.success('Update order status!');
+        this.listOrderHistory();
       },
       error: err => {
         console.log(err);
@@ -140,7 +144,8 @@ export class OrderHistoryComponent implements OnInit {
     order.status = 3;
     this.orderHistoryService.updateStatusOrder(order).subscribe({
       next: response => {
-        this.router.navigateByUrl('/order-history');
+        this.toastr.success('Update order status!');
+        this.listOrderHistory();
       },
       error: err => {
         console.log(err);

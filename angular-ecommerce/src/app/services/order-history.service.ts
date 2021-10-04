@@ -16,8 +16,17 @@ export class OrderHistoryService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getOrderHistory(email: string, page: number, pageSize: number): Observable<ResponseOrderHistory> {
+  getAllOrderHistory(page: number, pageSize: number): Observable<ResponseOrderHistory> {
+    return this.httpClient.get<ResponseOrderHistory>(`${this.orderUrl}?page=${page}&size=${pageSize}`);
+  }
+
+  getOrderHistoryByEmail(email: string, page: number, pageSize: number): Observable<ResponseOrderHistory> {
     const orderHistoryUrl = `${this.orderUrl}/findByCustomerEmail?email=${email}&page=${page}&size=${pageSize}`;
+    return this.httpClient.get<ResponseOrderHistory>(orderHistoryUrl);
+  }
+
+  getOrderHistoryByStatus(status: number, page: number, pageSize: number): Observable<ResponseOrderHistory> {
+    const orderHistoryUrl = `${this.orderUrl}/findByStatus?status=${status}&page=${page}&size=${pageSize}`;
     return this.httpClient.get<ResponseOrderHistory>(orderHistoryUrl);
   }
 

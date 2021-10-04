@@ -11,4 +11,6 @@ import com.nguyenduonghuy.springecommerce.entity.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Page<Order> findByCustomerEmail(String email, Pageable pageable);
+	
+	Page<Order> findByStatus(Integer status, Pageable pageable);
 }

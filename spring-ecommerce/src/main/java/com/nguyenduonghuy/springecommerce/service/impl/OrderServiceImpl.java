@@ -27,11 +27,25 @@ public class OrderServiceImpl implements OrderService{
 	private CustomerRepository customerRepository;
 
 	@Override
+	public Page<OrderDto> findAll(int page, int size, Pageable pageable) {
+		pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
+		return orderRepository.findAll(pageable)
+							  .map(OrderDto::new);
+	}
+	
+	@Override
 	@Transactional
-	public Page<OrderDto> findByCustomerEmail(String email, Integer page, Integer size, Pageable pageable) {
+	public Page<OrderDto> findByCustomerEmail(String email, int page, int size, Pageable pageable) {
 		pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
 		return orderRepository.findByCustomerEmail(email, pageable)
 							  .map(OrderDto::new);
+	}
+	
+	@Override
+	public Page<OrderDto> findByStatus(Integer status, int page, int size, Pageable pageable) {
+		pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
+		return orderRepository.findByStatus(status, pageable)
+							   .map(OrderDto::new);
 	}
 	
 	@Override

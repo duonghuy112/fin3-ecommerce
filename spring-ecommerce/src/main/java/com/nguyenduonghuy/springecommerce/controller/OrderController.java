@@ -23,12 +23,28 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
+	@GetMapping
+	public ResponseEntity<Page<OrderDto>> getAll(@RequestParam int page,
+												 @RequestParam int size,
+												 Pageable pageable) {
+		return new ResponseEntity<>(orderService.findAll(page, size, pageable), HttpStatus.OK);
+	}
+	
 	@GetMapping("/findByCustomerEmail")
 	public ResponseEntity<Page<OrderDto>> getByCustomerEmail(@RequestParam String email,
-															 @RequestParam Integer page,
-															 @RequestParam Integer size,
+															 @RequestParam int page,
+															 @RequestParam int size,
 															 Pageable pageable) {
 		return new ResponseEntity<>(orderService.findByCustomerEmail(email, page, size, pageable), 
+									HttpStatus.OK);
+	}
+	
+	@GetMapping("/findByStatus")
+	public ResponseEntity<Page<OrderDto>> getByStatus(@RequestParam Integer status,
+															 @RequestParam int page,
+															 @RequestParam int size,
+															 Pageable pageable) {
+		return new ResponseEntity<>(orderService.findByStatus(status, page, size, pageable), 
 									HttpStatus.OK);
 	}
 	

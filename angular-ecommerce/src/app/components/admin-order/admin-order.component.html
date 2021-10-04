@@ -1,4 +1,219 @@
 <div class="main-content">
-    <h1>alooooo
-    </h1>
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h3>Orders</h3>
+                </div>
+                <div class="col text-right">
+                    <div ngbDropdown class="d-inline-block">
+                        <button *ngIf="status === -1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status: All</button>
+                        <button *ngIf="status === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Cancel</button>
+                        <button *ngIf="status === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Pending</button>
+                        <button *ngIf="status === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Processing</button>
+                        <button *ngIf="status === 3" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Completed</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                            <button (click)="statusAll()" ngbDropdownItem>All</button>
+                            <button (click)="statusCancel()" ngbDropdownItem>Canceled</button>
+                            <button (click)="statusPending()" ngbDropdownItem>Pending</button>
+                            <button (click)="statusProcess()" ngbDropdownItem>Processing</button>
+                            <button (click)="statusComplete()" ngbDropdownItem>Completed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div *ngIf="orderHistoryList.length > 0">
+                <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th width="4%">Index</th>
+                            <th mat-sort-header="trackingNumber" width="30%">Order Tracking Number</th>
+                            <th mat-sort-header="customer" width="16%">Customer</th>
+                            <th mat-sort-header="address" width="16%">Address</th>
+                            <th mat-sort-header="price" width="10%">Total Price</th>
+                            <th mat-sort-header="status" width="10%">Status</th>
+                            <th mat-sort-header="date" width="20%">Date Create</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="order-history">
+                        <tr *ngFor="let tempOrderHistory of orderHistoryList; let i = index" [attr.data-index]="i">
+                            <td>{{i+1}}</td>
+                            <td (click)="openOrderItem(tempOrderHistory)" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
+                                {{ tempOrderHistory.orderTrackingNumber }}
+                            </td>
+                            <td matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}">
+                                {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
+                            </td>
+                            <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}">
+                                {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
+                            </td>
+                            <td matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
+                                {{ tempOrderHistory.totalPrice | currency: 'USD' }}
+                            </td>
+                            <td *ngIf="tempOrderHistory.status === 0" matTooltip="Canceled" class="status-cancel">
+                                Canceled
+                            </td>
+                            <td *ngIf="tempOrderHistory.status === 1" matTooltip="Pending" class="status-pending">
+                                Pending
+                            </td>
+                            <td *ngIf="tempOrderHistory.status === 2" matTooltip="Processing" class="status-process">
+                                Processing
+                            </td>
+                            <td *ngIf="tempOrderHistory.status === 3" matTooltip="Completed" class="status-complete">
+                                Completed
+                            </td>
+                            <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}">
+                                {{ tempOrderHistory.dateCreated | date: 'short' }}
+                            </td>
+                            <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
+                                <i matTooltip="Canceled" class="order-icon cry-icon far fa-frown"></i>
+                            </td>
+                            <td class="td-icon" *ngIf="tempOrderHistory.status === 1">
+                                <i data-toggle="modal" data-target="#processOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Process Order" class="order-icon process-icon fas fa-car-side"></i>
+                            </td>
+                            <td class="td-icon" *ngIf="tempOrderHistory.status === 2">
+                                <i data-toggle="modal" data-target="#completeOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Complete Order" class="order-icon complete-icon fas fa-check-square"></i>
+                            </td>
+                            <td class="td-icon" *ngIf="tempOrderHistory.status === 3">
+                                <i class="order-icon heart-icon fas fa-grin-hearts"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- if order history is empty then display a message -->
+            <div *ngIf="orderHistoryList.length == 0" class="alert alert-warning col-md-12" role="alert">
+                No orders found.
+            </div>
+
+            <div *ngIf="orderHistoryList?.length != 0" class="footer-pagination">
+                <br>
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
+                        <div class="items">
+                            <label>Page Size</label>
+                            <select (change)="updatePageSize($any($event.target).value)">
+                                <option selected>5</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>30</option>
+                                <option>All</option>
+                            </select>
+                        </div>
+                        <div class="count-element">
+                            <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listOrderHistory()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Order Details -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="order-history">
+                        <tr *ngFor="let orderItem of orderItems">
+                            <td>
+                                <img src="{{ orderItem.imageUrl }}" class="img-responsive" width="150px">
+                            </td>
+                            <td>
+                                {{ orderItem.name }}
+                            </td>
+                            <td>
+                                {{ orderItem.unitPrice }}
+                            </td>
+                            <td>
+                                X {{ orderItem.quantity }}
+                            </td>
+                            <td>
+                                {{ orderItem.unitPrice * orderItem.quantity }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Process Order -->
+<div *ngIf="!!order" class="modal fade" id="processOrderModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Cancel Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="processOrder(order)">Yes, I'm sure</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Complete Order -->
+<div *ngIf="!!order" class="modal fade" id="completeOrderModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Complete Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                Are you want to complete this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="completeOrder(order)">Yes, I want</button>
+            </div>
+        </div>
+    </div>
 </div>

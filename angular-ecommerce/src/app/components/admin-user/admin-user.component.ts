@@ -45,18 +45,18 @@ export class AdminUserComponent implements OnInit {
 
   listCustomer() {
     if (this.filter === 2) {
-      this.listAllUser();
+      this.handleListAllUser();
     } else {
-      this.listUserByFilter(this.filter);
+      this.handleListUserByFilter(this.filter);
     }
   }
 
-  listAllUser() {
+  handleListAllUser() {
     this.customerService.getAll(this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
     console.log(this.userList);
   }
 
-  listUserByFilter(isAdmin: number) {
+  handleListUserByFilter(isAdmin: number) {
     this.customerService.getByAdmin(isAdmin, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
@@ -156,7 +156,7 @@ export class AdminUserComponent implements OnInit {
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.pageNumber = 1;
-    this.listAllUser();
+    this.listCustomer();
   }
 
   sortData(sort: Sort) {

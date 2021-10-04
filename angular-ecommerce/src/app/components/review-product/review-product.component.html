@@ -78,7 +78,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <textarea formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                                <textarea autofocus formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                                                 <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
                                                     <div *ngIf="content?.errors?.required || content?.errors?.notOnlyWhitespace">
                                                         Content {{ errMessage.isRequired }}
@@ -120,7 +120,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Review:</label>
-                        <textarea formControlName="editContent" class="form-control" id="message-text"></textarea>
+                        <textarea autofocus formControlName="editContent" class="form-control" id="message-text"></textarea>
                         <div *ngIf="editContent?.invalid && (editContent?.dirty || editContent?.touched)" class="alert alert-danger mt-1">
                             <div *ngIf="editContent?.errors?.required || editContent?.errors?.notOnlyWhitespace">
                                 Content {{ errMessage.isRequired }}
