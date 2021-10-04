@@ -46,15 +46,15 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
-  { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
-  { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }},   
-  { path: 'my-profile', component: ProfileComponent, canActivate: [ OktaAuthGuard ]},   
-  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]},   
+  { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'my-profile', component: ProfileComponent, canActivate: [ OktaAuthGuard ] }, 
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ] }, 
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ]},   
-  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ]},   
+  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ] }, 
+  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ] }, 
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'category/:id/:name', component: ProductListComponent },

@@ -6,6 +6,86 @@
                     <img src="{{ product?.imageUrl }}" class="img-responsive" width="200px">
                     <h3>{{ product?.name }}</h3>
                     <div class="price price-box">
+                        <div class="star" *ngIf="starReview === 0">
+                            <span>{{ starReview }}</span>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 1">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 1.5">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 2">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 2.5">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 3">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 3.5">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 4">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 4.5">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="star" *ngIf="starReview === 5">
+                            <span>{{ starReview }}</span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
                         <h5>Status: In stock</h5>
                         <h5>Price: ${{product?.unitPrice}}</h5>
                         <button (click)="addToCart()" class="btn btn-primary btn-lg">Add to cart</button>

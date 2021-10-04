@@ -27,6 +27,9 @@ public class Category {
 
 	@Column(name = "category_name")
 	private String name;
+	
+	@Column(name = "is_deleted")
+	private Integer isDeleted;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private Set<Product> products;

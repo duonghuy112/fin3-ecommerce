@@ -10,4 +10,6 @@ public interface ReviewService {
 	Page<ReviewDto> findByProductId(Long productId, Integer isDeleted, int page, int size, Pageable pageable);
 	
 	ReviewDto save(ReviewDto reviewResponse);
+	
+	Float countStarByProducyId(Long productId);
 }

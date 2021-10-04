@@ -18,7 +18,8 @@ public class ReviewDto {
 	private CustomerDto customer;
 	private LocalDateTime dateCreated;
 	private LocalDateTime lastUpdated;
-	private int isDeleted;
+	private Integer isDeleted;
+	private Integer star;
 	
 	public ReviewDto(Review review) {
 		this.id = review.getId();
@@ -28,5 +29,6 @@ public class ReviewDto {
 		this.dateCreated = review.getDateCreated();
 		this.lastUpdated = review.getLastUpdated();
 		this.isDeleted = review.getIsDeleted();
+		this.star = review.getStar();
 	}
 }

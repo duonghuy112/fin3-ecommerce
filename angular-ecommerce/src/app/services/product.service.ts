@@ -1,11 +1,9 @@
 import { ResponseCategories } from './../response/response-categories';
 import { ResponseProducts } from './../response/response-products';
-import { Category } from './../common/category';
 import { Product } from './../common/product';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,19 +18,19 @@ export class ProductService {
 
   getProductListPaginate(page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
       // build URL paging
-      const searchUrl = `${this.productUrl}?page=${page}&size=${pageSize}&sort=${sort}`;
+      const searchUrl = `${this.productUrl}?isDeleted=0&page=${page}&size=${pageSize}&sort=${sort}`;
       return this.httpClient.get<ResponseProducts>(searchUrl);
   }
 
   getProductListByCategoryPaginate(categoryId: number, page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
     // build URL based on categoryId
-    const searchUrl = `${this.productUrl}/search/findByCategoryId?id=${categoryId}&page=${page}&size=${pageSize}&sort=${sort}`;
+    const searchUrl = `${this.productUrl}/findByCategoryId?categoryId=${categoryId}&isDeleted=0&page=${page}&size=${pageSize}&sort=${sort}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
     
   searchProductsPaginate(keyword: string, page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
     // build URL based on keyword
-    const searchUrl = `${this.productUrl}/search/findByNameContaining?name=${keyword}&page=${page}&size=${pageSize}&sort=${sort}`;
+    const searchUrl = `${this.productUrl}/findByNameContaining?productName=${keyword}&isDeleted=0&page=${page}&size=${pageSize}&sort=${sort}`;
     return this.httpClient.get<ResponseProducts>(searchUrl);
   }
   
@@ -41,8 +39,7 @@ export class ProductService {
     return this.httpClient.get<Product>(productIdUrl);
   }
 
-  getCategories(): Observable<Category[]> {
-    return this.httpClient.get<ResponseCategories>(this.categoryUrl)
-                          .pipe (map(response => response._embedded.category));
+  getCategories(): Observable<ResponseCategories> {
+    return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}?isDeleted=0&page=0&size=100`);
   }
 }

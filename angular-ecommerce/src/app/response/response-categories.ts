@@ -1,6 +1,8 @@
 import { Category } from './../common/category';
 export interface ResponseCategories {
-    _embedded: {
-        category: Category[];
-      }
+  content: Category[];
+  size: number,
+  totalElements: number,
+  totalPages: number,
+  number: number
 }

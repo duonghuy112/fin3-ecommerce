@@ -8,7 +8,6 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { CustomerService } from './../../services/customer.service';
 import { Customer } from './../../common/customer';
 import { Component, OnInit } from '@angular/core';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-profile',

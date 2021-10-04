@@ -24,6 +24,7 @@ export class ReviewProductComponent implements OnInit {
   reviews: Review[] = [];
   editReview!: Review;
   deleteReview!: Review;
+  starReview: number = 0;
 
   // cusotmer
   customer = new Customer();

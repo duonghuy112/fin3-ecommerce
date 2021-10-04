@@ -55,5 +55,8 @@ public class Review {
 	private LocalDateTime lastUpdated;
 	
 	@Column(name = "is_deleted")
-	private int isDeleted;
+	private Integer isDeleted;
+	
+	@Column(name = "star")
+	private Integer star;
 }

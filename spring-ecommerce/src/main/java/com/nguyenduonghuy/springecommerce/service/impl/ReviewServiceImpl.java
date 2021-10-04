@@ -50,11 +50,21 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewResponse;
 	}
 	
+	@Override
+	public Float countStarByProducyId(Long productId) {
+		Float starReview = 0f;
+		if (reviewRepository.findByProductIdAndIsDeleted(productId, 0).size() > 0) {
+			starReview = reviewRepository.countStarByProducyId(productId);
+		}
+		return starReview;
+	}
+	
 	private void convert(Review review, ReviewDto reviewResponse) {
 		review.setId(reviewResponse.getId());
 		review.setContent(reviewResponse.getContent());
 		review.setProduct(productRepository.getById(reviewResponse.getProductId()));
 		review.setCustomer(customerRepository.findByEmail(reviewResponse.getCustomer().getEmail()));
 		review.setIsDeleted(reviewResponse.getIsDeleted());
+		review.setStar(reviewResponse.getStar());
 	}
 }

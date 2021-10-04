@@ -115,10 +115,10 @@ export class ProductListComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.products = data._embedded.products;
-        this.pageNumber = data.page.number + 1;
-        this.pageSize = data.page.size;
-        this.totalElements = data.page.totalElements;
+        this.products = data.content;
+        this.pageNumber = data.number + 1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
         this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
         this.endElement = this.startElement + this.pageSize - 1;
         if (this.endElement > this.totalElements) {
@@ -146,6 +146,11 @@ export class ProductListComponent implements OnInit {
 
   sortName() {
     this.sortBy = 'name';
+    this.listProduct();
+  }
+
+  sortUnitPrice() {
+    this.sortBy = 'unitPrice';
     this.listProduct();
   }
 

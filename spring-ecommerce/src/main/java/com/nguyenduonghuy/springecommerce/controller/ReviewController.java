@@ -44,4 +44,9 @@ public class ReviewController {
 											@PathVariable("reviewId") Long id) {
 		return new ResponseEntity<>(reviewService.save(reviewResponse), HttpStatus.OK);
 	}
+	
+	@GetMapping("/countStarByProducyId")
+	public ResponseEntity<Float> countStarReview(@RequestParam Long productId) {
+		return new ResponseEntity<>(reviewService.countStarByProducyId(productId), HttpStatus.OK);
+	}
 }

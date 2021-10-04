@@ -16,7 +16,7 @@
                             <td>
                                 <h4 class="product-name" routerLink="/products/{{ cartItem.id }}" matTooltip="{{ cartItem.description }}">{{ cartItem.name }}</h4>
                                 <div class="product-info">
-                                    <h6>Category: <strong>{{ cartItem.sku }}</strong></h6>
+                                    <h6>Category: <strong>{{ cartItem.category.name }}</strong></h6>
                                     <h6>Status: <strong>In stock</strong></h6>
                                     <h6>Unit price: <strong>${{ cartItem.unitPrice }}</strong></h6>
                                 </div>

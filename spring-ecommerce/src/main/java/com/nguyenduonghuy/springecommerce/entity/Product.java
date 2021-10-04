@@ -33,9 +33,6 @@ public class Product {
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
-	@Column(name = "sku")
-	private String sku;
-
 	@Column(name = "name")
 	private String name;
 
@@ -49,10 +46,7 @@ public class Product {
 	private String imageUrl;
 
 	@Column(name = "active")
-	private Boolean active;
-
-	@Column(name = "units_in_stock")
-	private Integer unitsInStock;
+	private Integer active;
 
 	@Column(name = "date_created")
 	@CreationTimestamp
@@ -61,6 +55,9 @@ public class Product {
 	@Column(name = "last_updated")
 	@UpdateTimestamp
 	private LocalDateTime lastUpdated;
+	
+	@Column(name = "is_deleted")
+	private Integer isDeleted;
 	
 	@OneToMany(mappedBy = "product")
 	private List<Review> reviews;

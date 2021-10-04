@@ -213,6 +213,13 @@ body {
     border: 1px solid #fff
 }
 
+.star {
+    position: absolute;
+    top: -93px;
+    right: 0;
+    color: #ffc107;
+}
+
 .comment-reply li {
     margin-bottom: 15px;
 }

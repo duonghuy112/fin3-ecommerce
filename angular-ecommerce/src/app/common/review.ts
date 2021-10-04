@@ -7,4 +7,5 @@ export class Review {
     dateCreated!: Date;
     lastUpdated!: Date;
     isDeleted!: number;
+    star!: number;
 }

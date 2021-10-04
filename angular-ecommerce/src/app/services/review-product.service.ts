@@ -28,4 +28,7 @@ export class ReviewProductService {
     return this.httpClient.put<Review>(reviewUpdateUrl, review);
   }
   
+  getStarReview(productId: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.reviewUrl}/countStarByProducyId?productId=${productId}`);
+  }
 }

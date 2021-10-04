@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class OrderDto {
 	private Long id;
 	private String orderTrackingNumber;
-	private int totalQuantity;
+	private Integer totalQuantity;
 	private BigDecimal totalPrice;
 	private Integer status;
 	private LocalDateTime dateCreated;
