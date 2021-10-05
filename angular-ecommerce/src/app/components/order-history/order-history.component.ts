@@ -7,6 +7,7 @@ import { OrderHistory } from './../../common/order-history';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { OrderHistoryService } from 'src/app/services/order-history.service';
 import {Sort} from '@angular/material/sort';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-history',
@@ -109,7 +110,55 @@ export class OrderHistoryComponent implements OnInit {
 
   openOrderModal(orderHistory: OrderHistory) {
     this.order = orderHistory;
-    console.log(this.order);
+    this.orderHistoryService.getOrderHistory(this.order.id).subscribe(
+      data => {
+        if (data === null) {
+          // review has been deleted
+          document.getElementById('close-form')?.click();
+          Swal.fire({
+            title: 'Review has been deleted!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                document.getElementById('close-form')?.click();
+                this.listOrderHistory();
+              } else {
+                document.getElementById('close-form')?.click();
+              }
+            }
+          )
+        } else if (JSON.stringify(this.order) === JSON.stringify(data)) {
+          // review can edit
+            console.log(this.order);
+        } else {
+          // review has been updated
+          document.getElementById('close-form')?.click();
+          Swal.fire({
+            title: 'Review has been updated!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it',
+          }).then(
+            result => {
+              if (result.value) {
+                document.getElementById('close-form')?.click();
+                this.listOrderHistory();
+              } else {
+                document.getElementById('close-form')?.click();
+              }
+            }
+          )
+        }
+      }
+    )
+
   }
 
   cancelOrder(order: OrderHistory) {

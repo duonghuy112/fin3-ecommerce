@@ -1,5 +1,7 @@
 package com.nguyenduonghuy.springecommerce.service.impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ public class ProductServiceImpl implements ProductService{
 	private ProductRepository productRepository;
 	
 	@Override
+	@Transactional
 	public Page<ProductDto> findByIsDeleted(int isDeleted, int page, int size, String sort, Pageable pageable) {
 		pageable = PageRequest.of(page, size, Sort.by(sort));
 		return productRepository.findByIsDeleted(isDeleted, pageable)
@@ -25,6 +28,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	@Transactional
 	public Page<ProductDto> findByCategoryIdAndIsDeleted(Long categoryId, int isDeleted, 
 														 int page, int size, 
 														 String sort, Pageable pageable) {
@@ -34,6 +38,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
+	@Transactional
 	public Page<ProductDto> findByNameContainingAndIsDeleted(String productName, int isDeleted, 
 															 int page, int size, 
 															 String sort, Pageable pageable) {

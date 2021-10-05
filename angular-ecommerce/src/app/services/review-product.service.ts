@@ -31,4 +31,8 @@ export class ReviewProductService {
   getStarReview(productId: number): Observable<number> {
     return this.httpClient.get<number>(`${this.reviewUrl}/countStarByProducyId?productId=${productId}`);
   }
+
+  get(reviewId: number): Observable<Review> {
+    return this.httpClient.get<Review>(`${this.reviewUrl}/findById?id=${reviewId}&isDeleted=0`);
+  }
 }

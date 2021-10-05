@@ -1,5 +1,7 @@
 export class Category {
-    constructor(public id: number,
-                public name: string,
-                public isDeleted: number) {}
+    id!: number;
+    name!: string;
+    isDeleted!: number;
+    dateCreated!: Date;
+    imageUrl!: string;
 }

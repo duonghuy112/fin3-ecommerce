@@ -4,6 +4,12 @@
             <div class="col">
                 <h3>Users</h3>
             </div>
+            <div class="form-header">
+                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for user ..." />
+                <button class="au-btn-submit" (click)="reset()">
+                    Reset
+                </button>
+            </div>
             <div class="col text-right">
                 <div ngbDropdown class="d-inline-block">
                     <button *ngIf="filter === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>

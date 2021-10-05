@@ -12,5 +12,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 	
 	Page<Customer> findByIsAdmin(Integer isAdmin, Pageable pageable);
 	
+	Page<Customer> findByFirstNameContainingOrLastNameContainingOrEmailContaining(String firstName,
+																				  String lastName,
+																				  String email,
+																				  Pageable pageable);
+	
 	Customer findByEmail(String email);
 }

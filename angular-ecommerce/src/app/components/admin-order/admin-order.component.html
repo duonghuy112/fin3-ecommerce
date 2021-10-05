@@ -5,6 +5,12 @@
                 <div class="col">
                     <h3>Orders</h3>
                 </div>
+                <div class="form-header">
+                    <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for order ..." />
+                    <button class="au-btn-submit" (click)="reset()">
+                    Reset
+                </button>
+                </div>
                 <div class="col text-right">
                     <div ngbDropdown class="d-inline-block">
                         <button *ngIf="status === -1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status: All</button>
@@ -43,7 +49,7 @@
                                 <td (click)="openOrderItem(tempOrderHistory)" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
                                     {{ tempOrderHistory.orderTrackingNumber }}
                                 </td>
-                                <td matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}">
+                                <td (click)="openCustomer(tempOrderHistory.customer)" matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}" data-toggle="modal" data-target="#customerDetailModal">
                                     {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
                                 </td>
                                 <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}">
@@ -132,41 +138,125 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="table-wrappep">
+                    <div id="table-scroll-modal">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-modal">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="order-history">
+                                <tr *ngFor="let orderItem of orderItems">
+                                    <td>
+                                        <img src="{{ orderItem.imageUrl }}" class="img-responsive" width="150px">
+                                    </td>
+                                    <td>
+                                        {{ orderItem.name }}
+                                    </td>
+                                    <td>
+                                        {{ orderItem.unitPrice }}
+                                    </td>
+                                    <td>
+                                        X {{ orderItem.quantity }}
+                                    </td>
+                                    <td>
+                                        {{ orderItem.unitPrice * orderItem.quantity }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Customer Details -->
+<div *ngIf="customer" class="modal fade" id="customerDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped">
-                    <thead>
+                    <thead class="thead-modal">
                         <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
+                            <th width="10%">Avatar</th>
+                            <th width="35%">Full Name</th>
+                            <th width="10%">Email</th>
+                            <th width="10%">Role</th>
                         </tr>
                     </thead>
-
-                    <tbody class="order-history">
-                        <tr *ngFor="let orderItem of orderItems">
+                    <tbody>
+                        <tr>
                             <td>
-                                <img src="{{ orderItem.imageUrl }}" class="img-responsive" width="150px">
+                                <img src="{{ customer.avatar }}" class="img-responsive" width="150px">
                             </td>
                             <td>
-                                {{ orderItem.name }}
+                                {{customer.firstName }} {{ customer.lastName}}
                             </td>
                             <td>
-                                {{ orderItem.unitPrice }}
+                                {{ customer.email }}
                             </td>
                             <td>
-                                X {{ orderItem.quantity }}
-                            </td>
-                            <td>
-                                {{ orderItem.unitPrice * orderItem.quantity }}
+                                <strong>{{ customer.isAdmin === 1 ? 'Admin' : 'Customer' }}</strong>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div id="table-wrappep" class="modal-body">
+                <div id="table-scroll-modal">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-modal">
+                            <tr>
+                                <th width="60%">Order Tracking Number</th>
+                                <th width="20%">Total Price</th>
+                                <th width="20%">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of ordersByCustomer">
+                                <td>
+                                    {{order.orderTrackingNumber }}
+                                </td>
+                                <td>
+                                    {{ order.totalPrice }}
+                                </td>
+                                <td *ngIf="order.status === 0" matTooltip="Canceled" class="status-cancel">
+                                    Canceled
+                                </td>
+                                <td *ngIf="order.status === 1" matTooltip="Pending" class="status-pending">
+                                    Pending
+                                </td>
+                                <td *ngIf="order.status === 2" matTooltip="Processing" class="status-process">
+                                    Processing
+                                </td>
+                                <td *ngIf="order.status === 3" matTooltip="Completed" class="status-complete">
+                                    Completed
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

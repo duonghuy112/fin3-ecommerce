@@ -55,6 +55,10 @@ table.table.table-bordered th {
     margin-right: 83px;
 }
 
+.form-header {
+    max-height: 38px !important;
+}
+
 table .items>.no-gutters {
     width: 200px;
 }

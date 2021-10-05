@@ -13,5 +13,9 @@ public interface OrderService {
 	
 	Page<OrderDto> findByStatus(Integer status, int page, int size, Pageable pageable);
 	
+	Page<OrderDto> findByOrderTrackingNumber(String orderTrackingNumber, int page, int size, Pageable pageable);
+	
+	OrderDto findById(Long id);
+	
 	OrderDto save(OrderDto orderDto);
 }

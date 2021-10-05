@@ -48,6 +48,20 @@ public class OrderController {
 									HttpStatus.OK);
 	}
 	
+	@GetMapping("/findByOrderTrackingNumber")
+	public ResponseEntity<Page<OrderDto>> getByStatus(@RequestParam String orderTrackingNumber,
+															 @RequestParam int page,
+															 @RequestParam int size,
+															 Pageable pageable) {
+		return new ResponseEntity<>(orderService.findByOrderTrackingNumber(orderTrackingNumber, page, size, pageable), 
+									HttpStatus.OK);
+	}
+	
+	@GetMapping("/findById")
+	public ResponseEntity<OrderDto> update(@RequestParam Long id) {
+		return new ResponseEntity<>(orderService.findById(id), HttpStatus.OK);
+	}
+	
 	@PutMapping("/{orderId}")
 	public ResponseEntity<OrderDto> update(@RequestBody OrderDto orderDto,
 										   @PathVariable("orderId") Long id) {

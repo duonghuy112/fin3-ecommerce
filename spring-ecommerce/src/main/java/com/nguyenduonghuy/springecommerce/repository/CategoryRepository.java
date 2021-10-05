@@ -11,4 +11,8 @@ import com.nguyenduonghuy.springecommerce.entity.Category;
 public interface CategoryRepository extends JpaRepository<Category, Long>{
 
 	Page<Category> findByIsDeleted(Integer isDeleted, Pageable pageable);
+	
+	Page<Category> findByNameContainingAndIsDeleted(String name, Integer isDeleted, Pageable pageable);
+	
+	Category findByIdAndIsDeleted(Long id, Integer isDeleted);
 }

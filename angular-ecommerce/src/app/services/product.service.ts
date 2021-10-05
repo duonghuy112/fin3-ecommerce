@@ -1,3 +1,4 @@
+import { Category } from './../common/category';
 import { ResponseCategories } from './../response/response-categories';
 import { ResponseProducts } from './../response/response-products';
 import { Product } from './../common/product';
@@ -39,7 +40,23 @@ export class ProductService {
     return this.httpClient.get<Product>(productIdUrl);
   }
 
-  getCategories(): Observable<ResponseCategories> {
-    return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}?isDeleted=0&page=0&size=100`);
+  getCategories(page: number, pageSize: number): Observable<ResponseCategories> {
+    return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}?isDeleted=0&page=${page}&size=${pageSize}`);
+  }
+
+  getCategoriesByName(name:string, page: number, pageSize: number): Observable<ResponseCategories> {
+    return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}/findByName?name=${name}&isDeleted=0&page=${page}&size=${pageSize}`);
+  }
+
+  addNewCategory(category: Category): Observable<Category> {
+    return this.httpClient.post<Category>(`${this.categoryUrl}`, category);
+  }
+
+  getCategory(categoryId: number): Observable<Category> {
+    return this.httpClient.get<Category>(`${this.categoryUrl}/findById?id=${categoryId}&isDeleted=0`);
+  }
+
+  updateCategory(category: Category): Observable<Category> {
+    return this.httpClient.put<Category>(`${this.categoryUrl}/${category.id}`, category);
   }
 }

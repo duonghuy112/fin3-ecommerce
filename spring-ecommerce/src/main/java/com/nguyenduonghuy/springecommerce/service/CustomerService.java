@@ -11,7 +11,9 @@ public interface CustomerService {
 	
 	Page<CustomerDto> findByIsAdmin(Integer isAdmin, int page, int size, Pageable pageable);
 	
-	CustomerDto getByEmail(String email);
+	Page<CustomerDto> findByName(String name, int page, int size, Pageable pageable);
+	
+	CustomerDto findByEmail(String email);
 	
 	CustomerDto save(CustomerDto customerDto);
 }

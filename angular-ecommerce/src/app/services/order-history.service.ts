@@ -30,8 +30,17 @@ export class OrderHistoryService {
     return this.httpClient.get<ResponseOrderHistory>(orderHistoryUrl);
   }
 
+  getOrderHistoryByOrderTrackingNumber(orderTrackingNumber: string, page: number, pageSize: number): Observable<ResponseOrderHistory> {
+    const orderHistoryUrl = `${this.orderUrl}/findByOrderTrackingNumber?orderTrackingNumber=${orderTrackingNumber}&page=${page}&size=${pageSize}`;
+    return this.httpClient.get<ResponseOrderHistory>(orderHistoryUrl);
+  }
+
   updateStatusOrder(order: OrderHistory): Observable<OrderHistory> {
     return this.httpClient.put<OrderHistory>(`${this.orderUrl}/${order.id}`, order);
+  }
+
+  getOrderHistory(orderId: number): Observable<OrderHistory> {
+    return this.httpClient.get<OrderHistory>(`${this.orderUrl}/findById?id=${orderId}`);
   }
 
   getOrderItems(orderId: number): Observable<ResponseOrderItem> {

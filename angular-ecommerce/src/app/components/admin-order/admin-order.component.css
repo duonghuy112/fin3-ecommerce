@@ -13,6 +13,11 @@
     overflow: auto;
 }
 
+#table-scroll-modal {
+    height: 400px;
+    overflow: auto;
+}
+
 .table {
     margin: 0;
     max-width: 100vw;
@@ -39,6 +44,10 @@ table.table.table-bordered th {
     padding-right: 1px
 }
 
+.thead-modal th {
+    background-color: #ffc107 !important;
+}
+
 .items select {
     width: 66px;
     height: 40px;
@@ -57,6 +66,10 @@ table .items>.no-gutters {
     cursor: pointer;
 }
 
+.order-history img {
+    max-width: 60px;
+}
+
 .td-icon {
     display: flex;
     justify-content: center;
@@ -67,6 +80,10 @@ table .items>.no-gutters {
     background-color: white;
     border-radius: 5px;
     margin-right: 83px;
+}
+
+.form-header {
+    max-height: 38px !important;
 }
 
 .order-icon {

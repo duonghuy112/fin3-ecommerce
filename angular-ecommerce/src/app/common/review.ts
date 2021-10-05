@@ -1,6 +1,6 @@
 import { Customer } from './customer';
 export class Review {
-    id!: string;
+    id!: number;
     content!: string;
     productId!: number;
     customer!: Customer;

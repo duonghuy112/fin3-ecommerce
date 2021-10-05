@@ -29,15 +29,24 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Override
+	@Transactional
 	public Page<CustomerDto> findByIsAdmin(Integer isAdmin, int page, int size, Pageable pageable) {
 		pageable = PageRequest.of(page, size);
 		return customerRepository.findByIsAdmin(isAdmin, pageable)
 								 .map(CustomerDto::new);
 	}
+	
+	@Override
+	@Transactional
+	public Page<CustomerDto> findByName(String name, int page, int size, Pageable pageable) {
+		pageable = PageRequest.of(page, size);
+		return customerRepository.findByFirstNameContainingOrLastNameContainingOrEmailContaining(name, name, name, pageable)
+								 .map(CustomerDto::new);
+	}
 
 	@Override
 	@Transactional
-	public CustomerDto getByEmail(String email) {
+	public CustomerDto findByEmail(String email) {
 		return new CustomerDto(customerRepository.findByEmail(email));
 	}
 	

@@ -11,5 +11,7 @@ public interface ReviewService {
 	
 	ReviewDto save(ReviewDto reviewResponse);
 	
+	ReviewDto findById(Long id, Integer isDeleted);
+	
 	Float countStarByProducyId(Long productId);
 }

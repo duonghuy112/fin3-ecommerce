@@ -37,9 +37,17 @@ public class CustomerController {
 		return new ResponseEntity<>(customerService.findByIsAdmin(isAdmin, page, size, pageable), HttpStatus.OK);
 	}
 	
+	@GetMapping("/findByName")
+	public ResponseEntity<Page<CustomerDto>> getByName(@RequestParam String name,
+														@RequestParam int page,
+														@RequestParam int size,
+														Pageable pageable) {
+		return new ResponseEntity<>(customerService.findByName(name, page, size, pageable), HttpStatus.OK);
+	}
+	
 	@GetMapping("/findByEmail")
 	public ResponseEntity<CustomerDto> getByEmail(@RequestParam String email) {
-		return new ResponseEntity<>(customerService.getByEmail(email), HttpStatus.OK);
+		return new ResponseEntity<>(customerService.findByEmail(email), HttpStatus.OK);
 	}
 	
 	@PostMapping

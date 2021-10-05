@@ -1,1 +1,175 @@
-<p>admin-category works!</p>
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="row mw-76">
+            <div class="col">
+                <h3>Category</h3>
+            </div>
+            <div class="form-header">
+                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for category ..." />
+                <button class="au-btn-submit" (click)="reset()">
+                    Reset
+                </button>
+            </div>
+            <div class="col text-right">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Category</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div id="table-wrappep">
+                <div id="table-scroll" *ngIf="categoryList.length > 0">
+                    <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th width="5%">Image</th>
+                                <th width="50%" mat-sort-header="name">Name</th>
+                                <th width="10%" colspan="3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order-history">
+                            <tr *ngFor="let category of categoryList; let i = index" [attr.data-index]="i">
+                                <td>{{i+1}}</td>
+                                <td class="text-center"><img src="{{ category.imageUrl }}" alt="Avatar"></td>
+                                <td>{{ category.name }}</td>
+                                <td class="text-center" (click)="openCategoryDetail(category)" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
+                                <td class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
+                                <td class="text-center" (click)="openDeleteCategory(category)" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-trash-alt remove-icon"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- if order history is empty then display a message -->
+            <div *ngIf="categoryList.length === 0" class="alert alert-warning col-md-12" role="alert">
+                No orders found.
+            </div>
+
+            <div *ngIf="categoryList?.length != 0" class="footer-pagination">
+                <br>
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
+                        <div class="items">
+                            <label>Page Size</label>
+                            <select (change)="updatePageSize($any($event.target).value)">
+                                <option selected>5</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>All</option>
+                            </select>
+                        </div>
+                        <div class="count-element">
+                            <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listCategory()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Detail Modal -->
+<div *ngIf="detailCategory" class="modal fade" id="seeDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Category Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-modal">
+                        <tr>
+                            <th width="10%">Image</th>
+                            <th width="10%">ID</th>
+                            <th width="35%">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">
+                                <img src="{{ detailCategory.imageUrl }}" class="img-responsive" width="150px">
+                            </td>
+                            <td>
+                                {{ detailCategory.id }}
+                            </td>
+                            <td>
+                                {{ detailCategory.name }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="table-wrappep" class="modal-body">
+                <div id="table-scroll-modal">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-modal">
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="order-history">
+                            <tr *ngFor="let product of productListByCategory">
+                                <td>
+                                    <img src="{{ product.imageUrl }}" class="img-responsive" width="150px">
+                                </td>
+                                <td>
+                                    {{ product.name }}
+                                </td>
+                                <td>
+                                    {{ product.unitPrice }}
+                                </td>
+                                <td>
+                                    {{ product.active === 1 ? 'In stock' : 'Out stock' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Category Modal -->
+<div *ngIf="deleteCategory" class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete {{ deleteCategory.name }}?
+            </div>
+            <div class="modal-footer">
+                <button id="edit-close-form" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" (click)="removeCategory()" class="btn btn-danger">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

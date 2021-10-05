@@ -9,6 +9,7 @@ import { Review } from './../../common/review';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-review-product',
@@ -168,21 +169,60 @@ export class ReviewProductComponent implements OnInit {
   }
 
   deleteReviewConfirm() {
-    this.deleteReview.isDeleted = 1;
-    console.log(this.deleteReview);
-    
-    this.reviewService.updateReview(this.deleteReview).subscribe({
-      next: response => {
-        this.toastr.success('Your review has been deleted', 'Delete review successfully!');
-        this.resetForm();
-        this.listReviews();
-      },
-      error: err => {
-        console.log(err);
-        this.toastr.error("Error response");
-        this.router.navigateByUrl('/error');
+    this.reviewService.get(this.deleteReview.id).subscribe(
+      data => {
+        if (data === null) {
+          // review has been deleted
+          Swal.fire({
+            title: 'Review has been deleted!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listReviews();
+              }
+            }
+          )
+        } else if (JSON.stringify(this.deleteReview) === JSON.stringify(data)) {
+          // review can delete
+          this.deleteReview.isDeleted = 1;
+          console.log(this.deleteReview);
+          
+          this.reviewService.updateReview(this.deleteReview).subscribe({
+            next: response => {
+              this.toastr.success('Your review has been deleted', 'Delete review successfully!');
+              this.resetForm();
+              this.listReviews();
+            },
+            error: err => {
+              console.log(err);
+              this.toastr.error("Error response");
+              this.router.navigateByUrl('/error');
+            }
+          });
+        } else {
+          // review has been updated
+          Swal.fire({
+            title: 'Review has been updated!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listReviews();
+              }
+            }
+          )
+        }
       }
-    });
+    )
   }
 
   processResult() {
@@ -224,15 +264,59 @@ export class ReviewProductComponent implements OnInit {
   }
   
   openEditContent(review: Review) {
-    console.log("edit " +review);
-    this.editReviewFromGroup.get('editContent')?.setValue(review.content);
     this.editReview = review;
+    this.reviewService.get(this.editReview.id).subscribe(
+      data => {
+        if (data === null) {
+          // review has been deleted
+          document.getElementById('edit-close-form')?.click();
+          Swal.fire({
+            title: 'Review has been deleted!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                document.getElementById('edit-close-form')?.click();
+                this.listReviews();
+              } else {
+                document.getElementById('edit-close-form')?.click();
+              }
+            }
+          )
+        } else if (JSON.stringify(this.editReview) === JSON.stringify(data)) {
+          // review can edit
+          this.editReviewFromGroup.get('editContent')?.setValue(review.content);
+        } else {
+          // review has been updated
+          document.getElementById('edit-close-form')?.click();
+          Swal.fire({
+            title: 'Review has been updated!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it',
+          }).then(
+            result => {
+              if (result.value) {
+                document.getElementById('edit-close-form')?.click();
+                this.listReviews();
+              } else {
+                document.getElementById('edit-close-form')?.click();
+              }
+            }
+          )
+        }
+      }
+    )
   }
   
   openDeleteModal(review: Review) {
-    console.log(`ok ${review}`);
     this.deleteReview = review;
-    console.log(`delete ${this.deleteReview}`);
   }
 
 

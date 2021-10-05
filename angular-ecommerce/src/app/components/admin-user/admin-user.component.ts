@@ -31,6 +31,10 @@ export class AdminUserComponent implements OnInit {
   endElement: number = 0;
   inputPage = new FormControl();
 
+  // search
+  search = new FormControl();
+  searchName: string = '';
+
   constructor(private customerService: CustomerService,
               private toastr: ToastrService, 
               private router: Router) {
@@ -44,7 +48,9 @@ export class AdminUserComponent implements OnInit {
   }
 
   listCustomer() {
-    if (this.filter === 2) {
+    if (this.searchName !== '') {
+      this.handleListUserByName(this.searchName);
+    } else if (this.filter === 2) {
       this.handleListAllUser();
     } else {
       this.handleListUserByFilter(this.filter);
@@ -58,6 +64,10 @@ export class AdminUserComponent implements OnInit {
 
   handleListUserByFilter(isAdmin: number) {
     this.customerService.getByAdmin(isAdmin, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
+  }
+
+  handleListUserByName(name: string) {
+    this.customerService.getByName(name, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
   openChangeModal(customer: Customer) {
@@ -126,16 +136,19 @@ export class AdminUserComponent implements OnInit {
 
   filterAll() {
     this.filter = 2;
+    this.reset();
     this.listCustomer(); 
   }
 
   filterByAdmin() {
     this.filter = 1;
+    this.reset();
     this.listCustomer();
   }
 
   filterByCustomer() {
     this.filter = 0;
+    this.reset();
     this.listCustomer();
   }
 
@@ -153,6 +166,7 @@ export class AdminUserComponent implements OnInit {
         console.log(this.userList);
     };
   }
+  
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.pageNumber = 1;
@@ -200,6 +214,23 @@ export class AdminUserComponent implements OnInit {
         this.pageNumber = value;
       }
     )
+  }
+
+  doSearch() {
+    this.search.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        console.log(value);
+        this.searchName = value;
+        this.handleListUserByName(this.searchName);
+      }
+    )
+  }
+
+  reset() {
+    this.search.setValue('');
   }
 
 }

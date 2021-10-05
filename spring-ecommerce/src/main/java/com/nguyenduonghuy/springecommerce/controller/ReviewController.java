@@ -45,6 +45,11 @@ public class ReviewController {
 		return new ResponseEntity<>(reviewService.save(reviewResponse), HttpStatus.OK);
 	}
 	
+	@GetMapping("/findById")
+	public ResponseEntity<ReviewDto> get(@RequestParam Long id, @RequestParam Integer isDeleted) {
+		return new ResponseEntity<>(reviewService.findById(id, isDeleted), HttpStatus.OK);
+	}
+	
 	@GetMapping("/countStarByProducyId")
 	public ResponseEntity<Float> countStarReview(@RequestParam Long productId) {
 		return new ResponseEntity<>(reviewService.countStarByProducyId(productId), HttpStatus.OK);

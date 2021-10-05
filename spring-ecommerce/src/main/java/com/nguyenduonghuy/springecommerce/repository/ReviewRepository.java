@@ -17,6 +17,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>{
 	
 	Page<Review> findByProductIdAndIsDeleted(Long productId, Integer isDeleted, Pageable pageable);
 	
+	Review findByIdAndIsDeleted(Long id, Integer isDeleted);
+	
 	@Query(value = "SELECT ROUND(AVG(star), 1) FROM review WHERE product_id = ?1 and is_deleted = 0",
 		   nativeQuery = true)
 	Float countStarByProducyId(Long productId);

@@ -24,6 +24,10 @@ export class CustomerService {
     return this.httpClient.get<ResponseCustomer>(`${this.customerUrl}/findByAdmin?isAdmin=${isAdmin}&page=${page}&size=${pageSize}`);
   }
 
+  getByName(name: string, page: number, pageSize: number): Observable<ResponseCustomer> {
+    return this.httpClient.get<ResponseCustomer>(`${this.customerUrl}/findByName?name=${name}&page=${page}&size=${pageSize}`);
+  }
+
   getCustomer(email: String): Observable<Customer> {
     const customerByEmailUrl = `${this.customerUrl}/findByEmail?email=${email}`;
     return this.httpClient.get<Customer>(customerByEmailUrl);

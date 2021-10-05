@@ -1,3 +1,4 @@
+import { Customer } from './../../common/customer';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
@@ -24,6 +25,10 @@ sortedOrder: OrderHistory[] = [];
 // order item by order history
 orderItems: OrderItem[] = [];
 
+// customer by order history
+customer!: Customer;
+ordersByCustomer!: OrderHistory[];
+
 // oder in modal
 order!: OrderHistory;
 
@@ -34,6 +39,10 @@ totalElements: number = 0;
 startElement: number = 0;
 endElement: number = 0;
 inputPage = new FormControl();
+
+// search
+search = new FormControl();
+orderNumber: string = '';
 
 constructor(private orderHistoryService: OrderHistoryService,
             private router: Router,
@@ -46,7 +55,9 @@ ngOnInit(): void {
 }
 
 listOrderHistory() {
- if (this.status === -1) {
+  if (this.orderNumber !== '') {
+    this.handleOrderByOrderTrackingNumber(this.orderNumber);
+  }else if (this.status === -1) {
    this.handleAllOrder();
  } else {
    this.handleOrderByStatus(this.status);
@@ -60,6 +71,10 @@ handleAllOrder() {
 
 handleOrderByStatus(status: number) {
   this.orderHistoryService.getOrderHistoryByStatus(status, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
+}
+
+handleOrderByOrderTrackingNumber(orderTrackingNumber: string) {
+  this.orderHistoryService.getOrderHistoryByOrderTrackingNumber(orderTrackingNumber, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
 }
 
 sortData(sort: Sort) {
@@ -90,6 +105,16 @@ openOrderItem(orderHistory: OrderHistory) {
     data => {
       this.orderItems = data._embedded.orderItems;
       console.log(this.orderItems);
+    }
+  )
+}
+
+openCustomer(customer: Customer) {
+  this.customer = customer;
+  console.log('customer ' + JSON.stringify(this.customer));
+  this.orderHistoryService.getOrderHistoryByEmail(this.customer.email, 0, 100).subscribe(
+    data => {
+      this.ordersByCustomer = data.content;
     }
   )
 }
@@ -150,26 +175,31 @@ completeOrder(order: OrderHistory) {
 
 statusAll() {
   this.status = -1;
+  this.reset();
   this.listOrderHistory();
 }
 
 statusCancel() {
   this.status = 0;
+  this.reset();
   this.listOrderHistory();
 }
 
 statusPending() {
+  this.reset();
   this.status = 1;
   this.listOrderHistory();
 }
 
 statusProcess() {
+  this.reset();
   this.status = 2;
   this.listOrderHistory();
 }
 
 statusComplete() {
   this.status = 3;
+  this.reset();
   this.listOrderHistory();
 }
 
@@ -193,6 +223,23 @@ goToPage() {
       this.pageNumber = value;
     }
   )
+}
+
+doSearch() {
+  this.search.valueChanges.pipe(
+    debounceTime(500),
+    distinctUntilChanged()
+  ).subscribe(
+    value => {
+      console.log(value);
+      this.orderNumber = value;
+      this.handleOrderByOrderTrackingNumber(this.orderNumber)
+    }
+  )
+}
+
+reset() {
+  this.search.setValue('');
 }
 
 }

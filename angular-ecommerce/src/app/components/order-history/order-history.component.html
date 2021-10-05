@@ -169,7 +169,7 @@
                 Are you sure you want to cancel this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="close-form" class="btn btn-secondary" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancelOrder(order)">Yes, I'm sure</button>
             </div>
         </div>
@@ -190,7 +190,7 @@
                 Are you want to re-Order?<br> Order tracking number: {{ order.orderTrackingNumber }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="close-form" class="btn btn-secondary" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="reOrder(order)">Yes, I want</button>
             </div>
         </div>
@@ -211,7 +211,7 @@
                 Are you want to complete this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" id="close-form" class="btn btn-secondary" data-dismiss="modal">No</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" (click)="completeOrder(order)">Yes, I want</button>
             </div>
         </div>

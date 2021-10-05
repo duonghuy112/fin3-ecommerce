@@ -7,5 +7,11 @@ import com.nguyenduonghuy.springecommerce.dto.CategoryDto;
 
 public interface CategoryService {
 
-	Page<CategoryDto> findByIsDeleted(Integer isDeleted, int page, int size, Pageable pageable);
+	Page<CategoryDto> findAll(Integer isDeleted, int page, int size, Pageable pageable);
+	
+	Page<CategoryDto> findByName(String name, Integer isDeleted, int page, int size, Pageable pageable);
+	
+	CategoryDto getById(Long id, Integer isDeleted);
+	
+	CategoryDto save(CategoryDto categoryDto);
 }

@@ -1,6 +1,5 @@
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
 import { FileService } from './../../services/file.service';
 import { ErrMessage } from 'src/app/common/validator/err-message';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
@@ -36,7 +35,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.customer = JSON.parse(this.storage.getItem('customer') as string);
 
-    console.log('customer' + JSON.parse(this.storage.getItem('customer') as string));
+    console.log('customer' + JSON.stringify(JSON.parse(this.storage.getItem('customer') as string)));
 
     let firstName: string = '';
     let lastName: string = '';
@@ -75,7 +74,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getCustomer() {
-    this.customerService.getCustomer(JSON.parse(this.storage.getItem('customer') as string)).subscribe(
+    this.customerService.getCustomer(JSON.parse(this.storage.getItem('customer') as string).email).subscribe(
       data => {
         this.customer = data;
       }

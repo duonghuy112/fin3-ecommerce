@@ -27,6 +27,7 @@ public class OrderServiceImpl implements OrderService{
 	private CustomerRepository customerRepository;
 
 	@Override
+	@Transactional
 	public Page<OrderDto> findAll(int page, int size, Pageable pageable) {
 		pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
 		return orderRepository.findAll(pageable)
@@ -42,10 +43,29 @@ public class OrderServiceImpl implements OrderService{
 	}
 	
 	@Override
+	@Transactional
 	public Page<OrderDto> findByStatus(Integer status, int page, int size, Pageable pageable) {
 		pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending());
 		return orderRepository.findByStatus(status, pageable)
 							   .map(OrderDto::new);
+	}
+	
+	@Override
+	@Transactional
+	public Page<OrderDto> findByOrderTrackingNumber(String orderTrackingNumber, int page, int size, Pageable pageable) {
+		pageable = PageRequest.of(page, size);
+		return orderRepository.findByOrderTrackingNumberContaining(orderTrackingNumber, pageable)
+							  .map(OrderDto::new);
+	}
+	
+	@Override
+	@Transactional
+	public OrderDto findById(Long id) {
+		OrderDto orderDto = null;
+		if (orderRepository.findById(id).isPresent()) {
+			orderDto = new OrderDto(orderRepository.findById(id).get());
+		}
+		return orderDto;
 	}
 	
 	@Override

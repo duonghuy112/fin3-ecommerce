@@ -51,6 +51,17 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	@Override
+	@Transactional
+	public ReviewDto findById(Long id, Integer isDeleted) {
+		ReviewDto reviewDto = null;
+		if (reviewRepository.findByIdAndIsDeleted(id, isDeleted) != null) {
+			reviewDto = new ReviewDto(reviewRepository.findByIdAndIsDeleted(id, isDeleted));
+		}
+		return reviewDto;
+	}
+	
+	@Override
+	@Transactional
 	public Float countStarByProducyId(Long productId) {
 		Float starReview = 0f;
 		if (reviewRepository.findByProductIdAndIsDeleted(productId, 0).size() > 0) {

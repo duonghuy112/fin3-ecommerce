@@ -45,7 +45,6 @@ export class ProductDetailsComponent implements OnInit {
     this.reviewService.getStarReview(Number(this.route.snapshot.paramMap.get('id'))).subscribe(
       data => {
         this.starReview = data;
-      
         if (this.starReview > 0 && this.starReview <= 1.2) {
           this.starReview = 1
         } else if (this.starReview > 1.2 && this.starReview <= 1.7) {
