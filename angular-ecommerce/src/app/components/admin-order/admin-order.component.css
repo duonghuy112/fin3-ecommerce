@@ -4,6 +4,15 @@
  * ----------------------------
  */
 
+#table-wrapper {
+    position: relative;
+}
+
+#table-scroll {
+    height: 533px;
+    overflow: auto;
+}
+
 .table {
     margin: 0;
     max-width: 100vw;
@@ -117,7 +126,7 @@ table .items>.no-gutters {
 
 .paging-row {
     display: flex;
-    max-width: 78vw;
+    max-width: 100vw;
 }
 
 .paging-row:first-child {

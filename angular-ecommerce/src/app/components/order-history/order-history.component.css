@@ -4,6 +4,15 @@
  * ----------------------------
  */
 
+#table-wrapper {
+    position: relative;
+}
+
+#table-scroll {
+    height: 533px;
+    overflow: auto;
+}
+
 .table {
     margin: 0;
     max-width: 76vw;

@@ -113,6 +113,18 @@
                                 <form [formGroup]="reviewFormGroup" (ngSubmit)="onReviewSubmit()" class="row clearfix">
                                     <div class="row">
                                         <div class="col-sm-12">
+                                            <div class="items">
+                                                <label>Product Star
+                                                    <i class="fas fa-star" style="color: #ffc107;"></i>
+                                                </label>
+                                                <select formControlName="star">
+                                                    <option value="5" selected>5</option>
+                                                    <option value="4">4</option>
+                                                    <option value="3">3</option>
+                                                    <option value="2">2</option>
+                                                    <option value="1">1</option>
+                                                </select>
+                                            </div>
                                             <div class="form-group">
                                                 <textarea autofocus formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
                                                 <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
@@ -143,6 +155,7 @@
     </div>
 </div>
 
+<!-- Modal Edit Review  -->
 <div class="modal fade" id="editContentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -154,6 +167,18 @@
             </div>
             <form [formGroup]="editReviewFromGroup" (ngSubmit)="onEditReviewSubmit()">
                 <div class="modal-body">
+                    <div class="items">
+                        <label>Product Star
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                        </label>
+                        <select formControlName="editStar">
+                            <option value="5" selected>5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Review:</label>
                         <textarea autofocus formControlName="editContent" class="form-control" id="message-text"></textarea>

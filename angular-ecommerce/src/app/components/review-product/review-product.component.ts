@@ -63,12 +63,14 @@ export class ReviewProductComponent implements OnInit {
     console.log(this.isAuthenticated);
 
     this.reviewFormGroup = this.formBuilder.group({
+        star: new FormControl(5, Validators.required),
         content: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
     });
 
     this.editReviewFromGroup = this.formBuilder.group({
+        editStar: new FormControl(5, Validators.required),
         editContent: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
@@ -87,16 +89,15 @@ export class ReviewProductComponent implements OnInit {
     }
   }
 
-  get firstName() {
-    return this.reviewFormGroup.get('firstName');
+  get star() {
+    return this.reviewFormGroup.get('star');
   }
-
-  get lastName() {
-    return this.reviewFormGroup.get('lastName');
-  }
-
   get content() {
     return this.reviewFormGroup.get('content');
+  }
+
+  get editStar() {
+    return this.editReviewFromGroup.get('star');
   }
 
   get editContent() {
@@ -120,9 +121,11 @@ export class ReviewProductComponent implements OnInit {
     
     // set up review
     let review = new Review();
+    review.star = this.reviewFormGroup.get('star')?.value;
     review.content = this.reviewFormGroup.get('content')?.value;
     review.productId = this.getProductId();
     review.customer = this.customer;
+    review.isDeleted = 0;
 
     this.reviewService.addReview(review).subscribe({
       next: response => {
@@ -144,6 +147,7 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
     
+    this.editReview.content = this.editReviewFromGroup.get('editStar')?.value;
     this.editReview.content = this.editReviewFromGroup.get('editContent')?.value;
 
     console.log(this.editReview);

@@ -17,42 +17,42 @@
                 </div>
             </div>
         </div>
-        <hr>
         <div class="container-fluid">
-            <div *ngIf="userList.length > 0">
-                <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Avatar</th>
-                            <th mat-sort-header="firstName">Full Name</th>
-                            <th mat-sort-header="email">Email</th>
-                            <th mat-sort-header="dateCreated">Join date</th>
-                            <th mat-sort-header="role">Role</th>
-                            <th mat-sort-header="status">Status</th>
-                            <th colspan="2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="order-history">
-                        <tr *ngFor="let user of userList; let i = index" [attr.data-index]="i">
-                            <td>{{i+1}}</td>
-                            <td class="text-center"><img src="{{ user.avatar }}" alt="Avatar"></td>
-                            <td class="font-weight-bolder" matTooltip="{{ user.firstName }} {{ user.lastName }}">{{ user.firstName }} {{ user.lastName }}</td>
-                            <td matTooltip="{{ user.email }}">{{ user.email }}</td>
-                            <td matTooltip="{{ user.dateCreated | date: 'short'}}">{{ user.dateCreated | date: 'short'}}</td>
-                            <td matTooltip="Admin" *ngIf="user.isAdmin === 1" class="user-admin">Admin</td>
-                            <td matTooltip="Customer" *ngIf="user.isAdmin === 0" class="user-customer">Customer</td>
-                            <td matTooltip="Activate" *ngIf="user.isActivate === 1" class="user-activate">Activate</td>
-                            <td matTooltip="Banned" *ngIf="user.isActivate === 0" class="user-banned">Banned</td>
-                            <td *ngIf="user.isAdmin === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setAdminModal"><i class="fas fa-user-shield admin-icon"></i></td>
-                            <td *ngIf="user.isAdmin === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setCustomerModal"><i class="fas fa-user-tag customer-icon"></i></td>
-                            <td *ngIf="user.isActivate === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setActivateModal"><i class="far fa-paper-plane activate-icon"></i></td>
-                            <td *ngIf="user.isActivate === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setBannedModal"><i class="fas fa-ban banned-icon"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="table-wrappep">
+                <div id="table-scroll" *ngIf="userList.length > 0">
+                    <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Avatar</th>
+                                <th mat-sort-header="firstName">Full Name</th>
+                                <th mat-sort-header="email">Email</th>
+                                <th mat-sort-header="dateCreated">Join date</th>
+                                <th mat-sort-header="role">Role</th>
+                                <th mat-sort-header="status">Status</th>
+                                <th colspan="2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order-history">
+                            <tr *ngFor="let user of userList; let i = index" [attr.data-index]="i">
+                                <td>{{i+1}}</td>
+                                <td class="text-center"><img src="{{ user.avatar }}" alt="Avatar"></td>
+                                <td class="font-weight-bolder" matTooltip="{{ user.firstName }} {{ user.lastName }}">{{ user.firstName }} {{ user.lastName }}</td>
+                                <td matTooltip="{{ user.email }}">{{ user.email }}</td>
+                                <td matTooltip="{{ user.dateCreated | date: 'short'}}">{{ user.dateCreated | date: 'short'}}</td>
+                                <td matTooltip="Admin" *ngIf="user.isAdmin === 1" class="user-admin">Admin</td>
+                                <td matTooltip="Customer" *ngIf="user.isAdmin === 0" class="user-customer">Customer</td>
+                                <td matTooltip="Activate" *ngIf="user.isActivate === 1" class="user-activate">Activate</td>
+                                <td matTooltip="Banned" *ngIf="user.isActivate === 0" class="user-banned">Banned</td>
+                                <td *ngIf="user.isAdmin === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setAdminModal"><i class="fas fa-user-shield admin-icon"></i></td>
+                                <td *ngIf="user.isAdmin === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setCustomerModal"><i class="fas fa-user-tag customer-icon"></i></td>
+                                <td *ngIf="user.isActivate === 0 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setActivateModal"><i class="far fa-paper-plane activate-icon"></i></td>
+                                <td *ngIf="user.isActivate === 1 && user.email !== customer.email" (click)="openChangeModal(user)" class="text-center" data-toggle="modal" data-target="#setBannedModal"><i class="fas fa-ban banned-icon"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
             <!-- if order history is empty then display a message -->
             <div *ngIf="userList.length === 0" class="alert alert-warning col-md-12" role="alert">
                 No orders found.
@@ -65,8 +65,7 @@
                         <div class="items">
                             <label>Page Size</label>
                             <select (change)="updatePageSize($any($event.target).value)">
-                                <option selected>3</option>
-                                <option>5</option>
+                                <option selected>5</option>
                                 <option>10</option>
                                 <option>20</option>
                                 <option>All</option>

@@ -22,69 +22,68 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <div id="table-wrappep">
+                <div id="table-scroll" *ngIf="orderHistoryList.length > 0">
+                    <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th width="4%">#</th>
+                                <th mat-sort-header="trackingNumber" width="30%">Order Tracking Number</th>
+                                <th mat-sort-header="customer" width="16%">Customer</th>
+                                <th mat-sort-header="address" width="16%">Address</th>
+                                <th mat-sort-header="price" width="10%">Total Price</th>
+                                <th mat-sort-header="status" width="10%">Status</th>
+                                <th mat-sort-header="date" width="20%">Date Create</th>
+                            </tr>
+                        </thead>
 
-            <div *ngIf="orderHistoryList.length > 0">
-                <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th width="4%">Index</th>
-                            <th mat-sort-header="trackingNumber" width="30%">Order Tracking Number</th>
-                            <th mat-sort-header="customer" width="16%">Customer</th>
-                            <th mat-sort-header="address" width="16%">Address</th>
-                            <th mat-sort-header="price" width="10%">Total Price</th>
-                            <th mat-sort-header="status" width="10%">Status</th>
-                            <th mat-sort-header="date" width="20%">Date Create</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="order-history">
-                        <tr *ngFor="let tempOrderHistory of orderHistoryList; let i = index" [attr.data-index]="i">
-                            <td>{{i+1}}</td>
-                            <td (click)="openOrderItem(tempOrderHistory)" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
-                                {{ tempOrderHistory.orderTrackingNumber }}
-                            </td>
-                            <td matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}">
-                                {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
-                            </td>
-                            <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}">
-                                {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
-                            </td>
-                            <td matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
-                                {{ tempOrderHistory.totalPrice | currency: 'USD' }}
-                            </td>
-                            <td *ngIf="tempOrderHistory.status === 0" matTooltip="Canceled" class="status-cancel">
-                                Canceled
-                            </td>
-                            <td *ngIf="tempOrderHistory.status === 1" matTooltip="Pending" class="status-pending">
-                                Pending
-                            </td>
-                            <td *ngIf="tempOrderHistory.status === 2" matTooltip="Processing" class="status-process">
-                                Processing
-                            </td>
-                            <td *ngIf="tempOrderHistory.status === 3" matTooltip="Completed" class="status-complete">
-                                Completed
-                            </td>
-                            <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}">
-                                {{ tempOrderHistory.dateCreated | date: 'short' }}
-                            </td>
-                            <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
-                                <i matTooltip="Canceled" class="order-icon cry-icon far fa-frown"></i>
-                            </td>
-                            <td class="td-icon" *ngIf="tempOrderHistory.status === 1">
-                                <i data-toggle="modal" data-target="#processOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Process Order" class="order-icon process-icon fas fa-car-side"></i>
-                            </td>
-                            <td class="td-icon" *ngIf="tempOrderHistory.status === 2">
-                                <i data-toggle="modal" data-target="#completeOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Complete Order" class="order-icon complete-icon fas fa-check-square"></i>
-                            </td>
-                            <td class="td-icon" *ngIf="tempOrderHistory.status === 3">
-                                <i class="order-icon heart-icon fas fa-grin-hearts"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <tbody class="order-history">
+                            <tr *ngFor="let tempOrderHistory of orderHistoryList; let i = index" [attr.data-index]="i">
+                                <td>{{i+1}}</td>
+                                <td (click)="openOrderItem(tempOrderHistory)" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
+                                    {{ tempOrderHistory.orderTrackingNumber }}
+                                </td>
+                                <td matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}">
+                                    {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
+                                </td>
+                                <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}">
+                                    {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
+                                </td>
+                                <td matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
+                                    {{ tempOrderHistory.totalPrice | currency: 'USD' }}
+                                </td>
+                                <td *ngIf="tempOrderHistory.status === 0" matTooltip="Canceled" class="status-cancel">
+                                    Canceled
+                                </td>
+                                <td *ngIf="tempOrderHistory.status === 1" matTooltip="Pending" class="status-pending">
+                                    Pending
+                                </td>
+                                <td *ngIf="tempOrderHistory.status === 2" matTooltip="Processing" class="status-process">
+                                    Processing
+                                </td>
+                                <td *ngIf="tempOrderHistory.status === 3" matTooltip="Completed" class="status-complete">
+                                    Completed
+                                </td>
+                                <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}">
+                                    {{ tempOrderHistory.dateCreated | date: 'short' }}
+                                </td>
+                                <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
+                                    <i matTooltip="Canceled" class="order-icon cry-icon far fa-frown"></i>
+                                </td>
+                                <td class="td-icon" *ngIf="tempOrderHistory.status === 1">
+                                    <i data-toggle="modal" data-target="#processOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Process Order" class="order-icon process-icon fas fa-car-side"></i>
+                                </td>
+                                <td class="td-icon" *ngIf="tempOrderHistory.status === 2">
+                                    <i data-toggle="modal" data-target="#completeOrderModal" (click)="openOrderModal(tempOrderHistory)" matTooltip="Complete Order" class="order-icon complete-icon fas fa-check-square"></i>
+                                </td>
+                                <td class="td-icon" *ngIf="tempOrderHistory.status === 3">
+                                    <i class="order-icon heart-icon fas fa-grin-hearts"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
             <!-- if order history is empty then display a message -->
             <div *ngIf="orderHistoryList.length == 0" class="alert alert-warning col-md-12" role="alert">
                 No orders found.
@@ -187,11 +186,11 @@
           </button>
             </div>
             <div class="modal-body">
-                Are you sure you want to cancel this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
+                Are you want to process this order?<br> Order tracking number: {{ order.orderTrackingNumber }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="processOrder(order)">Yes, I'm sure</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="processOrder(order)">Yes, I'm sure</button>
             </div>
         </div>
     </div>
