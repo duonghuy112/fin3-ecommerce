@@ -6,6 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +53,23 @@ public class ProductController {
 												     Pageable pageable) {
 		return new ResponseEntity<>(productService.findByNameContainingAndIsDeleted(productName, isDeleted, page, size, sort, pageable), 
 									HttpStatus.OK);
+	}
+	
+	@GetMapping("/findById")
+	public ResponseEntity<ProductDto> get(@RequestParam Long id, @RequestParam Integer isDeleted) {
+		return new ResponseEntity<>(productService.findById(id, isDeleted), HttpStatus.OK);
+	}
+	
+	@GetMapping("/countProductByCategory")
+	public ResponseEntity<Integer> countByCategory(@RequestParam Long categoryId,
+												   @RequestParam Integer isDeleted) {
+		return new ResponseEntity<>(productService.countProductByCategory(categoryId, isDeleted),
+									HttpStatus.OK);
+	}
+	
+	@PutMapping("/{productId}")
+	public ResponseEntity<ProductDto> update(@RequestBody ProductDto productDto,
+											  @PathVariable("productId") Long id) {
+		return new ResponseEntity<>(productService.save(productDto), HttpStatus.OK);
 	}
 }

@@ -34,10 +34,11 @@
                         <thead>
                             <tr>
                                 <th width="4%">#</th>
-                                <th mat-sort-header="trackingNumber" width="30%">Order Tracking Number</th>
+                                <th mat-sort-header="trackingNumber" width="25%">Order Tracking Number</th>
                                 <th mat-sort-header="customer" width="16%">Customer</th>
                                 <th mat-sort-header="address" width="16%">Address</th>
                                 <th mat-sort-header="price" width="10%">Total Price</th>
+                                <th mat-sort-header="quantity" width="5%">Quantity</th>
                                 <th mat-sort-header="status" width="10%">Status</th>
                                 <th mat-sort-header="date" width="20%">Date Create</th>
                             </tr>
@@ -46,18 +47,22 @@
                         <tbody class="order-history">
                             <tr *ngFor="let tempOrderHistory of orderHistoryList; let i = index" [attr.data-index]="i">
                                 <td>{{i+1}}</td>
-                                <td (click)="openOrderItem(tempOrderHistory)" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
+                                <td (click)="openOrderItem(tempOrderHistory)" class="over-flow" matTooltip="{{ tempOrderHistory.orderTrackingNumber }}" data-toggle="modal" data-target="#orderDetailModal">
                                     {{ tempOrderHistory.orderTrackingNumber }}
                                 </td>
-                                <td (click)="openCustomer(tempOrderHistory.customer)" matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}" data-toggle="modal" data-target="#customerDetailModal">
+                                <td (click)="openCustomer(tempOrderHistory.customer)" class="over-flow" matTooltip="{{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}" data-toggle="modal" data-target="#customerDetailModal">
                                     {{ tempOrderHistory.customer.firstName }} {{ tempOrderHistory.customer.lastName }}
                                 </td>
-                                <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}">
+                                <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}" class="over-flow">
                                     {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
                                 </td>
                                 <td matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
                                     {{ tempOrderHistory.totalPrice | currency: 'USD' }}
                                 </td>
+                                <td>
+                                    {{ tempOrderHistory.totalQuantity }}
+                                </td>
+
                                 <td *ngIf="tempOrderHistory.status === 0" matTooltip="Canceled" class="status-cancel">
                                     Canceled
                                 </td>
@@ -70,7 +75,7 @@
                                 <td *ngIf="tempOrderHistory.status === 3" matTooltip="Completed" class="status-complete">
                                     Completed
                                 </td>
-                                <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}">
+                                <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}" class="over-flow">
                                     {{ tempOrderHistory.dateCreated | date: 'short' }}
                                 </td>
                                 <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
@@ -235,8 +240,8 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let order of ordersByCustomer">
-                                <td>
-                                    {{order.orderTrackingNumber }}
+                                <td matTooltip="{{ order.orderTrackingNumber }}" class="over-flow">
+                                    {{ order.orderTrackingNumber }}
                                 </td>
                                 <td>
                                     {{ order.totalPrice }}

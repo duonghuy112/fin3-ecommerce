@@ -92,6 +92,7 @@ sortData(sort: Sort) {
       case 'address': return this.compare(a.address.country, b.address.country, isAsc);
       case 'price': return this.compare(a.totalPrice, b.totalPrice, isAsc);
       case 'quantity': return this.compare(a.totalQuantity, b.totalQuantity, isAsc);
+      case 'quantity': return this.compare(a.totalQuantity, b.totalQuantity, isAsc);
       case 'status': return this.compare(a.status, b.status, isAsc);
       case 'date': return this.compare(a.dateCreated, b.dateCreated, isAsc);
       default: return 0;

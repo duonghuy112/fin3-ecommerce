@@ -40,6 +40,18 @@ export class ProductService {
     return this.httpClient.get<Product>(productIdUrl);
   }
 
+  getProductById(productId: number): Observable<Product> {
+    return this.httpClient.get<Product>(`${this.productUrl}/findById?id=${productId}&isDeleted=0`);
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    return this.httpClient.put<Product>(`${this.productUrl}/${product.id}`, product);
+  }
+
+  countProduct(categoryId: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.productUrl}/countProductByCategory?categoryId=${categoryId}&isDeleted=0`);
+  }
+
   getCategories(page: number, pageSize: number): Observable<ResponseCategories> {
     return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}?isDeleted=0&page=${page}&size=${pageSize}`);
   }

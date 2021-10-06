@@ -143,3 +143,10 @@ tr td {
 .count-element>p {
     line-height: 40px;
 }
+
+.over-flow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
+}

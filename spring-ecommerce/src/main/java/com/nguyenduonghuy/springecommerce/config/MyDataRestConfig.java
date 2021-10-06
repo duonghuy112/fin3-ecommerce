@@ -15,11 +15,9 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import com.nguyenduonghuy.springecommerce.entity.Category;
 import com.nguyenduonghuy.springecommerce.entity.City;
 import com.nguyenduonghuy.springecommerce.entity.Country;
 import com.nguyenduonghuy.springecommerce.entity.OrderItem;
-import com.nguyenduonghuy.springecommerce.entity.Product;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
@@ -35,8 +33,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 		HttpMethod[] unsupportedActions = { HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE, HttpMethod.PATCH };
 
 		// disable HTTP methods: PUT, POST, DELETE and PATCH
-		disableHttpMethods(Product.class, config, unsupportedActions);
-		disableHttpMethods(Category.class, config, unsupportedActions);
+//		disableHttpMethods(Product.class, config, unsupportedActions);
+//		disableHttpMethods(Category.class, config, unsupportedActions);
 		disableHttpMethods(Country.class, config, unsupportedActions);
 		disableHttpMethods(City.class, config, unsupportedActions);
 		disableHttpMethods(OrderItem.class, config, unsupportedActions);

@@ -6,8 +6,10 @@ import java.time.LocalDateTime;
 import com.nguyenduonghuy.springecommerce.entity.Product;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ProductDto {
 	private Long id;
 	private CategoryDto category;

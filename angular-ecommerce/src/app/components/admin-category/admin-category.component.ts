@@ -10,6 +10,7 @@ import { ProductService } from './../../services/product.service';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Category } from './../../common/category';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-category',
@@ -26,6 +27,7 @@ export class AdminCategoryComponent implements OnInit {
   productListByCategory: Product[] = [];
   detailCategory!: Category;
   deleteCategory!: Category;
+  
   // page
   pageNumber: number = 1;
   pageSize: number = 5;
@@ -137,6 +139,20 @@ export class AdminCategoryComponent implements OnInit {
 
   openDeleteCategory(category: Category) {
     this.deleteCategory = category;
+    Swal.fire({
+      title: 'Delete Category',
+      text: 'Do you want to delete category?!',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then(
+      result => {
+        if (result.value) {
+          this.removeCategory();
+        } 
+      }
+    )
   }
 
   updatePageSize(pageSize: number) {
@@ -206,6 +222,71 @@ export class AdminCategoryComponent implements OnInit {
   }
 
   removeCategory() {
-
+    this.productService.countProduct(this.deleteCategory.id).subscribe(
+      data => {
+        if (data > 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Cannot delete...',
+            text: 'Because category has some product!',
+          })
+        } else {
+          this.productService.getCategory(this.deleteCategory.id).subscribe(
+            data => {
+              if (data === null) {
+                // category has been deleted
+                Swal.fire({
+                  title: 'Category has been deleted!',
+                  text: 'Do you want to reload page?',
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes, reload page!',
+                  cancelButtonText: 'No, keep it'
+                }).then(
+                  result => {
+                    if (result.value) {
+                      this.listCategory();
+                    }
+                  }
+                )
+              } else if (JSON.stringify(this.deleteCategory) === JSON.stringify(data)) {
+                // review can delete
+                this.deleteCategory.isDeleted = 1;
+                console.log(this.deleteCategory);
+                
+                this.productService.updateCategory(this.deleteCategory).subscribe({
+                  next: response => {
+                    this.toastr.success('Category has been deleted', 'Delete category successfully!');
+                    this.resetForm();
+                    this.listCategory();
+                  },
+                  error: err => {
+                    console.log(err);
+                    this.toastr.error("Error response");
+                    this.router.navigateByUrl('/error');
+                  }
+                });
+              } else {
+                // review has been updated
+                Swal.fire({
+                  title: 'Review has been updated!',
+                  text: 'Do you want to reload page?',
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes, reload page!',
+                  cancelButtonText: 'No, keep it'
+                }).then(
+                  result => {
+                    if (result.value) {
+                      this.listCategory();
+                    }
+                  }
+                )
+              }
+            }
+          )
+        }
+      }
+    )
   }
 }

@@ -1,4 +1,136 @@
 <div class="main-content">
-    <h1>alooooo
-    </h1>
+    <div class="section-content section-content-p30">
+        <div class="row mw-76">
+            <div class="col">
+                <h3>Product</h3>
+            </div>
+            <div class="form-header">
+                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for product ..." />
+                <button class="au-btn-submit" (click)="reset()">
+                    Reset
+                </button>
+            </div>
+            <div class="col text-right">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Product</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div id="table-wrappep">
+                <div id="table-scroll" *ngIf="productList.length > 0">
+                    <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th width="5%">Image</th>
+                                <th width="20%" mat-sort-header="name">Name</th>
+                                <th width="25%">Description</th>
+                                <th width="10%" mat-sort-header="unitPrice">Unit Price</th>
+                                <th width="8%" mat-sort-header="active">Status</th>
+                                <th width="8%" mat-sort-header="category">Category</th>
+                                <th width="15%" mat-sort-header="dateCreated">Date Created</th>
+                                <th width="10%" colspan="3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="order-history">
+                            <tr *ngFor="let product of productList; let i = index" [attr.data-index]="i">
+                                <td>{{i+1}}</td>
+                                <td class="text-center"><img src="{{ product.imageUrl }}" alt="Avatar"></td>
+                                <td matTooltip="{{ product.name }}" class="over-flow"><strong>{{ product.name }}</strong></td>
+                                <td matTooltip="{{ product.description }}" class="over-flow">{{ product.description }}</td>
+                                <td matTooltip="{{ product.unitPrice }}">${{ product.unitPrice}}</td>
+                                <td matTooltip="{{ product.active === 1 ? 'In stock' : 'Out stock' }}">{{ product.active === 1 ? 'In stock' : 'Out stock'}}</td>
+                                <td matTooltip="{{ product.category.name }}">{{ product.category.name }}</td>
+                                <td matTooltip="{{ product.dateCreated }}" class="over-flow">{{ product.dateCreated | date: 'short'}}</td>
+                                <td class="text-center" (click)="seeDetailProduct(product)" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
+                                <td class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
+                                <td (click)="openDeleteProduct(product)" class="text-center"><i class="fas fa-trash-alt remove-icon"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- if order history is empty then display a message -->
+            <div *ngIf="productList.length === 0" class="alert alert-warning col-md-12" role="alert">
+                No orders found.
+            </div>
+
+            <div *ngIf="productList?.length != 0" class="footer-pagination">
+                <br>
+                <div class="row paging-row">
+                    <div class="col-md-6 paging-row">
+                        <div class="items">
+                            <label>Page Size</label>
+                            <select (change)="updatePageSize($any($event.target).value)">
+                                <option selected>5</option>
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                            </select>
+                        </div>
+                        <div class="count-element">
+                            <p>Showing {{ startElement }} to {{ endElement }} of {{ totalElements }} items</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 paging-row">
+                        <div class="goto-page">
+                            <span>Go to page:</span>
+                            <input [formControl]="inputPage" (keyup)="goToPage()" maxlength="2" pa class="go-page" type="text">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="totalElements" [maxSize]="4" [boundaryLinks]="true" (pageChange)="listProduct()">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Detail Modal -->
+<div *ngIf="detailProduct" class="modal fade" id="seeDetailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Product Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="product-img" style="display: flex; justify-content: center;">
+                    <img src="{{ detailProduct.imageUrl }}" style="max-width: 150px;" alt="Prouduct">
+                </div>
+                <div class="product-info">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text" value="{{ detailProduct.description }}" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Unit Price:</label>
+                        <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.unitPrice }}" readonly style="display: inline;">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Status:</label>
+                        <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.active === 1 ? 'In stock' : 'Out stock' }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Date Created:</label>
+                        <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.dateCreated | date: 'short' }}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>

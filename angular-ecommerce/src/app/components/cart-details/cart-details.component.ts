@@ -1,6 +1,7 @@
 import { CartService } from './../../services/cart.service';
 import { CartItem } from './../../common/cart-item';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart-details',
@@ -16,7 +17,6 @@ export class CartDetailsComponent implements OnInit {
 
   // delete cartItem
   deleteCartItem: CartItem = null!;
-  deleteMode: boolean = false;
 
   constructor(private cartService: CartService) { }
 
@@ -51,14 +51,27 @@ export class CartDetailsComponent implements OnInit {
   decrementQuantity(cartItem: CartItem) {
     this.cartService.decrementQuantity(cartItem);
   }
-
-  remove() {
-    this.cartService.remove(this.deleteCartItem);
-  }
-
-  openRemoveModal(cartItem: CartItem) {
-    this.deleteMode = true;
+  
+  openRemove(cartItem: CartItem) {
     this.deleteCartItem = cartItem;
-  }
+    Swal.fire({
+      title: 'Delete product',
+      text: `Do you want to delete ${this.deleteCartItem.name}?!`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then(
+      result => {
+        if (result.value) {
+          this.remove();
+        } 
+      }
+      )
+    }
+
+    remove() {
+      this.cartService.remove(this.deleteCartItem);
+    }
 
 }

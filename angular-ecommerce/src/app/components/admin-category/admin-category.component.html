@@ -32,10 +32,10 @@
                             <tr *ngFor="let category of categoryList; let i = index" [attr.data-index]="i">
                                 <td>{{i+1}}</td>
                                 <td class="text-center"><img src="{{ category.imageUrl }}" alt="Avatar"></td>
-                                <td>{{ category.name }}</td>
+                                <td class="over-flow"><strong>{{ category.name }}</strong></td>
                                 <td class="text-center" (click)="openCategoryDetail(category)" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
                                 <td class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
-                                <td class="text-center" (click)="openDeleteCategory(category)" data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-trash-alt remove-icon"></i></td>
+                                <td class="text-center" (click)="openDeleteCategory(category)"><i class="fas fa-trash-alt remove-icon"></i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -121,7 +121,7 @@
                         <thead class="thead-modal">
                             <tr>
                                 <th>Image</th>
-                                <th>Name</th>
+                                <th width="40%">Name</th>
                                 <th>Price</th>
                                 <th>Status</th>
                             </tr>
@@ -132,7 +132,7 @@
                                 <td>
                                     <img src="{{ product.imageUrl }}" class="img-responsive" width="150px">
                                 </td>
-                                <td>
+                                <td class="over-flow">
                                     {{ product.name }}
                                 </td>
                                 <td>
@@ -148,27 +148,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Delete Category Modal -->
-<div *ngIf="deleteCategory" class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Delete Category</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete {{ deleteCategory.name }}?
-            </div>
-            <div class="modal-footer">
-                <button id="edit-close-form" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" (click)="removeCategory()" class="btn btn-danger">Yes</button>
             </div>
         </div>
     </div>

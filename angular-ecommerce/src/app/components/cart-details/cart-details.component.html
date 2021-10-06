@@ -30,8 +30,8 @@
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                         </div>
-                                        <div *ngIf="cartItem.quantity === 1" class="col" data-toggle="modal" data-target="#removeCartItem">
-                                            <button (click)="openRemoveModal(cartItem)" class="btn btn-primary btn-sm">
+                                        <div *ngIf="cartItem.quantity === 1" class="col">
+                                            <button (click)="openRemove(cartItem)" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                         </div>
@@ -48,7 +48,7 @@
                                     .
                                 </div>
                                 <h6>Sub-total ${{ (cartItem.unitPrice * cartItem.quantity).toFixed(2) }}</h6>
-                                <button (click)="openRemoveModal(cartItem)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeCartItem">Remove</button>
+                                <button (click)="openRemove(cartItem)" class="btn btn-danger btn-sm">Remove</button>
                             </td>
                         </tr>
                         <tr>
@@ -67,27 +67,6 @@
                     Your shopping cart is empty.
                 </div>
             </ng-template>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div *ngIf="deleteMode" class="modal fade" id="removeCartItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Cart Item</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delele item {{ deleteCartItem.name }}?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                <button (click)=remove() type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-            </div>
         </div>
     </div>
 </div>

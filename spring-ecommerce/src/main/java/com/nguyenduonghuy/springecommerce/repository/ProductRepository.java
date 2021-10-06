@@ -1,5 +1,7 @@
 package com.nguyenduonghuy.springecommerce.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Page<Product> findByNameContainingAndIsDeleted(String productName, int isDeleted, Pageable pageable);
 	
+	List<Product> findByCategoryIdAndIsDeleted(Long categoryId, Integer isDeleted);
+	
+	Product findByIdAndIsDeleted(Long id, Integer isDeleted);
 }
