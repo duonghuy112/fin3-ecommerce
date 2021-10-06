@@ -88,7 +88,8 @@
                         </div>
                         <h5>Status: In stock</h5>
                         <h5>Price: ${{product?.unitPrice}}</h5>
-                        <button (click)="addToCart()" class="btn btn-primary btn-lg">Add to cart</button>
+                        <button *ngIf="product.active === 1" (click)="addToCart()" class="btn btn-primary btn-lg">Add to cart</button>
+                        <button *ngIf="product.active === 0" disabled class="btn btn-dark btn-lg">Add to cart</button>
                     </div>
                     <br>
                     <hr>

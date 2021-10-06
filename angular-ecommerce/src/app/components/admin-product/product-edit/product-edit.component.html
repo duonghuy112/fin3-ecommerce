@@ -1,0 +1,122 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block" src="{{ product.imageUrl }}" alt="Category">
+                        <div class="form-inline col-md-10 col-sm-9 col-xs-12 mt-5">
+                            <input id="selectFile" type="file" (change)=onUploadFiles($any($event.target).files[0]) name="file" class="file-uploader pull-left">
+                            <!-- <button type="button" class="btn btn-sm btn-default-alt pull-left">Update Image</button> -->
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="content-panel">
+                    <form [formGroup]="editProductFormGroup" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <h2 class="title">Product Details</h2>
+                        <fieldset class="fieldset">
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Name</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input autoFocus formControlName="name" type="text" class="form-control">
+                                    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
+                                        <div *ngIf="name?.errors?.required ||  name?.errors?.notOnlyWhitespace">
+                                            Name {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="name?.errors?.minlength">
+                                            Name {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="name?.errors?.maxlength">
+                                            Name {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Category</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <select name="category" class="form-control" formControlName="category">
+                                        <option *ngFor="let c of categoryList">
+                                            {{ c.name }}
+                                        </option>
+                                    </select>
+                                    <!-- <input formControlName="category" type="text" class="form-control"> -->
+                                    <div *ngIf="category?.invalid && (category?.dirty || category?.touched)" class="alert alert-danger">
+                                        <div *ngIf="category?.errors?.required ||  category?.errors?.notOnlyWhitespace">
+                                            Category {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="category?.errors?.minlength">
+                                            Category {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="category?.errors?.maxlength">
+                                            Category {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Description</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <textarea formControlName="description" type="text" class="form-control"></textarea>
+                                    <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="alert alert-danger">
+                                        <div *ngIf="description?.errors?.required ||  description?.errors?.notOnlyWhitespace">
+                                            Description {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="description?.errors?.minlength">
+                                            Description {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="description?.errors?.maxlength">
+                                            Description {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Unit Price</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input formControlName="unitPrice" type="text" class="form-control">
+                                    <div *ngIf="unitPrice?.invalid && (unitPrice?.dirty || unitPrice?.touched)" class="alert alert-danger">
+                                        <div *ngIf="unitPrice?.errors?.required ||  unitPrice?.errors?.notOnlyWhitespace">
+                                            UnitPrice {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="unitPrice?.errors?.minlength">
+                                            UnitPrice {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="unitPrice?.errors?.maxlength">
+                                            UnitPrice {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Status: 
+                                    <i *ngIf="product.active === 1" style="color: cornflowerblue;">In stock</i>
+                                    <i *ngIf="product.active === 0" style="color: red;">Out stock</i>
+                                </label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <label class="radio-inline mr-5">
+                                        <input type="radio" name="status" value="1" formControlName="status">
+                                        In stock
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="status" value="0" formControlName="status">
+                                        Out stock
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-primary" type="submit" value="Update Profile">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

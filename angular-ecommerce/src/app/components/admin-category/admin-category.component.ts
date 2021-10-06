@@ -1,5 +1,4 @@
 import { Product } from './../../common/product';
-import { FileService } from './../../services/file.service';
 import { ErrMessage } from 'src/app/common/validator/err-message';
 import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { Sort } from '@angular/material/sort';
@@ -26,6 +25,7 @@ export class AdminCategoryComponent implements OnInit {
   sortCategory: Category[] = [];
   productListByCategory: Product[] = [];
   detailCategory!: Category;
+  updateCategory!: Category;
   deleteCategory!: Category;
   
   // page
@@ -47,7 +47,6 @@ export class AdminCategoryComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
-              private fileService: FileService,
               private toastr: ToastrService, 
               private router: Router) {
     this.sortCategory = this.categoryList.slice();
@@ -98,41 +97,55 @@ export class AdminCategoryComponent implements OnInit {
     };
   }
 
-  onAddCategorySubmit() {
-    if (this.addCategoryFormGroup.invalid) {
-      this.addCategoryFormGroup.markAllAsTouched();
-      return;
-    }
-
-    let category = new Category();
-    category.id = 0;
-    category.name = this.addCategoryFormGroup.get('categoryName')?.value;
-    category.isDeleted = 0;
-    category.imageUrl = `assets/images/category/${this.filename}`;
-
-    console.log(category);
-
-    document.getElementById('add-close-form')?.click();
-
-    this.productService.addNewCategory(category).subscribe({
-      next: response => {
-        this.toastr.success('Your review has been public', 'Submit review successfully!');
-        this.resetForm();
-        this.listCategory();
-      },
-      error: err => {
-        console.log(err);
-        this.toastr.error("Error response");
-        this.router.navigateByUrl('/error');
-      }
-    })
-  }
-
   openCategoryDetail(category: Category) {
     this.detailCategory = category;
     this.productService.getProductListByCategoryPaginate(this.detailCategory.id, 0, 100, 'id').subscribe(
       data => {
         this.productListByCategory = data.content;
+      }
+    )
+  }
+
+  openUpdateCategory(category: Category) {
+    this.updateCategory = category;
+    this.productService.getCategory(this.updateCategory.id).subscribe(
+      data => {
+        if (data === null) {
+          // category has been deleted
+          Swal.fire({
+            title: 'Category has been deleted!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listCategory();
+              }
+            }
+          )
+        } else if (JSON.stringify(this.updateCategory) === JSON.stringify(data)) {
+          // review can delete
+          this.router.navigateByUrl(`/admin-category/${this.updateCategory.id}`);
+        } else {
+          // review has been updated
+          Swal.fire({
+            title: 'Category has been updated!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listCategory();
+              }
+            }
+          )
+        }
       }
     )
   }
@@ -269,7 +282,7 @@ export class AdminCategoryComponent implements OnInit {
               } else {
                 // review has been updated
                 Swal.fire({
-                  title: 'Review has been updated!',
+                  title: 'Category has been updated!',
                   text: 'Do you want to reload page?',
                   icon: 'question',
                   showCancelButton: true,

@@ -36,8 +36,8 @@
                             <a routerLink="/products/{{ product.id }}">{{ product.name }}</a>
                         </h1>
                         <div class="price">{{ product.unitPrice }} $</div>
-                        <button *ngIf="product.active" (click)="addToCart(product)" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addToCartModal">Add to cart</button>
-                        <button *ngIf="!product.active" disabled class="btn btn-dark btn-md">Add to cart</button>
+                        <button *ngIf="product.active === 1" (click)="addToCart(product)" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addToCartModal">Add to cart</button>
+                        <button *ngIf="product.active === 0" disabled class="btn btn-dark btn-md">Add to cart</button>
                     </div>
                 </div>
 

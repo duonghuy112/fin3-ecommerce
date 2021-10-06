@@ -1,0 +1,49 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block" src="{{ category.imageUrl }}" alt="Category">
+                        <div class="form-inline col-md-10 col-sm-9 col-xs-12 mt-5">
+                            <input id="selectFile" type="file" (change)=onUploadFiles($any($event.target).files[0]) name="file" class="file-uploader pull-left">
+                            <!-- <button type="button" class="btn btn-sm btn-default-alt pull-left">Update Image</button> -->
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <div class="content-panel">
+                    <form [formGroup]="editCategoryFormGroup" (ngSubmit)="onSubmit()" class="form-horizontal">
+                        <h2 class="title">Category Details</h2>
+                        <fieldset class="fieldset">
+                            <div class="form-group">
+                                <label class="col-md-3 col-sm-3 col-xs-12 control-label">Name</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input autoFocus formControlName="name" type="text" class="form-control">
+                                    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
+                                        <div *ngIf="name?.errors?.required ||  name?.errors?.notOnlyWhitespace">
+                                            Name {{ errMessage.isRequired }}
+                                        </div>
+                                        <div *ngIf="name?.errors?.minlength">
+                                            Name {{ errMessage.validMinLength }}
+                                        </div>
+                                        <div *ngIf="name?.errors?.maxlength">
+                                            Name {{ errMessage.validMaxLength }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-primary" type="submit" value="Update Category">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

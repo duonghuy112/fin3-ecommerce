@@ -18,6 +18,7 @@ export class AdminProductComponent implements OnInit {
   productList: Product[] = [];
   sortProduct: Product[] = [];
   detailProduct!: Product;
+  updateProduct!: Product;
   deleteProduct!: Product;
 
   // page
@@ -74,6 +75,50 @@ export class AdminProductComponent implements OnInit {
 
   seeDetailProduct(product: Product) {
     this.detailProduct = product;
+  }
+
+  openUpdateProduct(product: Product) {
+    this.updateProduct = product;
+    this.productService.getProductById(this.updateProduct.id).subscribe(
+      data => {
+        if (data === null) {
+          // product has been deleted
+          Swal.fire({
+            title: 'Product has been deleted!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listProduct();
+              }
+            }
+          )
+        } else if (JSON.stringify(this.updateProduct) === JSON.stringify(data)) {
+          // review can delete
+          this.router.navigateByUrl(`/admin-product/${this.updateProduct.id}`);
+        } else {
+          // review has been updated
+          Swal.fire({
+            title: 'Product has been updated!',
+            text: 'Do you want to reload page?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, reload page!',
+            cancelButtonText: 'No, keep it'
+          }).then(
+            result => {
+              if (result.value) {
+                this.listProduct();
+              }
+            }
+          )
+        }
+      }
+    )
   }
 
   openDeleteProduct(product: Product) {

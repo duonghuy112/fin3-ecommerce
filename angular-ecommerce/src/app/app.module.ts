@@ -36,6 +36,10 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
 import { AdminProductComponent } from './components/admin-product/admin-product.component';
 import { AdminOrderComponent } from './components/admin-order/admin-order.component';
 import { AdminCategoryComponent } from './components/admin-category/admin-category.component';
+import { CategoryEditComponent } from './components/admin-category/category-edit/category-edit.component';
+import { CategoryAddComponent } from './components/admin-category/category-add/category-add.component';
+import { ProductAddComponent } from './components/admin-product/product-add/product-add.component';
+import { ProductEditComponent } from './components/admin-product/product-edit/product-edit.component';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
@@ -47,7 +51,11 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'admin-category', component: AdminCategoryComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-category/add', component: CategoryAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-category/:id', component: CategoryEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-category', component: AdminCategoryComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } }, 
+  { path: 'admin-product/add', component: ProductAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
+  { path: 'admin-product/:id', component: ProductEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
   { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
   { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
   { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },   
@@ -89,6 +97,10 @@ const routes: Routes = [
     AdminProductComponent,
     AdminOrderComponent,
     AdminCategoryComponent,
+    CategoryEditComponent,
+    CategoryAddComponent,
+    ProductAddComponent,
+    ProductEditComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

@@ -34,7 +34,7 @@
                                 <td class="text-center"><img src="{{ category.imageUrl }}" alt="Avatar"></td>
                                 <td class="over-flow"><strong>{{ category.name }}</strong></td>
                                 <td class="text-center" (click)="openCategoryDetail(category)" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
-                                <td class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
+                                <td class="text-center" (click)="openUpdateCategory(category)"><i class="fas fa-cogs edit-icon"></i></td>
                                 <td class="text-center" (click)="openDeleteCategory(category)"><i class="fas fa-trash-alt remove-icon"></i></td>
                             </tr>
                         </tbody>
@@ -43,7 +43,7 @@
             </div>
             <!-- if order history is empty then display a message -->
             <div *ngIf="categoryList.length === 0" class="alert alert-warning col-md-12" role="alert">
-                No orders found.
+                No category found.
             </div>
 
             <div *ngIf="categoryList?.length != 0" class="footer-pagination">
@@ -116,7 +116,7 @@
                 </table>
             </div>
             <div id="table-wrappep" class="modal-body">
-                <div id="table-scroll-modal">
+                <div *ngIf="productListByCategory.length > 0" id="table-scroll-modal">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-modal">
                             <tr>
@@ -144,6 +144,9 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div *ngIf="productListByCategory.length > 0" class="alert alert-warning" role="alert">
+                    This category has no product!
                 </div>
             </div>
             <div class="modal-footer">

@@ -3,8 +3,8 @@ body {
 }
 
 .container {
-    padding: 120px;
-    height: 99vh;
+    padding: 100px 100px 35px;
+    min-height: 99vh;
 }
 
 .view-account {

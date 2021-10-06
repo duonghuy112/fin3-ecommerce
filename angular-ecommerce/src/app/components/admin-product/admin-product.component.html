@@ -43,8 +43,8 @@
                                 <td matTooltip="{{ product.active === 1 ? 'In stock' : 'Out stock' }}">{{ product.active === 1 ? 'In stock' : 'Out stock'}}</td>
                                 <td matTooltip="{{ product.category.name }}">{{ product.category.name }}</td>
                                 <td matTooltip="{{ product.dateCreated }}" class="over-flow">{{ product.dateCreated | date: 'short'}}</td>
-                                <td class="text-center" (click)="seeDetailProduct(product)" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
-                                <td class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
+                                <td (click)="seeDetailProduct(product)" class="text-center" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
+                                <td (click)="openUpdateProduct(product)" class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
                                 <td (click)="openDeleteProduct(product)" class="text-center"><i class="fas fa-trash-alt remove-icon"></i></td>
                             </tr>
                         </tbody>
@@ -53,7 +53,7 @@
             </div>
             <!-- if order history is empty then display a message -->
             <div *ngIf="productList.length === 0" class="alert alert-warning col-md-12" role="alert">
-                No orders found.
+                No products found.
             </div>
 
             <div *ngIf="productList?.length != 0" class="footer-pagination">
@@ -111,12 +111,12 @@
                         <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.name }}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
+                        <label for="message-text" class="col-form-label">Description:</label>
                         <textarea class="form-control" id="message-text" value="{{ detailProduct.description }}" readonly></textarea>
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Unit Price:</label>
-                        <input type="text" class="form-control" id="recipient-name" value="{{ detailProduct.unitPrice }}" readonly style="display: inline;">
+                        <input type="text" class="form-control" id="recipient-name" value="${{ detailProduct.unitPrice }}" readonly style="display: inline;">
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Status:</label>

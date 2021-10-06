@@ -71,7 +71,7 @@ export class ReviewProductComponent implements OnInit {
     });
 
     this.editReviewFromGroup = this.formBuilder.group({
-        editStar: new FormControl(5, Validators.required),
+        editStar: new FormControl('', Validators.required),
         editContent: new FormControl('', [Validators.required, Validators.minLength(2), 
                                       Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace,
                                       MyCustomValidators.badwordConstraint])
@@ -98,7 +98,7 @@ export class ReviewProductComponent implements OnInit {
   }
 
   get editStar() {
-    return this.editReviewFromGroup.get('star');
+    return this.editReviewFromGroup.get('editStar');
   }
 
   get editContent() {
@@ -148,8 +148,9 @@ export class ReviewProductComponent implements OnInit {
       return;
     }
     
-    this.editReview.content = this.editReviewFromGroup.get('editStar')?.value;
+    this.editReview.star = this.editReviewFromGroup.get('editStar')?.value;
     this.editReview.content = this.editReviewFromGroup.get('editContent')?.value;
+    
 
     console.log(this.editReview);
 
@@ -232,7 +233,11 @@ export class ReviewProductComponent implements OnInit {
           )
         } else if (JSON.stringify(this.editReview) === JSON.stringify(data)) {
           // review can edit
-          this.editReviewFromGroup.get('editContent')?.setValue(review.content);
+          this.editReviewFromGroup.patchValue({
+            editStar: review.star,
+            editContent: review.content
+          })
+          console.log(JSON.stringify(this.editStar) + ' - ' + JSON.stringify(this.editContent));
           this.onEditReviewSubmit();
         } else {
           // review has been updated
