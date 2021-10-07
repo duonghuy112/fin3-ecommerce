@@ -10,7 +10,7 @@ import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { City } from './../../common/city';
 import { Country } from './../../common/country';
 import { FormServiceService } from '../../services/form-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrMessage } from 'src/app/common/validator/err-message';
 
@@ -20,6 +20,9 @@ import { ErrMessage } from 'src/app/common/validator/err-message';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
+
   // form group
   checkoutFormGroup!: FormGroup;
 
@@ -75,17 +78,6 @@ export class CheckoutComponent implements OnInit {
         zipCode: new FormControl('', [Validators.minLength(2),
                                       Validators.maxLength(255)])
       }),
-      creditCard: this.formBuilder.group({
-        cardType: new FormControl('', [Validators.required]),
-        cardName: new FormControl('', [Validators.required, 
-                                      Validators.minLength(2),
-                                      Validators.maxLength(255), 
-                                      MyCustomValidators.notOnlyWhitespace]),
-        cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
-        securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{4}')]),
-        expirationMonth: [''],
-        expirationYear: ['']
-      })
     });
 
     // cart details
@@ -149,23 +141,6 @@ export class CheckoutComponent implements OnInit {
 
   get zipCode() {
     return this.checkoutFormGroup.get('shippingAddress.zipCode');
-  }
-
-  // getter for credit card
-  get cardType() {
-    return this.checkoutFormGroup.get('creditCard.cardType');
-  }
-
-  get cardName() {
-    return this.checkoutFormGroup.get('creditCard.cardName');
-  }
-
-  get cardNumber() {
-    return this.checkoutFormGroup.get('creditCard.cardNumber');
-  }
-
-  get securityCode() {
-    return this.checkoutFormGroup.get('creditCard.securityCode');
   }
 
   // on submit method
@@ -281,5 +256,11 @@ export class CheckoutComponent implements OnInit {
 
     // back to products list
     this.router.navigateByUrl('/products');
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 }

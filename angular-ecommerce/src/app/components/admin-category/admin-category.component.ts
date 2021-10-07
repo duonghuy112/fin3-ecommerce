@@ -30,7 +30,7 @@ export class AdminCategoryComponent implements OnInit {
   
   // page
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 8;
   totalElements: number = 0;
   startElement: number = 0;
   endElement: number = 0;

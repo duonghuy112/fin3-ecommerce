@@ -117,7 +117,7 @@
                                                 <label>Product Star
                                                     <i class="fas fa-star" style="color: #ffc107;"></i>
                                                 </label>
-                                                <select formControlName="star">
+                                                <select class="form-control" autoFocus formControlName="star" tabindex="1" #input>
                                                     <option value="5" selected>5</option>
                                                     <option value="4">4</option>
                                                     <option value="3">3</option>
@@ -126,7 +126,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <textarea autoFocus formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..."></textarea>
+                                                <textarea formControlName="content" rows="4" class="form-control no-resize" placeholder="Please type what you want..." tabindex="2" #input></textarea>
                                                 <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger mt-1">
                                                     <div *ngIf="content?.errors?.required || content?.errors?.notOnlyWhitespace">
                                                         Content {{ errMessage.isRequired }}
@@ -142,7 +142,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-block btn-primary">SUBMIT REVIEW</button>
+                                            <button type="submit" class="btn btn-block btn-primary" (keydown.Tab)="onKey($event);false;" tabindex="3" #input>SUBMIT REVIEW</button>
                                         </div>
                                     </div>
                                 </form>

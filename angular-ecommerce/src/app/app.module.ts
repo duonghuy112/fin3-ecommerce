@@ -51,20 +51,20 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'admin-category/add', component: CategoryAddComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-category/:id', component: CategoryEditComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-category', component: AdminCategoryComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } 
-  { path: 'admin-product/add', component: ProductAddComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-product/:id', component: ProductEditComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-product', component: AdminProductComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-user', component: AdminUserComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'admin-order', component: AdminOrderComponent }, // , canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }   
-  { path: 'my-profile', component: ProfileComponent }, // , canActivate: [ OktaAuthGuard ] 
-  { path: 'order-history', component: OrderHistoryComponent }, // , canActivate: [ OktaAuthGuard ] 
+  { path: 'admin-category/add', component: CategoryAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-category/:id', component: CategoryEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-category', component: AdminCategoryComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },  
+  { path: 'admin-product/add', component: ProductAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-product/:id', component: ProductEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'my-profile', component: ProfileComponent, canActivate: [ OktaAuthGuard ]  }, 
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]  }, 
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'checkout', component: CheckoutComponent }, // , canActivate: [ OktaAuthGuard ] 
-  { path: 'cart-details', component: CartDetailsComponent }, // , canActivate: [ OktaAuthGuard ] 
+  { path: 'checkout', component: CheckoutComponent, canActivate: [ OktaAuthGuard ]  }, 
+  { path: 'cart-details', component: CartDetailsComponent, canActivate: [ OktaAuthGuard ]  }, 
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'category/:id/:name', component: ProductListComponent },

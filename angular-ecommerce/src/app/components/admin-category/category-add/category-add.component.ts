@@ -5,7 +5,7 @@ import { ProductService } from './../../../services/product.service';
 import { ErrMessage } from 'src/app/common/validator/err-message';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Category } from './../../../common/category';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./category-add.component.css']
 })
 export class CategoryAddComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
 
   addCategoryFormGroup!: FormGroup;
 
@@ -83,6 +85,12 @@ export class CategoryAddComponent implements OnInit {
 
   resetForm() {
     this.addCategoryFormGroup.reset();
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 
 }

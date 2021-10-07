@@ -6,7 +6,7 @@ import { Category } from './../../../common/category';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from './../../../services/product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-category-edit',
@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-edit.component.css']
 })
 export class CategoryEditComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
 
   category = new Category();
 
@@ -109,5 +111,11 @@ export class CategoryEditComponent implements OnInit {
         this.router.navigateByUrl('/error');
       }
     });
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 }

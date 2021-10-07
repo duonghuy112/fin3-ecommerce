@@ -6,7 +6,7 @@ import { ProductService } from './../../../services/product.service';
 import { ErrMessage } from 'src/app/common/validator/err-message';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Category } from './../../../common/category';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./product-add.component.css']
 })
 export class ProductAddComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
 
   categoryList: Category[] = [];
   categoryProduct = new Category();
@@ -36,8 +38,8 @@ export class ProductAddComponent implements OnInit {
       category: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(2), 
                                 Validators.maxLength(255), MyCustomValidators.badwordConstraint]),
-      unitPrice: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                      Validators.maxLength(255)]),
+      unitPrice: new FormControl('', [Validators.required, Validators.min(1), 
+                                      Validators.pattern('[0-9]{1,4}'), Validators.max(1000)]),
     });
 
     this.getCategory();
@@ -127,5 +129,10 @@ export class ProductAddComponent implements OnInit {
   resetForm() {
     this.addProductFormGroup.reset();
   }
-
+  
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
+  }
 }

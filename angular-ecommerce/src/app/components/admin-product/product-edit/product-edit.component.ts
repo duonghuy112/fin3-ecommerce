@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FileService } from './../../../services/file.service';
 import { ProductService } from './../../../services/product.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-product-edit',
@@ -15,6 +15,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
 
   product = new Product();
 
@@ -40,13 +42,12 @@ export class ProductEditComponent implements OnInit {
 
     this.editProductFormGroup = this.formBuilder.group({
       name: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                Validators.maxLength(255)]),
-      category: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                    Validators.maxLength(255)]),
+                                Validators.maxLength(255)], ),
+      category: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required, Validators.minLength(2), 
                                 Validators.maxLength(255), MyCustomValidators.badwordConstraint]),
-      unitPrice: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                      Validators.maxLength(255)]),
+      unitPrice: new FormControl('', [Validators.required, Validators.min(1), 
+                                      Validators.pattern('[0-9]{1,4}'), Validators.max(1000)]),
       status: new FormControl('', Validators.required)
     });
 
@@ -124,7 +125,7 @@ export class ProductEditComponent implements OnInit {
     this.filename = file.name;
     console.log('file' +this.filename);
 
-    this.product.imageUrl = `assets/images/customer/${this.filename}`;
+    this.product.imageUrl = `assets/images/products/${this.filename}`;
 
     this.update();
 
@@ -154,6 +155,12 @@ export class ProductEditComponent implements OnInit {
         this.categoryList = data.content;
       }
     );
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 
 }

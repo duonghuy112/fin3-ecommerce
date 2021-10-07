@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 col-sm-3 col-xs-12 control-label">Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input autoFocus formControlName="name" type="text" class="form-control">
+                                    <input autoFocus formControlName="name" type="text" class="form-control" tabindex="1" #input>
                                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
                                         <div *ngIf="name?.errors?.required ||  name?.errors?.notOnlyWhitespace">
                                             Name {{ errMessage.isRequired }}
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 col-sm-3 col-xs-12 control-label">Category</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <select name="category" class="form-control" formControlName="category">
+                                    <select name="category" class="form-control" formControlName="category" tabindex="2" #input>
                                         <option *ngFor="let c of categoryList">
                                             {{ c.name }}
                                         </option>
@@ -47,19 +47,13 @@
                                         <div *ngIf="category?.errors?.required ||  category?.errors?.notOnlyWhitespace">
                                             Category {{ errMessage.isRequired }}
                                         </div>
-                                        <div *ngIf="category?.errors?.minlength">
-                                            Category {{ errMessage.validMinLength }}
-                                        </div>
-                                        <div *ngIf="category?.errors?.maxlength">
-                                            Category {{ errMessage.validMaxLength }}
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-sm-3 col-xs-12 control-label">Description</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <textarea formControlName="description" type="text" class="form-control"></textarea>
+                                    <textarea formControlName="description" type="text" class="form-control" tabindex="3" #input></textarea>
                                     <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="alert alert-danger">
                                         <div *ngIf="description?.errors?.required ||  description?.errors?.notOnlyWhitespace">
                                             Description {{ errMessage.isRequired }}
@@ -70,22 +64,28 @@
                                         <div *ngIf="description?.errors?.maxlength">
                                             Description {{ errMessage.validMaxLength }}
                                         </div>
+                                        <div *ngIf="description?.errors?.badwordConstraint">
+                                            Description {{ errMessage.badwordConstraint }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 col-sm-3 col-xs-12 control-label">Unit Price</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input formControlName="unitPrice" type="text" class="form-control">
+                                    <input formControlName="unitPrice" type="text" class="form-control" tabindex="4" #input>
                                     <div *ngIf="unitPrice?.invalid && (unitPrice?.dirty || unitPrice?.touched)" class="alert alert-danger">
                                         <div *ngIf="unitPrice?.errors?.required ||  unitPrice?.errors?.notOnlyWhitespace">
                                             UnitPrice {{ errMessage.isRequired }}
                                         </div>
-                                        <div *ngIf="unitPrice?.errors?.minlength">
-                                            UnitPrice {{ errMessage.validMinLength }}
+                                        <div *ngIf="unitPrice?.errors?.min">
+                                            Unit price must lager than 1$
                                         </div>
-                                        <div *ngIf="unitPrice?.errors?.maxlength">
-                                            UnitPrice {{ errMessage.validMaxLength }}
+                                        <div *ngIf="unitPrice?.errors?.max">
+                                            Unit price must smaller than 1000$
+                                        </div>
+                                        <div *ngIf="unitPrice?.errors?.pattern">
+                                            Unit price must be a number
                                         </div>
                                     </div>
                                 </div>
@@ -98,20 +98,25 @@
                                 </label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
                                     <label class="radio-inline mr-5">
-                                        <input type="radio" name="status" value="1" formControlName="status">
+                                        <input type="radio" name="status" value="1" formControlName="status" tabindex="5" #input>
                                         In stock
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="status" value="0" formControlName="status">
+                                        <input type="radio" name="status" value="0" formControlName="status" tabindex="5" #input>
                                         Out stock
                                     </label>
+                                    <div *ngIf="status?.invalid && (status?.dirty || status?.touched)" class="alert alert-danger">
+                                        <div *ngIf="status?.errors?.required ||  status?.errors?.notOnlyWhitespace">
+                                            Status {{ errMessage.isRequired }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
                         <hr>
                         <div class="form-group">
                             <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                <input class="btn btn-primary" type="submit" value="Update Profile">
+                                <input class="btn btn-primary" type="submit" value="Update Profile" (keydown.Tab)="onKey($event);false;" tabindex="6" #input>
                             </div>
                         </div>
                     </form>

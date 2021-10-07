@@ -8,7 +8,7 @@ import { ReviewProductService } from './../../services/review-product.service';
 import { Review } from './../../common/review';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +17,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./review-product.component.css']
 })
 export class ReviewProductComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
+
   // form group
   reviewFormGroup!: FormGroup;
   editReviewFromGroup!: FormGroup;
@@ -339,9 +342,14 @@ export class ReviewProductComponent implements OnInit {
     )
   }
 
-
   resetForm() {
     this.reviewFormGroup.reset();
     this.editReviewFromGroup.reset();
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 }

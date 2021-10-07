@@ -32,7 +32,7 @@ export class OrderHistoryComponent implements OnInit {
 
   // page
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 10;
   totalElements: number = 0;
   startElement: number = 0;
   endElement: number = 0;

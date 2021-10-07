@@ -23,7 +23,7 @@ export class AdminProductComponent implements OnInit {
 
   // page
   pageNumber: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 8;
   totalElements: number = 0;
   startElement: number = 0;
   endElement: number = 0;
@@ -124,8 +124,8 @@ export class AdminProductComponent implements OnInit {
   openDeleteProduct(product: Product) {
     this.deleteProduct = product;
     Swal.fire({
-      title: 'Delete Category',
-      text: 'Do you want to delete category?!',
+      title: 'Delete Product',
+      text: 'Do you want to delete product?!',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',

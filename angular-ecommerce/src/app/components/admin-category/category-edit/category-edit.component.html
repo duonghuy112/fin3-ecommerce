@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <label class="col-md-3 col-sm-3 col-xs-12 control-label">Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input autoFocus formControlName="name" type="text" class="form-control">
+                                    <input autoFocus formControlName="name" type="text" class="form-control" tabindex="1" #input>
                                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert alert-danger">
                                         <div *ngIf="name?.errors?.required ||  name?.errors?.notOnlyWhitespace">
                                             Name {{ errMessage.isRequired }}
@@ -38,7 +38,7 @@
                         <hr>
                         <div class="form-group">
                             <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                <input class="btn btn-primary" type="submit" value="Update Category">
+                                <input class="btn btn-primary" type="submit" value="Update Category" (keydown.Tab)="onKey($event);false;" tabindex="2" #input>
                             </div>
                         </div>
                     </form>
