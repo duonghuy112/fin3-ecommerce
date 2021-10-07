@@ -22,7 +22,6 @@ export class CategoryMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.listCategories();
   }
 

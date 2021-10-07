@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,16 @@ public class ProductController {
 												   @RequestParam String sort,
 												   Pageable pageable) {
 		return new ResponseEntity<>(productService.findByIsDeleted(isDeleted, page, size, sort, pageable), 
+									HttpStatus.OK);
+	}
+	
+	@GetMapping("/findAllDesc")
+	public ResponseEntity<Page<ProductDto>> getAllDesc(@RequestParam int isDeleted,
+												   @RequestParam int page,
+												   @RequestParam int size,
+												   @RequestParam String sort,
+												   Pageable pageable) {
+		return new ResponseEntity<>(productService.findByIsDeletedDesc(isDeleted, page, size, sort, pageable), 
 									HttpStatus.OK);
 	}
 	
@@ -65,6 +76,11 @@ public class ProductController {
 												   @RequestParam Integer isDeleted) {
 		return new ResponseEntity<>(productService.countProductByCategory(categoryId, isDeleted),
 									HttpStatus.OK);
+	}
+	
+	@PostMapping
+	public ResponseEntity<ProductDto> add(@RequestBody ProductDto productDto) {
+		return new ResponseEntity<>(productService.save(productDto), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{productId}")

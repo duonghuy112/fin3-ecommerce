@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.nguyenduonghuy.springecommerce.dto.ProductDto;
 import com.nguyenduonghuy.springecommerce.entity.Product;
+import com.nguyenduonghuy.springecommerce.repository.CategoryRepository;
 import com.nguyenduonghuy.springecommerce.repository.ProductRepository;
 import com.nguyenduonghuy.springecommerce.service.ProductService;
 
@@ -22,10 +23,21 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
 	@Override
 	@Transactional
 	public Page<ProductDto> findByIsDeleted(int isDeleted, int page, int size, String sort, Pageable pageable) {
 		pageable = PageRequest.of(page, size, Sort.by(sort));
+		return productRepository.findByIsDeleted(isDeleted, pageable)
+								.map(ProductDto::new);
+	}
+	
+	@Override
+	@Transactional
+	public Page<ProductDto> findByIsDeletedDesc(int isDeleted, int page, int size, String sort, Pageable pageable) {
+		pageable = PageRequest.of(page, size, Sort.by(sort).descending());
 		return productRepository.findByIsDeleted(isDeleted, pageable)
 								.map(ProductDto::new);
 	}
@@ -93,5 +105,6 @@ public class ProductServiceImpl implements ProductService{
 		product.setDateCreated(product.getDateCreated());
 		product.setLastUpdated(product.getLastUpdated());
 		product.setIsDeleted(productDto.getIsDeleted());
+		product.setCategory(categoryRepository.getById(productDto.getCategory().getId()));
 	}
 }

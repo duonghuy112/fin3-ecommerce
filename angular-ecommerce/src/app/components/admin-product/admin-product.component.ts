@@ -51,7 +51,7 @@ export class AdminProductComponent implements OnInit {
   }
 
   handleListAllProduct() {
-    this.productService.getProductListPaginate(this.pageNumber - 1, this.pageSize, 'dateCreated').subscribe(this.processResult());
+    this.productService.getProductListPaginateDesc(this.pageNumber - 1, this.pageSize, 'dateCreated').subscribe(this.processResult());
   }
 
   handleProductByName(name: string) {

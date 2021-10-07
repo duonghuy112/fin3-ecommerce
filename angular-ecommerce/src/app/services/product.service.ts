@@ -23,6 +23,12 @@ export class ProductService {
       return this.httpClient.get<ResponseProducts>(searchUrl);
   }
 
+  getProductListPaginateDesc(page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
+    // build URL paging
+    const searchUrl = `${this.productUrl}/findAllDesc?isDeleted=0&page=${page}&size=${pageSize}&sort=${sort}`;
+    return this.httpClient.get<ResponseProducts>(searchUrl);
+}
+
   getProductListByCategoryPaginate(categoryId: number, page: number, pageSize: number, sort: string): Observable<ResponseProducts> {
     // build URL based on categoryId
     const searchUrl = `${this.productUrl}/findByCategoryId?categoryId=${categoryId}&isDeleted=0&page=${page}&size=${pageSize}&sort=${sort}`;
@@ -44,6 +50,10 @@ export class ProductService {
     return this.httpClient.get<Product>(`${this.productUrl}/findById?id=${productId}&isDeleted=0`);
   }
 
+  addProduct(product: Product): Observable<Product> {
+    return this.httpClient.post<Product>(`${this.productUrl}`, product);
+  }
+
   updateProduct(product: Product): Observable<Product> {
     return this.httpClient.put<Product>(`${this.productUrl}/${product.id}`, product);
   }
@@ -60,12 +70,12 @@ export class ProductService {
     return this.httpClient.get<ResponseCategories>(`${this.categoryUrl}/findByName?name=${name}&isDeleted=0&page=${page}&size=${pageSize}`);
   }
 
-  addNewCategory(category: Category): Observable<Category> {
-    return this.httpClient.post<Category>(`${this.categoryUrl}`, category);
-  }
-
   getCategory(categoryId: number): Observable<Category> {
     return this.httpClient.get<Category>(`${this.categoryUrl}/findById?id=${categoryId}&isDeleted=0`);
+  }
+
+  addCategory(category: Category): Observable<Category> {
+    return this.httpClient.post<Category>(`${this.categoryUrl}`, category);
   }
 
   updateCategory(category: Category): Observable<Category> {
