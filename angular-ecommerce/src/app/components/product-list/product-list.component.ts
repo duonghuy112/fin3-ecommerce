@@ -107,12 +107,6 @@ export class ProductListComponent implements OnInit {
     this.productService.searchProductsPaginate(this.keyword, this.pageNumber -1, this.pageSize, this.sortBy).subscribe(this.processResult());
   }
 
-  updatePageSize(pageSize: number) {
-    this.pageSize = pageSize;
-    this.pageNumber = 1;
-    this.listProduct();
-  }
-
   processResult() {
     return data => {
         this.products = data.content;
@@ -156,6 +150,12 @@ export class ProductListComponent implements OnInit {
 
   sortDate() {
     this.sortBy = 'dateCreated';
+    this.listProduct();
+  }
+
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
     this.listProduct();
   }
 

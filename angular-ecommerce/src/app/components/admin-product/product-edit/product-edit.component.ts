@@ -18,14 +18,17 @@ export class ProductEditComponent implements OnInit {
 
   @ViewChild('input') input!: ElementRef;
 
+  // product list
+  categoryList: Category[] = [];
   product = new Product();
 
-  categoryList: Category[] = [];
-
+  // product form
   editProductFormGroup!: FormGroup;
 
+  // file image name
   filename!: string;
 
+  // error message
   errMessage = ErrMessage;
 
   constructor(private formBuilder: FormBuilder,
@@ -53,7 +56,7 @@ export class ProductEditComponent implements OnInit {
 
     this.getCategory();
   }
-
+  
   handleProductDetails() {
     // get Id param string. convert string to number.
     const productId: number = Number(this.route.snapshot.paramMap.get('id'));
@@ -71,6 +74,15 @@ export class ProductEditComponent implements OnInit {
     )
   }
 
+  getCategory() {
+    this.productService.getCategories(0, 100).subscribe(
+      data => {
+        this.categoryList = data.content;
+      }
+    );
+  }
+
+  // setter for product form
   get name() {
     return this.editProductFormGroup.get('name');
   }
@@ -117,24 +129,25 @@ export class ProductEditComponent implements OnInit {
       }
     }); 
   }
-
+  
+  // change product image
   onUploadFiles(file: File): void {
     const formData = new FormData();
     formData.append('file', file, file.name); 
-
+    
     this.filename = file.name;
     console.log('file' +this.filename);
-
+    
     this.product.imageUrl = `assets/images/products/${this.filename}`;
-
-    this.update();
-
+    
+    this.updateImage();
+    
     this.fileService.upload(formData).subscribe(
       data => {}
-    );
-  }
+      );
+    }
 
-  update() {
+  updateImage() {
     // set up category
     this.product.name = this.editProductFormGroup.get('name')?.value;
     this.productService.updateProduct(this.product).subscribe({
@@ -148,19 +161,13 @@ export class ProductEditComponent implements OnInit {
       }
     });
   }
-
-  getCategory() {
-    this.productService.getCategories(0, 100).subscribe(
-      data => {
-        this.categoryList = data.content;
-      }
-    );
-  }
-
+    
+  // tab loop circle
   onKey(event: any) {
     if (event.key === 'Tab') {
       this.input.nativeElement.focus();
     }
   }
-
+    
 }
+  

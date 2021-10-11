@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { CartService } from './../../services/cart.service';
 import { CartItem } from './../../common/cart-item';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class CartDetailsComponent implements OnInit {
 
+  // cart list
   cartItems: CartItem[] = [];
   totalPrice: number = 0;
   totalQuantity: number = 0;
@@ -18,7 +20,8 @@ export class CartDetailsComponent implements OnInit {
   // delete cartItem
   deleteCartItem: CartItem = null!;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.listCartDetails();
@@ -52,6 +55,7 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.decrementQuantity(cartItem);
   }
   
+  // delete cart item
   openRemove(cartItem: CartItem) {
     this.deleteCartItem = cartItem;
     Swal.fire({
@@ -64,14 +68,14 @@ export class CartDetailsComponent implements OnInit {
     }).then(
       result => {
         if (result.value) {
+          this.toastr.success('Cart has been updated!', 'Remove item successfully!')
           this.remove();
         } 
       }
       )
-    }
+  }
 
-    remove() {
-      this.cartService.remove(this.deleteCartItem);
-    }
-
+  remove() {
+    this.cartService.remove(this.deleteCartItem);
+  }
 }

@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="firstName" class="form-control" type="text" placeholder="First Name" readonly tabindex="1" #input>
+                                <input formControlName="firstName" class="form-control" type="text" placeholder="First Name" readonly>
 
                                 <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
                                     <div *ngIf="firstName?.errors?.required ||  firstName?.errors?.notOnlyWhitespace">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="input-space">
-                                <input formControlName="lastName" class="form-control" type="text" placeholder="Last Name" readonly tabindex="2" #input>
+                                <input formControlName="lastName" class="form-control" type="text" placeholder="Last Name" readonly>
 
                                 <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
                                     <div *ngIf="lastName?.errors?.required || lastName?.errors?.notOnlyWhitespace">
@@ -44,7 +44,7 @@
                         <div class="clearfix"></div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="email" type="text" class="form-control" placeholder="Email Address" readonly tabindex="3" #input>
+                                <input formControlName="email" type="text" class="form-control" placeholder="Email Address" readonly>
 
                                 <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
                                     <div *ngIf="email?.errors?.required">
@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select autofocus name="countryInput" class="form-control" formControlName="country" (change)="getCity()" tabindex="4" #input>
+                                <select autofocus name="countryInput" class="form-control" formControlName="country" (change)="getCity()" tabindex="1" #input>
                                     <option value="" disabled selected hidden>Country</option>
                                     <option *ngFor="let country of countries" [ngValue]=(country)>
                                         {{ country.name }}
@@ -81,7 +81,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <select class="form-control" formControlName="city" tabindex="5" #input>
+                                <select class="form-control" formControlName="city" tabindex="2" #input>
                                     <option value="" disabled selected hidden>City</option>
                                     <option *ngFor="let city of cities" [ngValue]=(city)>
                                         {{ city.name }}
@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="district" class="form-control" type="text" placeholder="District / Provine" tabindex="6" #input>
+                                <input formControlName="district" class="form-control" type="text" placeholder="District / Provine" tabindex="3" #input>
 
                                 <div *ngIf="district?.invalid && (district?.dirty || district?.touched)" class="alert alert-danger">
                                     <div *ngIf="district?.errors?.required || district?.errors?.notOnlyWhitespace">
@@ -113,7 +113,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="street" class="form-control" type="text" placeholder="Street" tabindex="7" #input>
+                                <input formControlName="street" class="form-control" type="text" placeholder="Street" tabindex="4" #input>
 
                                 <div *ngIf="street?.invalid && (street?.dirty || street?.touched)" class="alert alert-danger">
                                     <div *ngIf="street?.errors?.required || street?.errors?.notOnlyWhitespace">
@@ -130,7 +130,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="input-space">
-                                <input formControlName="zipCode" class="form-control" type="text" placeholder="Zip Code / Postal Code" tabindex="8" #input>
+                                <input formControlName="zipCode" class="form-control" type="text" placeholder="Zip Code / Postal Code" tabindex="5" #input>
 
                                 <div *ngIf="zipCode?.invalid && (zipCode?.dirty || zipCode?.touched)" class="alert alert-danger">
                                     <div *ngIf="zipCode?.errors?.required || zipCode?.errors?.notOnlyWhitespace">
@@ -153,7 +153,7 @@
                     <h4>Total Price: ${{ totalPrice }}</h4>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-info btn-lg" (keydown.Tab)="onKey($event);false;" tabindex="9" #input>Purchase</button>
+                    <button class="btn btn-info btn-lg" (keydown.Tab)="onKey($event);false;" tabindex="6" #input>Purchase</button>
                 </div>
             </div>
         </form>

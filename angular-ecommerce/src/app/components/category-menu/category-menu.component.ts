@@ -9,8 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryMenuComponent implements OnInit {
 
+  // category list
   categories: Category[] = [];
 
+  // storage from session
   storage: Storage = sessionStorage;
 
   isAdmin: number = 0;

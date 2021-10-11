@@ -308,3 +308,8 @@ textarea.form-control {
     display: flex;
     justify-content: flex-end;
 }
+
+ngb-pagination {
+    display: flex;
+    justify-content: flex-end;
+}

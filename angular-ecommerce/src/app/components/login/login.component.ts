@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   oktaSignin: any;
 
   constructor(private oktaAuthService: OktaAuthService) { 
-
+    // customer login page
     this.oktaSignin = new OktaSignIn({
       logo: 'assets/images/fpt-software.jpg',
       features: {
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.oktaSignin.remove();
 
     this.oktaSignin.renderEl({
-      el: '#okta-sign-in-widget'}, // this name should be same as div tag id in login.component.html
+      el: '#okta-sign-in-widget'}, 
       (response) => {
         if (response.status === 'SUCCESS') {
           this.oktaAuthService.signInWithRedirect();

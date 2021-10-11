@@ -1,22 +1,22 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
-        <div class="row mw-76">
-            <div class="col">
-                <h3>Product</h3>
-            </div>
-            <div class="form-header">
-                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for product ..." />
-                <button class="au-btn-submit" (click)="reset()">
-                    Reset
-                </button>
-            </div>
-            <div class="col text-right">
-                <div ngbDropdown class="d-inline-block">
-                    <button routerLink="/admin-product/add" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Product</button>
+        <div class="container-fluid">
+            <div class="row mw-76">
+                <div class="col">
+                    <h3>Product</h3>
+                </div>
+                <div class="col form-header">
+                    <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for product ..." />
+                    <button class="au-btn-submit" (click)="reset()">
+                        Reset
+                    </button>
+                </div>
+                <div class="col text-right">
+                    <div ngbDropdown class="d-inline-block">
+                        <button routerLink="/admin-product/add" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Product</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid">
             <div id="table-wrappep">
                 <div id="table-scroll" *ngIf="productList.length > 0">
                     <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">

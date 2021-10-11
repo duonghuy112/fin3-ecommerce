@@ -6,7 +6,7 @@ import { MyCustomValidators } from './../../validators/my-custom-validators';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CustomerService } from './../../services/customer.service';
 import { Customer } from './../../common/customer';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  @ViewChild('input') input!: ElementRef;
 
   profileFormGroup!: FormGroup;
 
@@ -151,5 +153,11 @@ export class ProfileComponent implements OnInit {
         this.router.navigateByUrl('/error');
       }
     });
+  }
+
+  onKey(event: any) {
+    if (event.key === 'Tab') {
+      this.input.nativeElement.focus();
+    }
   }
 }

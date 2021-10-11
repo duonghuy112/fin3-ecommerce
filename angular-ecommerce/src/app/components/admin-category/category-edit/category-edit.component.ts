@@ -19,10 +19,13 @@ export class CategoryEditComponent implements OnInit {
 
   category = new Category();
 
+  // category form group
   editCategoryFormGroup!: FormGroup;
 
+  // file image name
   filename!: string;
 
+  //error message
   errMessage = ErrMessage;
   
   constructor(private formBuilder: FormBuilder,
@@ -56,6 +59,7 @@ export class CategoryEditComponent implements OnInit {
     )
   }
 
+  // getter for name
   get name() {
     return this.editCategoryFormGroup.get('name');
   }
@@ -65,10 +69,10 @@ export class CategoryEditComponent implements OnInit {
       this.editCategoryFormGroup.markAllAsTouched();
       return;
     }
-    console.log(this.category);
-
+    
     this.category.name = this.editCategoryFormGroup.get('name')?.value;
-
+    
+    console.log(this.category);
     this.productService.updateCategory(this.category).subscribe({
       next: response => {
         this.toastr.success('Category has been public', 'Edit category successfully!');
@@ -82,6 +86,7 @@ export class CategoryEditComponent implements OnInit {
     }); 
   }
 
+  // for upload file
   onUploadFiles(file: File): void {
     const formData = new FormData();
     formData.append('file', file, file.name); 
@@ -91,14 +96,14 @@ export class CategoryEditComponent implements OnInit {
 
     this.category.imageUrl = `assets/images/category/${this.filename}`;
 
-    this.update();
+    this.updateImage();
 
     this.fileService.upload(formData).subscribe(
       data => {}
     );
   }
 
-  update() {
+  updateImage() {
     // set up category
     this.category.name = this.editCategoryFormGroup.get('name')?.value;
     this.productService.updateCategory(this.category).subscribe({
@@ -113,6 +118,7 @@ export class CategoryEditComponent implements OnInit {
     });
   }
 
+  // tab loop circle
   onKey(event: any) {
     if (event.key === 'Tab') {
       this.input.nativeElement.focus();

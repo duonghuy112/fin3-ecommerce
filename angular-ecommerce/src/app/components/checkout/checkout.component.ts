@@ -258,6 +258,7 @@ export class CheckoutComponent implements OnInit {
     this.router.navigateByUrl('/products');
   }
 
+  // tab loop circle
   onKey(event: any) {
     if (event.key === 'Tab') {
       this.input.nativeElement.focus();

@@ -117,6 +117,20 @@ export class ReviewProductComponent implements OnInit {
     this.reviewService.getReviews(this.getProductId(), this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
+  processResult() {
+    return data => {
+        this.reviews = data.content;
+        this.pageNumber = data.number + 1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
+        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+        this.endElement = this.startElement + this.pageSize - 1;
+        if (this.endElement > this.totalElements) {
+          this.endElement = this.totalElements
+        }
+    };
+  }
+
   onReviewSubmit() {
     if (this.reviewFormGroup.invalid) {
       this.reviewFormGroup.markAllAsTouched();
@@ -170,44 +184,6 @@ export class ReviewProductComponent implements OnInit {
         this.router.navigateByUrl('/error');
       }
     }); 
-  }
-  
-  processResult() {
-    return data => {
-        this.reviews = data.content;
-        this.pageNumber = data.number + 1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-        this.endElement = this.startElement + this.pageSize - 1;
-        if (this.endElement > this.totalElements) {
-          this.endElement = this.totalElements
-        }
-    };
-  }
-
-  updatePageSize(pageSize: number) {
-    this.pageSize = pageSize;
-    this.pageNumber = 1;
-    this.listReviews();
-  }
-
-  goToPage() {
-    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
-    
-    if(this.inputPage.invalid) {
-      this.inputPage.setValue(1);
-      return;
-    }
-
-    this.inputPage.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    ).subscribe(
-      value => {
-        this.pageNumber = value;
-      }
-    )
   }
   
   openEditContent(review: Review) {
@@ -338,6 +314,30 @@ export class ReviewProductComponent implements OnInit {
             }
           )
         }
+      }
+    )
+  }
+
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
+    this.listReviews();
+  }
+
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
       }
     )
   }

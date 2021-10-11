@@ -67,5 +67,4 @@ public class CategoryServiceImpl implements CategoryService{
 		category.setIsDeleted(categoryDto.getIsDeleted());
 		category.setImageUrl(categoryDto.getImageUrl());
 	}
-
 }

@@ -74,6 +74,20 @@ export class AdminUserComponent implements OnInit {
     this.changeCustomer = customer;
   }
 
+  // search by user name
+  doSearch() {
+    this.search.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        console.log(value);
+        this.searchName = value;
+        this.handleListUserByName(this.searchName);
+      }
+    )
+  }
+
   setAdmin() {
     this.changeCustomer.isAdmin = 1;
     this.customerService.update(this.changeCustomer).subscribe({
@@ -164,13 +178,32 @@ export class AdminUserComponent implements OnInit {
           this.endElement = this.totalElements
         }
         console.log(this.userList);
-    };
-  }
-  
+      };
+    }
+    
+  // paging
   updatePageSize(pageSize: number) {
     this.pageSize = pageSize;
     this.pageNumber = 1;
     this.listCustomer();
+  }
+  
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
+      }
+    )
   }
 
   sortData(sort: Sort) {
@@ -198,39 +231,7 @@ export class AdminUserComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  goToPage() {
-    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
-    
-    if(this.inputPage.invalid) {
-      this.inputPage.setValue(1);
-      return;
-    }
-
-    this.inputPage.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    ).subscribe(
-      value => {
-        this.pageNumber = value;
-      }
-    )
-  }
-
-  doSearch() {
-    this.search.valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(
-      value => {
-        console.log(value);
-        this.searchName = value;
-        this.handleListUserByName(this.searchName);
-      }
-    )
-  }
-
   reset() {
     this.search.setValue('');
   }
-
 }

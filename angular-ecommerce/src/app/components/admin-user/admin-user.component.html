@@ -1,29 +1,29 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
-        <div class="row mw-76">
-            <div class="col">
-                <h3>Users</h3>
-            </div>
-            <div class="form-header">
-                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for user ..." />
-                <button class="au-btn-submit" (click)="reset()">
-                    Reset
-                </button>
-            </div>
-            <div class="col text-right">
-                <div ngbDropdown class="d-inline-block">
-                    <button *ngIf="filter === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>
-                    <button *ngIf="filter === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Admin</button>
-                    <button *ngIf="filter === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Customer</button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-                        <button (click)="filterAll()" ngbDropdownItem>All</button>
-                        <button (click)="filterByAdmin()" ngbDropdownItem>Admin</button>
-                        <button (click)="filterByCustomer()" ngbDropdownItem>Customer</button>
+        <div class="container-fluid">
+            <div class="row mw-76">
+                <div class="col">
+                    <h3>Users</h3>
+                </div>
+                <div class="col form-header">
+                    <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for user ..." />
+                    <button class="au-btn-submit" (click)="reset()">
+                        Reset
+                    </button>
+                </div>
+                <div class="col text-right">
+                    <div ngbDropdown class="d-inline-block">
+                        <button *ngIf="filter === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>
+                        <button *ngIf="filter === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Admin</button>
+                        <button *ngIf="filter === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Customer</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+                            <button (click)="filterAll()" ngbDropdownItem>All</button>
+                            <button (click)="filterByAdmin()" ngbDropdownItem>Admin</button>
+                            <button (click)="filterByCustomer()" ngbDropdownItem>Customer</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid">
             <div id="table-wrappep">
                 <div id="table-scroll" *ngIf="userList.length > 0">
                     <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">

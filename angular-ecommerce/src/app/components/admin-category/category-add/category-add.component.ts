@@ -1,5 +1,5 @@
 import { MyCustomValidators } from './../../../validators/my-custom-validators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProductService } from './../../../services/product.service';
 import { ErrMessage } from 'src/app/common/validator/err-message';
@@ -17,8 +17,10 @@ export class CategoryAddComponent implements OnInit {
 
   @ViewChild('input') input!: ElementRef;
 
+  // category form group
   addCategoryFormGroup!: FormGroup;
 
+  // error message
   errMessage = ErrMessage;
 
   constructor(private formBuilder: FormBuilder,
@@ -33,6 +35,7 @@ export class CategoryAddComponent implements OnInit {
     })
   }
 
+  // getter for name input
   get name() {
     return this.addCategoryFormGroup.get('name');
   }
@@ -50,7 +53,6 @@ export class CategoryAddComponent implements OnInit {
     category.isDeleted = 0;
 
     console.log(category);
-
     this.productService.addCategory(category).subscribe({
       next: response => {
         this.confirmContinute();
@@ -82,11 +84,13 @@ export class CategoryAddComponent implements OnInit {
       }
     )
   }
-
+  
+  // reset form
   resetForm() {
     this.addCategoryFormGroup.reset();
   }
 
+  // tab loop circle
   onKey(event: any) {
     if (event.key === 'Tab') {
       this.input.nativeElement.focus();

@@ -56,43 +56,6 @@ export class OrderHistoryComponent implements OnInit {
     this.orderHistoryService.getOrderHistoryByEmail(email, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
-  sortData(sort: Sort) {
-    const data = this.orderHistoryList.slice();
-    if(!sort.active || sort.direction === '') {
-      this.sortedOrder = data;
-      return;
-    }
-
-    this.sortedOrder = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'trackingNumber': return this.compare(a.orderTrackingNumber, b.orderTrackingNumber, isAsc);
-        case 'address': return this.compare(a.address.country, b.address.country, isAsc);
-        case 'price': return this.compare(a.totalPrice, b.totalPrice, isAsc);
-        case 'quantity': return this.compare(a.totalQuantity, b.totalQuantity, isAsc);
-        case 'status': return this.compare(a.status, b.status, isAsc);
-        case 'date': return this.compare(a.dateCreated, b.dateCreated, isAsc);
-        default: return 0;
-      }
-    });
-    this.orderHistoryList = this.sortedOrder;
-  }
-
-  openOrderItem(orderHistory: OrderHistory) {
-    this.orderHistoryService.getOrderItems(orderHistory.id).subscribe(
-      data => {
-        this.orderItems = data._embedded.orderItems;
-        console.log(this.orderItems);
-      }
-    )
-  }
-
-  updatePageSize(pageSize: number) {
-    this.pageSize = pageSize;
-    this.pageNumber = 1;
-    this.listOrderHistory();
-  }
-
   processResult() {
     return data => {
         this.orderHistoryList = data.content;
@@ -106,6 +69,15 @@ export class OrderHistoryComponent implements OnInit {
         }
         console.log(this.orderHistoryList);
     };
+  }
+
+  openOrderItem(orderHistory: OrderHistory) {
+    this.orderHistoryService.getOrderItems(orderHistory.id).subscribe(
+      data => {
+        this.orderItems = data._embedded.orderItems;
+        console.log(this.orderItems);
+      }
+    )
   }
 
   openOrderModal(orderHistory: OrderHistory) {
@@ -161,6 +133,7 @@ export class OrderHistoryComponent implements OnInit {
 
   }
 
+  // change order status
   cancelOrder(order: OrderHistory) {
     order.status = 0;
     this.orderHistoryService.updateStatusOrder(order).subscribe({
@@ -203,8 +176,38 @@ export class OrderHistoryComponent implements OnInit {
     })
   }
 
+  // sort for header
+  sortData(sort: Sort) {
+    const data = this.orderHistoryList.slice();
+    if(!sort.active || sort.direction === '') {
+      this.sortedOrder = data;
+      return;
+    }
+
+    this.sortedOrder = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'trackingNumber': return this.compare(a.orderTrackingNumber, b.orderTrackingNumber, isAsc);
+        case 'address': return this.compare(a.address.country, b.address.country, isAsc);
+        case 'price': return this.compare(a.totalPrice, b.totalPrice, isAsc);
+        case 'quantity': return this.compare(a.totalQuantity, b.totalQuantity, isAsc);
+        case 'status': return this.compare(a.status, b.status, isAsc);
+        case 'date': return this.compare(a.dateCreated, b.dateCreated, isAsc);
+        default: return 0;
+      }
+    });
+    this.orderHistoryList = this.sortedOrder;
+  }
+
   compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  // paging
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
+    this.listOrderHistory();
   }
 
   goToPage() {
@@ -214,7 +217,6 @@ export class OrderHistoryComponent implements OnInit {
       this.inputPage.setValue(1);
       return;
     }
-
     this.inputPage.valueChanges.pipe(
       debounceTime(200),
       distinctUntilChanged()
@@ -224,5 +226,4 @@ export class OrderHistoryComponent implements OnInit {
       }
     )
   }
-
 }

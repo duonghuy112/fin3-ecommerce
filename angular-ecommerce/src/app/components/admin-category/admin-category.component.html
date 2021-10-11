@@ -1,22 +1,22 @@
 <div class="main-content">
     <div class="section-content section-content-p30">
-        <div class="row mw-76">
-            <div class="col">
-                <h3>Category</h3>
-            </div>
-            <div class="form-header">
-                <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for category ..." />
-                <button class="au-btn-submit" (click)="reset()">
-                    Reset
-                </button>
-            </div>
-            <div class="col text-right">
-                <div ngbDropdown class="d-inline-block">
-                    <button routerLink="/admin-category/add" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Category</button>
+        <div class="container-fluid">
+            <div class="row mw-76">
+                <div class="col">
+                    <h3>Category</h3>
+                </div>
+                <div class="col form-header">
+                    <input [formControl]="search" (keyup)="doSearch()" class="au-input au-input-xl" type="text" placeholder="Search for category ..." />
+                    <button class="au-btn-submit" (click)="reset()">
+                        Reset
+                    </button>
+                </div>
+                <div class="col text-right">
+                    <div ngbDropdown class="d-inline-block">
+                        <button routerLink="/admin-category/add" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Category</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid">
             <div id="table-wrappep">
                 <div id="table-scroll" *ngIf="categoryList.length > 0">
                     <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
@@ -24,7 +24,7 @@
                             <tr>
                                 <th width="3%">#</th>
                                 <th width="5%">Image</th>
-                                <th width="50%" mat-sort-header="name">Name</th>
+                                <th width="50%" mat-sort-header="name">Category Name</th>
                                 <th width="10%" colspan="3">Action</th>
                             </tr>
                         </thead>
@@ -121,7 +121,7 @@
                         <thead class="thead-modal">
                             <tr>
                                 <th>Image</th>
-                                <th width="40%">Name</th>
+                                <th width="40%">Product Name</th>
                                 <th>Price</th>
                                 <th>Status</th>
                             </tr>
@@ -145,7 +145,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div *ngIf="productListByCategory.length > 0" class="alert alert-warning" role="alert">
+                <div *ngIf="productListByCategory.length === 0" class="alert alert-warning" role="alert">
                     This category has no product!
                 </div>
             </div>

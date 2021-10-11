@@ -29,5 +29,4 @@ public class FileController {
         copy(file.getInputStream(), fileStorage, REPLACE_EXISTING);
         return ResponseEntity.ok().body(filename);
     }
-
 }

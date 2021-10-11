@@ -53,15 +53,16 @@ export class AdminCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.addCategoryFormGroup = this.formBuilder.group({
       categoryName: new FormControl('', [Validators.required, Validators.minLength(2), 
                                         Validators.maxLength(255), MyCustomValidators.notOnlyWhitespace])
     })
 
+    // list category for filter
     this.listCategory();
   }
 
+  // getter fot category name
   get categoryName() {
     return this.addCategoryFormGroup.get('categoryName');
   }
@@ -74,14 +75,17 @@ export class AdminCategoryComponent implements OnInit {
     }
   }
 
+  // list category default
   handleListAllCategory() {
     this.productService.getCategories(this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
+  // list category by name
   handleListCategoryByName(name: string) {
     this.productService.getCategoriesByName(name, this.pageNumber - 1, this.pageSize).subscribe(this.processResult());
   }
 
+  // get data
   processResult() {
     return data => {
         this.categoryList = data.content;
@@ -97,6 +101,7 @@ export class AdminCategoryComponent implements OnInit {
     };
   }
 
+  // category details
   openCategoryDetail(category: Category) {
     this.detailCategory = category;
     this.productService.getProductListByCategoryPaginate(this.detailCategory.id, 0, 100, 'id').subscribe(
@@ -106,6 +111,7 @@ export class AdminCategoryComponent implements OnInit {
     )
   }
 
+  // update category
   openUpdateCategory(category: Category) {
     this.updateCategory = category;
     this.productService.getCategory(this.updateCategory.id).subscribe(
@@ -122,6 +128,7 @@ export class AdminCategoryComponent implements OnInit {
           }).then(
             result => {
               if (result.value) {
+                // list category if user choose Yes
                 this.listCategory();
               }
             }
@@ -150,6 +157,7 @@ export class AdminCategoryComponent implements OnInit {
     )
   }
 
+  // delete category
   openDeleteCategory(category: Category) {
     this.deleteCategory = category;
     Swal.fire({
@@ -166,72 +174,6 @@ export class AdminCategoryComponent implements OnInit {
         } 
       }
     )
-  }
-
-  updatePageSize(pageSize: number) {
-    this.pageSize = pageSize;
-    this.pageNumber = 1;
-    this.listCategory();
-  }
-
-  sortData(sort: Sort) {
-    const data = this.categoryList.slice();
-    if(!sort.active || sort.direction === '') {
-      this.sortCategory = data;
-      return;
-    }
-
-    this.sortCategory = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'name': return this.compare(a.name, b.name, isAsc);
-        default: return 0;
-      }
-    });
-    this.categoryList = this.sortCategory;
-  }
-
-  compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  goToPage() {
-    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
-    
-    if(this.inputPage.invalid) {
-      this.inputPage.setValue(1);
-      return;
-    }
-
-    this.inputPage.valueChanges.pipe(
-      debounceTime(200),
-      distinctUntilChanged()
-    ).subscribe(
-      value => {
-        this.pageNumber = value;
-      }
-    )
-  }
-
-  doSearch() {
-    this.search.valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(
-      value => {
-        console.log(value);
-        this.searchName = value;
-        this.handleListCategoryByName(this.searchName);
-      }
-    )
-  }
-
-  reset() {
-    this.search.setValue('');
-  }
-
-  resetForm() {
-    this.addCategoryFormGroup.reset();
   }
 
   removeCategory() {
@@ -301,5 +243,73 @@ export class AdminCategoryComponent implements OnInit {
         }
       }
     )
+  }
+
+  // search category by name
+  doSearch() {
+    this.search.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.searchName = value;
+        this.handleListCategoryByName(this.searchName);
+      }
+    )
+  }
+
+  // for paging
+  updatePageSize(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
+    this.listCategory();
+  }
+
+  goToPage() {
+    this.inputPage.setValidators([Validators.pattern('[0-9]{1,2}'), Validators.min(1), Validators.max(this.totalElements / this.pageSize + 1)]);
+    
+    if(this.inputPage.invalid) {
+      this.inputPage.setValue(1);
+      return;
+    }
+
+    this.inputPage.valueChanges.pipe(
+      debounceTime(200),
+      distinctUntilChanged()
+    ).subscribe(
+      value => {
+        this.pageNumber = value;
+      }
+    )
+  }
+
+  // sort table by header
+  sortData(sort: Sort) {
+    const data = this.categoryList.slice();
+    if(!sort.active || sort.direction === '') {
+      this.sortCategory = data;
+      return;
+    }
+
+    this.sortCategory = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return this.compare(a.name, b.name, isAsc);
+        default: return 0;
+      }
+    });
+    this.categoryList = this.sortCategory;
+  }
+
+  private compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  reset() {
+    this.search.setValue('');
+  }
+
+  resetForm() {
+    this.addCategoryFormGroup.reset();
   }
 }

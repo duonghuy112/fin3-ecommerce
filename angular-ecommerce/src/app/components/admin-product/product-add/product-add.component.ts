@@ -18,11 +18,14 @@ export class ProductAddComponent implements OnInit {
 
   @ViewChild('input') input!: ElementRef;
 
+  // category list
   categoryList: Category[] = [];
   categoryProduct = new Category();
 
+  // category form
   addProductFormGroup!: FormGroup;
 
+  // error message
   errMessage = ErrMessage;
 
   constructor(private formBuilder: FormBuilder,
@@ -31,20 +34,16 @@ export class ProductAddComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-
     this.addProductFormGroup = this.formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                Validators.maxLength(255)], ),
+      name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(255)], ),
       category: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required, Validators.minLength(2), 
-                                Validators.maxLength(255), MyCustomValidators.badwordConstraint]),
-      unitPrice: new FormControl('', [Validators.required, Validators.min(1), 
-                                      Validators.pattern('[0-9]{1,4}'), Validators.max(1000)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(255), MyCustomValidators.badwordConstraint]),
+      unitPrice: new FormControl('', [Validators.required, Validators.min(1), Validators.pattern('[0-9]{1,4}'), Validators.max(1000)]),
     });
-
     this.getCategory();
   }
 
+ // getter for form
   get name() {
     return this.addProductFormGroup.get('name');
   }
@@ -66,9 +65,7 @@ export class ProductAddComponent implements OnInit {
       this.addProductFormGroup.markAllAsTouched();
       return;
     }
-
-    console.log(this.addProductFormGroup.get('category')?.value);
-
+    
     let categoryProduct = new Category();
     categoryProduct.id = this.addProductFormGroup.get('category')?.value;
 
@@ -82,9 +79,6 @@ export class ProductAddComponent implements OnInit {
     product.active = 1;
     product.isDeleted = 0;
     product.imageUrl = 'assets/images/products/placeholder.png'
-
-    console.log('product' + JSON.stringify(product));
-    console.log('cate ok' + JSON.stringify(this.categoryProduct));
 
     this.productService.addProduct(product).subscribe({
       next: response => {
@@ -120,7 +114,7 @@ export class ProductAddComponent implements OnInit {
         if (result.value) {
           this.resetForm();
         } else {
-        this.router.navigateByUrl('/admin-product');
+          this.router.navigateByUrl('/admin-product');
         }
       }
     )
@@ -130,6 +124,7 @@ export class ProductAddComponent implements OnInit {
     this.addProductFormGroup.reset();
   }
   
+  // tab loop circle
   onKey(event: any) {
     if (event.key === 'Tab') {
       this.input.nativeElement.focus();

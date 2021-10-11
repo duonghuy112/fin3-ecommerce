@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductDetailsComponent implements OnInit {
 
+  // product
   product = new Product();
 
   starReview! : number;
