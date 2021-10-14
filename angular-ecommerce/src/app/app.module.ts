@@ -5,10 +5,10 @@ import { ProductService } from './services/product.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { Routes, RouterModule, Router } from '@angular/router';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { CategoryMenuComponent } from './components/category-menu/category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
@@ -19,14 +19,11 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
-
 import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
-import myAppConfig from './config/my-app-config';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { ReviewProductComponent } from './components/review-product/review-product.component';
-
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatSortModule} from '@angular/material/sort';
+import { MatSortModule } from '@angular/material/sort';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AutoFocusDirective } from './common/focus/auto-focus.directive';
@@ -40,25 +37,25 @@ import { CategoryEditComponent } from './components/admin-category/category-edit
 import { CategoryAddComponent } from './components/admin-category/category-add/category-add.component';
 import { ProductAddComponent } from './components/admin-product/product-add/product-add.component';
 import { ProductEditComponent } from './components/admin-product/product-edit/product-edit.component';
+import myAppConfig from './config/my-app-config';
 
 const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
     const router = injector.get(Router);
-    
     // redirect user to login page
     router.navigate(['/login']);
   }
 }, myAppConfig.oidc);
 
 const routes: Routes = [
-  { path: 'admin-category/add', component: CategoryAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-category/:id', component: CategoryEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-category', component: AdminCategoryComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },  
-  { path: 'admin-product/add', component: ProductAddComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-product/:id', component: ProductEditComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-product', component: AdminProductComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-user', component: AdminUserComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
-  { path: 'admin-order', component: AdminOrderComponent, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' } },    
+  { path: 'admin-category/add', component: CategoryAddComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-category/:id', component: CategoryEditComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-category', component: AdminCategoryComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }  
+  { path: 'admin-product/add', component: ProductAddComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-product/:id', component: ProductEditComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-product', component: AdminProductComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-user', component: AdminUserComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
+  { path: 'admin-order', component: AdminOrderComponent }, //, canActivate: [ OktaAuthGuard, RoleAdminGuard ], data: { role: 'Admin' }    
   { path: 'my-profile', component: ProfileComponent, canActivate: [ OktaAuthGuard ]  }, 
   { path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]  }, 
   { path: 'login/callback', component: OktaCallbackComponent },
@@ -116,7 +113,8 @@ const routes: Routes = [
       timeOut: 1200,
       progressBar: true,
       progressAnimation: 'increasing'
-    })
+    }),
+    NgxSpinnerModule
   ],
   providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig },
                               {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],

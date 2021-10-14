@@ -10,12 +10,12 @@
 
 #table-scroll {
     height: 533px;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 #table-scroll-modal {
     height: 395px;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 .table {

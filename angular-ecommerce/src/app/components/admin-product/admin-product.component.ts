@@ -7,6 +7,7 @@ import { Product } from './../../common/product';
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-product',
@@ -36,7 +37,8 @@ export class AdminProductComponent implements OnInit {
 
   constructor(private productService: ProductService,
               private toastr: ToastrService, 
-              private router: Router) { }
+              private router: Router,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.listProduct();
@@ -60,16 +62,20 @@ export class AdminProductComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.productList = data.content;
-        this.pageNumber = data.number + 1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-        this.endElement = this.startElement + this.pageSize - 1;
-        if (this.endElement > this.totalElements) {
-          this.endElement = this.totalElements
-        }
-        console.log(`${this.startElement} to ${this.endElement}`);
+      this.spinner.show();
+      this.productList = data.content;
+      this.pageNumber = data.number + 1;
+      this.pageSize = data.size;
+      this.totalElements = data.totalElements;
+      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+      this.endElement = this.startElement + this.pageSize - 1;
+      if (this.endElement > this.totalElements) {
+        this.endElement = this.totalElements
+      }
+      console.log(`${this.startElement} to ${this.endElement}`);
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
     };
   }
 

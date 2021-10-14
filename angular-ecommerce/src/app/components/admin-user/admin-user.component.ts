@@ -6,6 +6,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CustomerService } from './../../services/customer.service';
 import { Customer } from './../../common/customer';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-user',
@@ -37,7 +38,8 @@ export class AdminUserComponent implements OnInit {
 
   constructor(private customerService: CustomerService,
               private toastr: ToastrService, 
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
     this.sortedUser = this.userList.slice();
    }
 
@@ -168,16 +170,20 @@ export class AdminUserComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.userList = data.content;
-        this.pageNumber = data.number + 1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-        this.endElement = this.startElement + this.pageSize - 1;
-        if (this.endElement > this.totalElements) {
-          this.endElement = this.totalElements
-        }
-        console.log(this.userList);
+      this.spinner.show();
+      this.userList = data.content;
+      this.pageNumber = data.number + 1;
+      this.pageSize = data.size;
+      this.totalElements = data.totalElements;
+      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+      this.endElement = this.startElement + this.pageSize - 1;
+      if (this.endElement > this.totalElements) {
+        this.endElement = this.totalElements
+      }
+      console.log(this.userList);
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
       };
     }
     

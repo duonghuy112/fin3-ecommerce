@@ -10,6 +10,7 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 import { Category } from './../../common/category';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-category',
@@ -48,7 +49,8 @@ export class AdminCategoryComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private toastr: ToastrService, 
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
     this.sortCategory = this.categoryList.slice();
   }
 
@@ -88,6 +90,7 @@ export class AdminCategoryComponent implements OnInit {
   // get data
   processResult() {
     return data => {
+        this.spinner.show();
         this.categoryList = data.content;
         this.pageNumber = data.number + 1;
         this.pageSize = data.size;
@@ -98,6 +101,9 @@ export class AdminCategoryComponent implements OnInit {
           this.endElement = this.totalElements
         }
         console.log(this.categoryList);
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 500);
     };
   }
 

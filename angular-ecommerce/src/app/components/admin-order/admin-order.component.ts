@@ -8,6 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { OrderItem } from './../../common/order-item';
 import { OrderHistory } from './../../common/order-history';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-order',
@@ -46,7 +47,8 @@ export class AdminOrderComponent implements OnInit {
   
   constructor(private orderHistoryService: OrderHistoryService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private spinner: NgxSpinnerService) {
     this.sortedOrder = this.orderHistoryList.slice();
   }
   
@@ -98,6 +100,7 @@ export class AdminOrderComponent implements OnInit {
   
   processResult() {
     return data => {
+      this.spinner.show();
       this.orderHistoryList = data.content;
       this.pageNumber = data.number + 1;
       this.pageSize = data.size;
@@ -108,6 +111,9 @@ export class AdminOrderComponent implements OnInit {
         this.endElement = this.totalElements
       }
       console.log(this.orderHistoryList);
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
     };
   }
   

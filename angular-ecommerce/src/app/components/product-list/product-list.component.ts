@@ -8,6 +8,7 @@ import { ProductService } from './../../services/product.service';
 import { Product } from './../../common/product';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-list',
@@ -44,7 +45,8 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService,
               private cartService: CartService,
               private toastr: ToastrService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
@@ -109,16 +111,20 @@ export class ProductListComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.products = data.content;
-        this.pageNumber = data.number + 1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-        this.endElement = this.startElement + this.pageSize - 1;
-        if (this.endElement > this.totalElements) {
-          this.endElement = this.totalElements
-        }
-        console.log(`${this.startElement} to ${this.endElement}`);
+      this.spinner.show();
+      this.products = data.content;
+      this.pageNumber = data.number + 1;
+      this.pageSize = data.size;
+      this.totalElements = data.totalElements;
+      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+      this.endElement = this.startElement + this.pageSize - 1;
+      if (this.endElement > this.totalElements) {
+        this.endElement = this.totalElements
+      }
+      console.log(`${this.startElement} to ${this.endElement}`);
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
     };
   }
 

@@ -1,4 +1,6 @@
 <div class="main-content">
+    <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    </ngx-spinner>
     <div class="section-content section-content-p30">
         <div class="row">
             <div class="col">
@@ -8,10 +10,10 @@
             </div>
             <div class="col text-right">
                 <div ngbDropdown class="d-inline-block">
-                    <button *ngIf="sortBy === 'id'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Default</button>
-                    <button *ngIf="sortBy === 'name'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Name</button>
-                    <button *ngIf="sortBy === 'unitPrice'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Unit Price</button>
-                    <button *ngIf="sortBy === 'dateCreated'" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Sort by: Create date</button>
+                    <button *ngIf="sortBy === 'id'" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Sort by: Default</button>
+                    <button *ngIf="sortBy === 'name'" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Sort by: Name</button>
+                    <button *ngIf="sortBy === 'unitPrice'" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Sort by: Unit Price</button>
+                    <button *ngIf="sortBy === 'dateCreated'" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Sort by: Create date</button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic">
                         <button ngbDropdownItem (click)="sortDefault()">Default</button>
                         <button ngbDropdownItem (click)="sortName()">Name</button>

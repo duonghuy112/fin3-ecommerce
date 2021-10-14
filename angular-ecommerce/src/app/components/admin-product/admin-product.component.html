@@ -1,4 +1,6 @@
 <div class="main-content">
+    <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    </ngx-spinner>
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row mw-76">
@@ -13,10 +15,11 @@
                 </div>
                 <div class="col text-right">
                     <div ngbDropdown class="d-inline-block">
-                        <button routerLink="/admin-product/add" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Product</button>
+                        <button routerLink="/admin-product/add" class="btn btn-outline-primary font-weight-bold"><i class="fas fa-plus"></i> Add Product</button>
                     </div>
                 </div>
             </div>
+            <hr>
             <div id="table-wrappep">
                 <div id="table-scroll" *ngIf="productList.length > 0">
                     <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped">
@@ -39,10 +42,10 @@
                                 <td class="text-center"><img src="{{ product.imageUrl }}" alt="Avatar"></td>
                                 <td matTooltip="{{ product.name }}" class="over-flow"><strong>{{ product.name }}</strong></td>
                                 <td matTooltip="{{ product.description }}" class="over-flow">{{ product.description }}</td>
-                                <td matTooltip="{{ product.unitPrice }}">${{ product.unitPrice}}</td>
+                                <td matTooltip="{{ product.unitPrice }}" class="text-right">${{ product.unitPrice}}</td>
                                 <td matTooltip="{{ product.active === 1 ? 'In stock' : 'Out stock' }}">{{ product.active === 1 ? 'In stock' : 'Out stock'}}</td>
                                 <td matTooltip="{{ product.category.name }}">{{ product.category.name }}</td>
-                                <td matTooltip="{{ product.dateCreated }}" class="over-flow">{{ product.dateCreated | date: 'short'}}</td>
+                                <td matTooltip="{{ product.dateCreated }}" class="over-flow text-center">{{ product.dateCreated | date: 'short'}}</td>
                                 <td (click)="seeDetailProduct(product)" class="text-center" data-toggle="modal" data-target="#seeDetailModal"><i class="far fa-eye see-icon"></i></td>
                                 <td (click)="openUpdateProduct(product)" class="text-center"><i class="fas fa-cogs edit-icon"></i></td>
                                 <td (click)="openDeleteProduct(product)" class="text-center"><i class="fas fa-trash-alt remove-icon"></i></td>

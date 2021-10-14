@@ -8,6 +8,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { OrderHistoryService } from 'src/app/services/order-history.service';
 import {Sort} from '@angular/material/sort';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-order-history',
@@ -40,7 +41,8 @@ export class OrderHistoryComponent implements OnInit {
 
   constructor(private orderHistoryService: OrderHistoryService,
               private router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private spinner: NgxSpinnerService) {
     this.sortedOrder = this.orderHistoryList.slice();
   }
 
@@ -58,16 +60,20 @@ export class OrderHistoryComponent implements OnInit {
 
   processResult() {
     return data => {
-        this.orderHistoryList = data.content;
-        this.pageNumber = data.number + 1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
-        this.endElement = this.startElement + this.pageSize - 1;
-        if (this.endElement > this.totalElements) {
-          this.endElement = this.totalElements
-        }
-        console.log(this.orderHistoryList);
+      this.spinner.show();
+      this.orderHistoryList = data.content;
+      this.pageNumber = data.number + 1;
+      this.pageSize = data.size;
+      this.totalElements = data.totalElements;
+      this.startElement = (this.pageNumber - 1) * this.pageSize + 1;
+      this.endElement = this.startElement + this.pageSize - 1;
+      if (this.endElement > this.totalElements) {
+        this.endElement = this.totalElements
+      }
+      console.log(this.orderHistoryList);
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 500);
     };
   }
 

@@ -1,4 +1,6 @@
 <div class="main-content">
+    <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    </ngx-spinner>
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row mw-76">
@@ -13,9 +15,9 @@
                 </div>
                 <div class="col text-right">
                     <div ngbDropdown class="d-inline-block">
-                        <button *ngIf="filter === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>
-                        <button *ngIf="filter === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Admin</button>
-                        <button *ngIf="filter === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Filter by: Customer</button>
+                        <button *ngIf="filter === 2" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Filter by: All</button>
+                        <button *ngIf="filter === 1" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Filter by: Admin</button>
+                        <button *ngIf="filter === 0" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Filter by: Customer</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic">
                             <button (click)="filterAll()" ngbDropdownItem>All</button>
                             <button (click)="filterByAdmin()" ngbDropdownItem>Admin</button>

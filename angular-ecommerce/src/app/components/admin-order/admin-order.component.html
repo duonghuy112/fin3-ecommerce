@@ -1,4 +1,6 @@
 <div class="main-content">
+    <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    </ngx-spinner>
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row">
@@ -13,11 +15,11 @@
                 </div>
                 <div class="col text-right">
                     <div ngbDropdown class="d-inline-block">
-                        <button *ngIf="status === -1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status: All</button>
-                        <button *ngIf="status === 0" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Cancel</button>
-                        <button *ngIf="status === 1" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Pending</button>
-                        <button *ngIf="status === 2" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Processing</button>
-                        <button *ngIf="status === 3" class="btn btn-outline-primary" id="dropdownBasic" ngbDropdownToggle>Status is: Completed</button>
+                        <button *ngIf="status === -1" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Status: All</button>
+                        <button *ngIf="status === 0" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Status is: Cancel</button>
+                        <button *ngIf="status === 1" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Status is: Pending</button>
+                        <button *ngIf="status === 2" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Status is: Processing</button>
+                        <button *ngIf="status === 3" class="btn btn-outline-primary font-weight-bold" id="dropdownBasic" ngbDropdownToggle>Status is: Completed</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic">
                             <button (click)="statusAll()" ngbDropdownItem>All</button>
                             <button (click)="statusCancel()" ngbDropdownItem>Canceled</button>
@@ -56,10 +58,10 @@
                                 <td matTooltip="{{ tempOrderHistory.address.street }}, {{ tempOrderHistory.address.district }}, {{ tempOrderHistory.address.city}}, {{ tempOrderHistory.address.country }}" class="over-flow">
                                     {{ tempOrderHistory.address.city }}, {{ tempOrderHistory.address.country }}
                                 </td>
-                                <td matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
+                                <td class="text-right" matTooltip="{{ tempOrderHistory.totalPrice | currency: 'USD' }}">
                                     {{ tempOrderHistory.totalPrice | currency: 'USD' }}
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     {{ tempOrderHistory.totalQuantity }}
                                 </td>
 
@@ -75,7 +77,7 @@
                                 <td *ngIf="tempOrderHistory.status === 3" matTooltip="Completed" class="status-complete">
                                     Completed
                                 </td>
-                                <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}" class="over-flow">
+                                <td matTooltip="{{ tempOrderHistory.dateCreated | date: 'short' }}" class="over-flow text-center">
                                     {{ tempOrderHistory.dateCreated | date: 'short' }}
                                 </td>
                                 <td class="td-icon" *ngIf="tempOrderHistory.status === 0">
@@ -167,14 +169,14 @@
                                     <td>
                                         {{ orderItem.name }}
                                     </td>
-                                    <td>
-                                        {{ orderItem.unitPrice }}
+                                    <td class="text-right">
+                                        $ {{ orderItem.unitPrice }}
                                     </td>
-                                    <td>
+                                    <td class="text-right">
                                         X {{ orderItem.quantity }}
                                     </td>
-                                    <td>
-                                        {{ orderItem.unitPrice * orderItem.quantity }}
+                                    <td class="text-right">
+                                        $ {{ orderItem.unitPrice * orderItem.quantity }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -242,7 +244,7 @@
                                 <td matTooltip="{{ order.orderTrackingNumber }}" class="over-flow">
                                     {{ order.orderTrackingNumber }}
                                 </td>
-                                <td>
+                                <td class="text-right">
                                     {{ order.totalPrice }}
                                 </td>
                                 <td *ngIf="order.status === 0" matTooltip="Canceled" class="status-cancel">
